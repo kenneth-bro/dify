@@ -24,6 +24,13 @@ class ToolLabelEnum(Enum):
     UTILITIES = 'utilities'
     OTHER = 'other'
 
+    # 内部标签
+    INVESTODAY = "investoday"
+    STOCK = "stock"
+    FUND = "fund"
+    # 诊断
+    DIAGNOSIS = "diagnosis"
+
 class ToolProviderType(Enum):
     """
         Enum class for tool provider
