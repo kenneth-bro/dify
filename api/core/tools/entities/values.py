@@ -105,6 +105,19 @@ default_tool_label_dict = {
     ToolLabelEnum.OTHER: ToolLabel(
         name="other", label=I18nObject(en_US="Other", zh_Hans="其他"), icon=ICONS[ToolLabelEnum.OTHER]
     ),
+    # 内部标签
+    ToolLabelEnum.INVESTODAY: ToolLabel(
+        name='investoday', label=I18nObject(en_US='Investoday', zh_Hans='今日投资'), icon=ICONS[ToolLabelEnum.FINANCE]
+    ),
+    ToolLabelEnum.STOCK: ToolLabel(
+        name='stock', label=I18nObject(en_US='Stock', zh_Hans='股票类'), icon=ICONS[ToolLabelEnum.FINANCE]
+    ),
+    ToolLabelEnum.FUND: ToolLabel(
+        name='fund', label=I18nObject(en_US='Fund', zh_Hans='基金类'), icon=ICONS[ToolLabelEnum.FINANCE]
+    ),
+    ToolLabelEnum.DIAGNOSIS: ToolLabel(
+        name='diagnosis', label=I18nObject(en_US='Diagnosis', zh_Hans='诊断类'), icon=ICONS[ToolLabelEnum.FINANCE]
+    ),
 }
 
 default_tool_labels = [v for k, v in default_tool_label_dict.items()]
