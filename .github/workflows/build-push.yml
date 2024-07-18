@@ -21,7 +21,8 @@ env:
 
 jobs:
   build:
-    runs-on: ${{ matrix.platform == 'linux/arm64' && 'arm64_runner' || 'ubuntu-latest' }}
+#    runs-on: ${{ matrix.platform == 'linux/arm64' && 'arm64_runner' || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
     if: github.repository == 'kenneth-bro/dify-investoday'
     strategy:
       matrix:
