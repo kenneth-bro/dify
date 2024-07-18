@@ -1,0 +1,106 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - "main"
+      - "dev"
+  workflow_dispatch:
+
+env:
+  DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+  BACKEND_IMAGE_NAME: ${{ secrets.BACKEND_IMAGE_NAME }}
+  FRONTEND_IMAGE_NAME: ${{ secrets.FRONTEND_IMAGE_NAME }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - name: "api"
+            context: "/api"
+            image_name: ${{ env.BACKEND_IMAGE_NAME }}
+          - name: "web"
+            context: "/web"
+            image_name: ${{ env.FRONTEND_IMAGE_NAME }}
+        platform:
+          - linux/amd64
+          - linux/arm64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKERHUB_USER }}
+          password: ${{ env.DOCKERHUB_TOKEN }}
+
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ matrix.image_name }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.context }}/Dockerfile
+          platforms: ${{ matrix.platform }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Export digest
+        run: |
+          mkdir -p /tmp/digests
+          digest="${{ steps.docker_build.outputs.digest }}"
+          echo ${{ matrix.image_name }}@$digest > "/tmp/digests/${matrix.service}-${{ matrix.platform }}-digest.txt"
+
+      - name: Upload digest
+        uses: actions/upload-artifact@v2
+        with:
+          name: digests
+          path: /tmp/digests/*-digest.txt
+
+  create-manifest:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - name: "api"
+            image_name: ${{ env.BACKEND_IMAGE_NAME }}
+          - name: "web"
+            image_name: ${{ env.FRONTEND_IMAGE_NAME }}
+
+    steps:
+      - name: Download digests
+        uses: actions/download-artifact@v2
+        with:
+          name: digests
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKERHUB_USER }}
+          password: ${{ env.DOCKERHUB_TOKEN }}
+
+      - name: Create manifest list and push
+        run: |
+          cat /tmp/digests/*-digest.txt | xargs -I {} sh -c "docker manifest create ${{ matrix.image_name }}:latest ${{ matrix.image_name }}@{}"
+          docker manifest push ${{ matrix.image_name }}:latest
+
+      - name: Inspect image
+        run: |
+          docker buildx imagetools inspect ${{ matrix.image_name }}:latest
