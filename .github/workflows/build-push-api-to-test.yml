@@ -41,4 +41,4 @@ jobs:
           url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=3654485c-fef1-4557-b124-8007ef1e15a5'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
-          data: '{ "msgtype": "text", "text": { "content": "dify-api构建成功."} }'
+          data: '{ "msgtype": "text", "text": { "content": "dify-api构建成功，可后续操作"} }'
