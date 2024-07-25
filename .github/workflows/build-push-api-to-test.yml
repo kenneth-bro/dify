@@ -28,7 +28,7 @@ jobs:
         run: docker build -t ${{env.image_url}} ./${{env.context}}/.
 
       - name: Login Registry
-        run: docker login --username=${{secrets.TENCENT_DOCKER_USERNAME}} --password ${{ secrets.TENCENT_DOCKER_PASSWORD }} ${{hub}}
+        run: docker login --username=${{secrets.TENCENT_DOCKER_USERNAME}} --password ${{ secrets.TENCENT_DOCKER_PASSWORD }} ${{env.hub}}
 
       - name: Push Image
         run: docker push ${{env.image_url}}
@@ -42,4 +42,4 @@ jobs:
           url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=3654485c-fef1-4557-b124-8007ef1e15a5'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
-          data: '{ "msgtype": "text", "text": { "content": "${{image_name}}:${{image_tag}}构建成功，可后续操作"} }'
+          data: '{ "msgtype": "text", "text": { "content": "${{env.image_name}}:${{env.image_tag}}构建成功，可后续操作"} }'
