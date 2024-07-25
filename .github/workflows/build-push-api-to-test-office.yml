@@ -13,6 +13,8 @@ env:
   image_name: dify-api
   image_tag: 1.0
   image_url: kennethcse/dify-api:1.0
+  dockerhub_user: ${{ secrets.DOCKERHUB_USER }}
+  dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
 
 jobs:
   build-and-push:
@@ -31,10 +33,10 @@ jobs:
 #        run: docker login --username=${{env.docker_username}} --password ${{ env.docker_password }} ${{env.hub}}
 
       - name: Login to Docker Hub
-        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ env.dockerhub_user }}
+          password: ${{ env.dockerhub_token }}
 
 
       - name: Push Image
