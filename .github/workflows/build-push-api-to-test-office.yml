@@ -1,15 +1,20 @@
 name: Build Push API TO TEST
 
 on:
+  push:
+    branches:
+      - dev
   workflow_dispatch:
 
 env:
-  hub: ccr.ccs.tencentyun.com
-  namespace: invest_x
+  hub:
+  namespace: kennethcse
   context: ./api
   image_name: dify-api
   image_tag: 1.0
-  image_url: ccr.ccs.tencentyun.com/invest_x/dify-api:1.0
+  image_url: kennethcse/dify-api:1.0
+  docker_username: ${{secrets.TENCENT_DOCKER_USERNAME}}
+  docker_password: ${{secrets.TENCENT_DOCKER_PASSWORD}}
 
 jobs:
   build-and-push:
@@ -25,7 +30,7 @@ jobs:
         run: docker build -t ${{env.image_url}} ./${{env.context}}/.
 
       - name: Login Registry
-        run: docker login --username=${{secrets.TENCENT_DOCKER_USERNAME}} --password ${{ secrets.TENCENT_DOCKER_PASSWORD }} ${{env.hub}}
+        run: docker login --username=${{env.docker_username}} --password ${{ env.docker_password }} ${{env.hub}}
 
       - name: Push Image
         run: docker push ${{env.image_url}}
