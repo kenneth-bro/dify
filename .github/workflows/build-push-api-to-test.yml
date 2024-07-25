@@ -27,7 +27,7 @@ jobs:
           user_name: ${{ secrets.TENCENT_DOCKER_USERNAME }}
           password: ${{ secrets.TENCENT_DOCKER_PASSWORD }}
           image_version: '1.0'
-          docker_file: './api/dockerfile'
+          docker_file: '.'
 
       - name: Get pre step result output image_pull_url
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
