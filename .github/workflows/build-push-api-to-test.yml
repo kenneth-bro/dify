@@ -34,3 +34,11 @@ jobs:
 
       - name: Get pre step result output image_pull_url
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
+
+      - name: Send Webhook
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=3654485c-fef1-4557-b124-8007ef1e15a5'
+          method: 'POST'
+          customHeaders: '{"Content-Type": "application/json"}'
+          data: '{ "msgtype": "text", "text": { "content": "构建成功."} }'
