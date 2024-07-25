@@ -19,9 +19,9 @@ jobs:
       - name: Login to Tencent Cloud Container Registry
         uses: docker/login-action@v2
         with:
-          registry: registry.cn-hangzhou.aliyuncs.com
-          username: ${{ secrets.ALIYUN_DOCKER_USERNAME }}
-          password: ${{ secrets.ALIYUN_DOCKER_PASSWORD }}
+          registry: ccr.ccs.tencentyun.com
+          username: ${{ secrets.TENCENT_DOCKER_USERNAME }}
+          password: ${{ secrets.TENCENT_DOCKER_PASSWORD }}
 
       - name: Build and push Docker image
         id: buildAndPushImage
@@ -30,7 +30,7 @@ jobs:
           context: ./api
           docker_file: '.'
           push: true
-          tags: "registry.cn-hangzhou.aliyuncs.com/investoday_x/dify-api:1.0"
+          tags: "ccr.ccs.tencentyun.com/invest_x/dify-api:1.0"
 
       - name: Get pre step result output image_pull_url
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
@@ -41,4 +41,4 @@ jobs:
           url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=3654485c-fef1-4557-b124-8007ef1e15a5'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
-          data: '{ "msgtype": "text", "text": { "content": "构建成功."} }'
+          data: '{ "msgtype": "text", "text": { "content": "dify-api构建成功."} }'
