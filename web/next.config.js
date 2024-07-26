@@ -45,6 +45,7 @@ const nextConfig = {
     ]
   },
   output: 'standalone',
+  publicPath: "./"
 }
 
 module.exports = withMDX(nextConfig)
