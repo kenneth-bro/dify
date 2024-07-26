@@ -13,8 +13,8 @@ env:
   image_name: dify-api
   image_tag: 1.0
   image_url: kennethcse/dify-api:1.0
-  dockerhub_user: ${{ secrets.TENCENT_DOCKERHUB_USER }}
-  dockerhub_token: ${{ secrets.TENCENT_DOCKERHUB_TOKEN }}
+  dockerhub_user: ${{ secrets.TENCENT_DOCKER_USERNAME }}
+  dockerhub_token: ${{ secrets.TENCENT_DOCKER_PASSWORD }}
 
 jobs:
   build-and-push:
