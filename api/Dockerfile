@@ -16,7 +16,7 @@ ENV POETRY_VIRTUALENVS_CREATE=true
 FROM base AS packages
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc g++ libc-dev libffi-dev libgmp-dev libmpfr-dev libmpc-dev
+    && apt-get install -y --no-install-recommends gcc g++ libc-dev libffi-dev libgmp-dev libmpfr-dev libmpc-dev telnetd
 
 # Install Python dependencies
 COPY pyproject.toml poetry.lock ./
