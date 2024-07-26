@@ -359,14 +359,14 @@ const baseFetch = <T>(
                     return Promise.reject(data)
                   })
                 }
-                const loginUrl = `${globalThis.location.origin}/signin`
+                const loginUrl = './signin'
                 bodyJson.then((data: ResponseError) => {
                   if (data.code === 'init_validate_failed' && IS_CE_EDITION && !silent)
                     Toast.notify({ type: 'error', message: data.message, duration: 4000 })
                   else if (data.code === 'not_init_validated' && IS_CE_EDITION)
-                    globalThis.location.href = `${globalThis.location.origin}/init`
+                    globalThis.location.href = './init'
                   else if (data.code === 'not_setup' && IS_CE_EDITION)
-                    globalThis.location.href = `${globalThis.location.origin}/install`
+                    globalThis.location.href = './install'
                   else if (location.pathname !== '/signin' || !IS_CE_EDITION)
                     globalThis.location.href = loginUrl
                   else if (!silent)
