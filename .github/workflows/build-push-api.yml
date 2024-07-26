@@ -15,6 +15,7 @@ env:
   image_url: ${dockerhub_domain}/${namespace}/${image_name}:${image_tag}
   dockerhub_user: ${{ secrets.TENCENT_DOCKER_USERNAME }}
   dockerhub_token: ${{ secrets.TENCENT_DOCKER_PASSWORD }}
+  qywechat_webhook_token: ${{ vars.QYWECHAT_WEBHOOK_TOKEN}}
 
 jobs:
   build-and-push:
@@ -46,7 +47,7 @@ jobs:
       - name: Send Webhook
         uses: fjogeleit/http-request-action@v1
         with:
-          url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=3654485c-fef1-4557-b124-8007ef1e15a5'
+          url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${{ env.qywechat_webhook_token }}'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
-          data: '{ "msgtype": "text", "text": { "content": "[GitHub] ${{env.image_name}}:${{env.image_tag}} 构建推送成功，可后续操作。如Jenkins构建等。"} }'
+          data: '{ "msgtype": "text", "text": { "content": "[GitHub Actions] ${{env.image_name}}:${{env.image_tag}} 构建推送成功，可后续操作。如Jenkins构建等。"} }'
