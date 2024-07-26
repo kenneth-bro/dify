@@ -1,9 +1,6 @@
 name: Build Push API TO TEST
 
 on:
-  push:
-    branches:
-      - dev
   workflow_dispatch:
 
 env:
