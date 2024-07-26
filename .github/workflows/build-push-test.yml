@@ -12,7 +12,7 @@ env:
   context: ./api
   image_name: dify-api
   image_tag: 1.0
-  image_url: ${dockerhub_domain}/${image_name}:${image_tag}
+  image_url: ${dockerhub_domain}/${namespace}/${image_name}:${image_tag}
   dockerhub_user: ${{ secrets.TENCENT_DOCKER_USERNAME }}
   dockerhub_token: ${{ secrets.TENCENT_DOCKER_PASSWORD }}
 
