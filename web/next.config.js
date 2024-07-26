@@ -45,7 +45,7 @@ const nextConfig = {
     ]
   },
   output: 'standalone',
-  basePath: './',
+  basePath: '/dify',
 }
 
 module.exports = withMDX(nextConfig)
