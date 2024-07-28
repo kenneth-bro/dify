@@ -1,17 +1,22 @@
-name: Build Push API Image To Tencent
+name: Build Push Web Image To Tencent
 
 on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'web/**'
   workflow_dispatch:
 
 env:
-  dockerhub_domain: "ccr.ccs.tencentyun.com"
-  namespace: invest_x
-  context: ./api
-  image_name: dify-api
+  dockerhub_domain: "registry.cn-shenzhen.aliyuncs.com"
+  namespace: investoday_x
+  context: ./web
+  image_name: dify-web
   image_tag: "1.0"
   image_url: ${dockerhub_domain}/${namespace}/${image_name}:${image_tag}
-  dockerhub_user: ${{ secrets.TENCENT_DOCKER_USERNAME }}
-  dockerhub_token: ${{ secrets.TENCENT_DOCKER_PASSWORD }}
+  dockerhub_user: ${{ secrets.ALIYUN_DOCKER_USERNAME }}
+  dockerhub_token: ${{ secrets.ALIYUN_DOCKER_PASSWORD }}
   qywechat_webhook_token: ${{ vars.QYWECHAT_WEBHOOK_TOKEN}}
 
 jobs:

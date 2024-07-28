@@ -1,11 +1,6 @@
 name: Build Push Web Image To Tencent
 
 on:
-  push:
-    branches:
-      - dev
-    paths:
-      - 'web/**'
   workflow_dispatch:
 
 env:
