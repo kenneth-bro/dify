@@ -1,4 +1,4 @@
-name: Build Push Web Image To Tencent
+name: Build Push Web Image To Aliyun
 
 on:
   push:
