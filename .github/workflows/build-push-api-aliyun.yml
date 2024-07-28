@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - dev
+    paths:
+      - 'api/**'
   workflow_dispatch:
 
 env:
-  dockerhub_domain: "registry.cn-guangzhou.aliyuncs.com"
+  dockerhub_domain: "registry.cn-shenzhen.aliyuncs.com"
   namespace: invest_x
   context: ./api
   image_name: dify-api
