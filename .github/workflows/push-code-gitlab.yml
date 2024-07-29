@@ -1,0 +1,25 @@
+name: PushCodeToGitlab
+on:
+  push:
+    branches:
+      - dev
+      - main
+
+env:
+  REPO_URL: ${{ secrets.REPO_URL }}
+
+jobs:
+  sync-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: CheckOut
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Mirror with force push
+        run: |
+          # 获取当前分支名称
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          git remote add private-repo https://x-access-token:${{ secrets.GITLAB_ACCESS_TOKEN }}@gitlab.investoday.net/investoday/llms/dify.git
+          git push private-repo HEAD:refs/heads/$TARGET_BRANCH
