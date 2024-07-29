@@ -5,9 +5,6 @@ on:
       - dev
       - main
 
-env:
-  REPO_URL: ${{ secrets.REPO_URL }}
-
 jobs:
   sync-repo:
     runs-on: ubuntu-latest
@@ -15,9 +12,14 @@ jobs:
       - name: CheckOut
         uses: actions/checkout@v3
 
-      - name: Mirror with force push
+      - name: Install Git
+        run: sudo apt-get install git
+
+      - name: Push to GitLab
+        env:
+          GITLAB_URL: ${{ secrets.GITLAB_URL }}
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
         run: |
-          # 获取当前分支名称
-          BRANCH_NAME=${GITHUB_REF#refs/heads/}
-          git remote add private-repo https://x-access-token:${{ secrets.GITLAB_ACCESS_TOKEN }}@gitlab.investoday.net/investoday/llms/dify.git
-          git push private-repo HEAD:refs/heads/$TARGET_BRANCH
+          BRANCH_NAME=${GITHUB_REF##*/}
+          git remote add gitlab ${GITLAB_URL}/<your_gitlab_username>/<your_gitlab_repo>.git
+          git push -u gitlab $BRANCH_NAME
