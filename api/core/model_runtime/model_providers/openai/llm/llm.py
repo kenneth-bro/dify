@@ -568,10 +568,11 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
         if user:
             extra_model_kwargs['user'] = user
 
-        if stream:
-            extra_model_kwargs['stream_options'] = {
-                'include_usage': True
-            }
+        # 屏蔽stream_option，代理平台不支持
+        # if stream:
+        #     extra_model_kwargs['stream_options'] = {
+        #         'include_usage': True
+        #     }
 
         # clear illegal prompt messages
         prompt_messages = self._clear_illegal_prompt_messages(model, prompt_messages)
