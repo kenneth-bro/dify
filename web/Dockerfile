@@ -62,4 +62,7 @@ ARG COMMIT_SHA
 ENV COMMIT_SHA=${COMMIT_SHA}
 
 EXPOSE 3000
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo 'Asia/Shanghai' >/etc/timezone
+
 ENTRYPOINT ["/bin/sh", "./entrypoint.sh"]
