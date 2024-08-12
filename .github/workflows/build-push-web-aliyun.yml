@@ -30,7 +30,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Build Image
-        run: docker build -t ${{env.image_url}} ./${{env.context}}/docker/App.Dockerfile
+        run: docker build -t ${{env.image_url}} ${{env.context}}/docker/App.Dockerfile
 
       # 登录dockerhub
       - name: Login to DockerHub
