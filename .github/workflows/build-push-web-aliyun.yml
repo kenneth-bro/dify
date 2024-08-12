@@ -11,7 +11,7 @@ on:
 env:
   dockerhub_domain: "registry.cn-shenzhen.aliyuncs.com"
   namespace: investoday_x
-  context: ./web
+  context: web
   image_name: dify-web
   image_tag: "1.0"
   image_url: ${dockerhub_domain}/${namespace}/${image_name}:${image_tag}
