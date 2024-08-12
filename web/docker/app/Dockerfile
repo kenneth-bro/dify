@@ -12,8 +12,8 @@ RUN apk add --no-cache tzdata
 FROM base AS builder
 RUN rm -rf /app/web
 WORKDIR /app/web
-COPY --from=packages /app/web/ .
-COPY . .
+COPY --from=base /app/web/ .
+COPY .. .
 
 RUN yarn build
 
