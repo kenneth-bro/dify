@@ -7,7 +7,7 @@ import { usePathname as useNextPathname } from 'next/navigation'
  **/
 export function usePathname(): string | null {
   let pathname = useNextPathname()
-  const publicBasePath = process?.env?.NEXT_PUBLIC_BASE_PATH
+  const publicBasePath = process?.env?.NEXT_PUBLIC_PREFIX_BASE_PATH
   if (pathname && publicBasePath)
     pathname = publicBasePath + pathname
   console.debug(`[NextRebuild] oriPathName:${useNextPathname()}, currentPathName:${pathname}`, process.env)
