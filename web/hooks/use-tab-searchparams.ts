@@ -1,5 +1,6 @@
-import { usePathname, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
+import { usePathname } from '@/utils/next-rebuild'
 
 type UseTabSearchParamsOptions = {
   defaultTab: string
