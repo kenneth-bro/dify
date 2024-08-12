@@ -44,8 +44,8 @@ COPY --from=builder /app/web/.next/standalone ./
 COPY --from=builder /app/web/.next/static ./.next/static
 
 
-COPY docker/pm2.json ./pm2.json
-COPY docker/entrypoint.sh ./entrypoint.sh
+COPY pm2.json ./pm2.json
+COPY entrypoint.sh ./entrypoint.sh
 
 ARG COMMIT_SHA
 ENV COMMIT_SHA=${COMMIT_SHA}
