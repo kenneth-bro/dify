@@ -13,7 +13,7 @@ FROM base AS builder
 RUN rm -rf /app/web
 WORKDIR /app/web
 COPY --from=base /app/web/ .
-COPY .. .
+COPY ../. .
 
 RUN yarn build
 
