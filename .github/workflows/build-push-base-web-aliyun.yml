@@ -1,19 +1,14 @@
 name: Build Push Web Image To Aliyun
 
 on:
-  push:
-    branches:
-      - dev
-    paths:
-      - 'web/**'
   workflow_dispatch:
 
 env:
   dockerhub_domain: "registry.cn-shenzhen.aliyuncs.com"
   namespace: investoday_x
   context: ./web
-  image_name: dify-web
-  image_tag: "1.0"
+  image_name: dify-web-base
+  image_tag: "latest"
   image_url: ${dockerhub_domain}/${namespace}/${image_name}:${image_tag}
   dockerhub_user: ${{ secrets.ALIYUN_DOCKER_USERNAME }}
   dockerhub_token: ${{ secrets.ALIYUN_DOCKER_PASSWORD }}
@@ -30,7 +25,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Build Image
-        run: docker build -t ${{env.image_url}} ./${{env.context}}/docker/App.Dockerfile
+        run: docker build -t ${{env.image_url}} ./${{env.context}}/.
 
       # 登录dockerhub
       - name: Login to DockerHub
