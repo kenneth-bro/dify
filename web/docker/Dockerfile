@@ -15,6 +15,7 @@ WORKDIR /app/web
 COPY --from=base /app/web/ .
 COPY ../. .
 
+RUN yarn add next@14.1.1
 RUN yarn build
 
 
