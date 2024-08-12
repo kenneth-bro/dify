@@ -10,7 +10,7 @@ RUN apk add --no-cache tzdata
 # install packages
 FROM base AS packages
 # if you located in China, you can use taobao registry to speed up
-RUN #yarn install --frozen-lockfile --registry https://registry.npmmirror.com/
+# RUN yarn install --frozen-lockfile --registry https://registry.npmmirror.com/
 
 RUN yarn add next@14.1.1
 
