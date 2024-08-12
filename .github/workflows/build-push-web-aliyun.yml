@@ -33,7 +33,7 @@ jobs:
         run: pwd && ls
 
       - name: Build Image
-        run: docker build -t ${{env.image_url}} ${{env.context}}/docker/app/.
+        run: docker build -t ${{env.image_url}} ${{env.context}}/docker/.
 
       # 登录dockerhub
       - name: Login to DockerHub
