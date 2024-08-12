@@ -10,6 +10,6 @@ export function usePathname(): string | null {
   const publicBasePath = process?.env?.NEXT_PUBLIC_BASE_PATH
   if (pathname && publicBasePath)
     pathname = publicBasePath + pathname
-  console.debug(`[NextRebuild] oriPathName:${useNextPathname()}, currentPathName:${pathname}`)
+  console.debug(`[NextRebuild] oriPathName:${useNextPathname()}, currentPathName:${pathname}`, process.env)
   return pathname
 }
