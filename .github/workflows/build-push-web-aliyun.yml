@@ -29,6 +29,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Print Current Path
+        run: pwd && ls
+
       - name: Build Image
         run: docker build -t ${{env.image_url}} ${{env.context}}/docker/App.Dockerfile
 
