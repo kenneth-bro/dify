@@ -28,6 +28,8 @@ class ToolLabelEnum(Enum):
     INVESTODAY = "investoday"
     STOCK = "stock"
     FUND = "fund"
+    RESEARCH_REPORT = "researchReport"
+    NEWS = "news"
     # 诊断
     DIAGNOSIS = "diagnosis"
 
