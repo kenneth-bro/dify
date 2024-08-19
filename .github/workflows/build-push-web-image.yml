@@ -16,8 +16,8 @@ env:
 #  dockerhub_token: ${{ secrets.ALIYUN_DOCKER_PASSWORD }}
 
   # 腾讯云
-  dockerhub_domain: "ccr.ccs.tencentyun.com"
-  namespace: invest_x
+  dockerhub_domain: "hkccr.ccs.tencentyun.com"
+  namespace: investoday_x
   dockerhub_user: ${{ secrets.TENCENT_DOCKER_USERNAME }}
   dockerhub_token: ${{ secrets.TENCENT_DOCKER_PASSWORD }}
 
