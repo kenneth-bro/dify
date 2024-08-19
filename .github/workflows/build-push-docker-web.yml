@@ -9,14 +9,22 @@ on:
   workflow_dispatch:
 
 env:
-  dockerhub_domain: "registry.cn-shenzhen.aliyuncs.com"
-  namespace: investoday_x
+  # 阿里云
+#  dockerhub_domain: "registry.cn-shenzhen.aliyuncs.com"
+#  namespace: investoday_x
+#  dockerhub_user: ${{ secrets.ALIYUN_DOCKER_USERNAME }}
+#  dockerhub_token: ${{ secrets.ALIYUN_DOCKER_PASSWORD }}
+
+  # 腾讯云
+  dockerhub_domain: "ccr.ccs.tencentyun.com"
+  namespace: invest_x
+  dockerhub_user: ${{ secrets.TENCENT_DOCKER_USERNAME }}
+  dockerhub_token: ${{ secrets.TENCENT_DOCKER_PASSWORD }}
+
   context: web
   image_name: dify-web
   image_tag: "1.0"
   image_url: ${dockerhub_domain}/${namespace}/${image_name}:${image_tag}
-  dockerhub_user: ${{ secrets.ALIYUN_DOCKER_USERNAME }}
-  dockerhub_token: ${{ secrets.ALIYUN_DOCKER_PASSWORD }}
   qywechat_webhook_token: ${{ vars.QYWECHAT_WEBHOOK_TOKEN}}
 
 jobs:
