@@ -29,7 +29,6 @@ class ToolLabelEnum(Enum):
     STOCK = "stock"
     FUND = "fund"
     RESEARCH_REPORT = "researchReport"
-    NEWS = "news"
     # 诊断
     DIAGNOSIS = "diagnosis"
 

@@ -75,7 +75,6 @@ default_tool_label_dict = {
     ToolLabelEnum.STOCK: ToolLabel(name='stock', label=I18nObject(en_US='Stock', zh_Hans='股票类'), icon=ICONS[ToolLabelEnum.FINANCE]),
     ToolLabelEnum.FUND: ToolLabel(name='fund', label=I18nObject(en_US='Fund', zh_Hans='基金类'), icon=ICONS[ToolLabelEnum.FINANCE]),
     ToolLabelEnum.RESEARCH_REPORT: ToolLabel(name='researchReport', label=I18nObject(en_US='ResearchReport', zh_Hans='研报类'), icon=ICONS[ToolLabelEnum.FINANCE]),
-    ToolLabelEnum.NEWS: ToolLabel(name='news', label=I18nObject(en_US='news', zh_Hans='资讯类'), icon=ICONS[ToolLabelEnum.FINANCE]),
     ToolLabelEnum.DIAGNOSIS: ToolLabel(name='diagnosis', label=I18nObject(en_US='Diagnosis', zh_Hans='诊断类'), icon=ICONS[ToolLabelEnum.FINANCE]),
 }
 
