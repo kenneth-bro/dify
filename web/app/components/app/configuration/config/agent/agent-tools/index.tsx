@@ -77,6 +77,7 @@ const AgentTools: FC = () => {
         }
         headerRight={
           <div className='flex items-center'>
+            <div className='leading-[18px] text-xs font-normal text-gray-500'>(MaxTools:{MAX_TOOLS_NUM})&nbsp;&nbsp;&nbsp;&nbsp;</div>
             <div className='leading-[18px] text-xs font-normal text-gray-500'>{tools.filter((item: any) => !!item.enabled).length}/{tools.length}&nbsp;{t('appDebug.agent.tools.enabled')}</div>
             {tools.length < MAX_TOOLS_NUM && (
               <>

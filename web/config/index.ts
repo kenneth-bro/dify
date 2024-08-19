@@ -148,7 +148,8 @@ export const ANNOTATION_DEFAULT = {
   score_threshold: 0.9,
 }
 
-export const MAX_TOOLS_NUM = 10
+// 最大工具数量
+export const MAX_TOOLS_NUM = 100
 
 export const DEFAULT_AGENT_SETTING = {
   enabled: false,
