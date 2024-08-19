@@ -1,4 +1,4 @@
-name: Build Push Web Image To Aliyun
+name: Build Push Web Image
 
 on:
   push:
