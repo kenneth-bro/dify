@@ -61,4 +61,4 @@ jobs:
           url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${{ env.qywechat_webhook_token }}'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
-          data: '{ "msgtype": "text", "text": { "content": "[GitHub Actions] ${{env.image_name}}:${{env.image_tag}} 构建推送成功，可后续操作。如Jenkins构建等。"} }'
+          data: '{ "msgtype": "text", "text": { "content": "[GitHub Actions] ${{env.image_name}}:${{env.image_tag}} 构建推送成功。"} }'
