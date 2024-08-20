@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      - release/*
     paths:
       - 'web/**'
   workflow_dispatch:
@@ -24,7 +25,7 @@ env:
   context: web
   image_name: dify-web
   image_tag: "1.0"
-  image_url: ${dockerhub_domain}/${namespace}/${image_name}:${image_tag}
+  image_url: ${dockerhub_domain}/${namespace}/${image_name}
   qywechat_webhook_token: ${{ vars.QYWECHAT_WEBHOOK_TOKEN}}
 
 jobs:
@@ -40,8 +41,17 @@ jobs:
       - name: Print Current Path
         run: pwd && ls
 
+      - name: Set IMAGE_TAG based on branch name
+        run: |
+          if [[ "${GITHUB_REF#refs/heads/}" =~ ^release/ ]]; then
+            # 假设你想要使用分支名称作为标签
+            IMAGE_TAG="${GITHUB_REF#refs/heads/}"
+            echo "image_tag=${IMAGE_TAG}" >> $GITHUB_ENV
+            echo "Current tag set to: $IMAGE_TAG"
+          fi  
+
       - name: Build Image
-        run: docker build -t ${{env.image_url}} ${{env.context}}/.
+        run: docker build -t ${{env.image_url}}:${{ env.image_tag }} ${{env.context}}/.
 
       # 登录dockerhub
       - name: Login to DockerHub
@@ -52,7 +62,7 @@ jobs:
           password: ${{ env.dockerhub_token }}
 
       - name: Docker push
-        run: docker push ${{ env.image_url }}
+        run: docker push ${{ env.image_url }}:${{ env.image_tag }}
 
       - name: Get pre step result output image_pull_url
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
