@@ -2,13 +2,12 @@ name: Build Push Web Image
 
 on:
   push:
-    - branches:
-        - dev
-      paths:
-        - 'web/**'
-    - branches:
-        - release/*
-
+    branches:
+      - dev
+    paths:
+      - 'web/**'
+  tags:
+    - *
   workflow_dispatch:
 
 env:
