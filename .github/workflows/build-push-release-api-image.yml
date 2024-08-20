@@ -1,11 +1,9 @@
-name: Build Push Web Image
+name: Build Push Release API Image
 
 on:
   push:
     branches:
-      - dev
-    paths:
-      - 'web/**'
+      - release/*
   workflow_dispatch:
 
 env:
@@ -15,15 +13,9 @@ env:
   dockerhub_user: ${{ secrets.ALIYUN_DOCKER_USERNAME }}
   dockerhub_token: ${{ secrets.ALIYUN_DOCKER_PASSWORD }}
 
-  # 腾讯云
-#  dockerhub_domain: "hkccr.ccs.tencentyun.com"
-#  namespace: investoday_x
-#  dockerhub_user: ${{ secrets.TENCENT_DOCKER_USERNAME }}
-#  dockerhub_token: ${{ secrets.TENCENT_DOCKER_PASSWORD }}
-
-  context: web
-  image_name: dify-web
-  image_tag: "1.0"
+  context: ./api
+  image_name: dify-api
+  image_tag: ""
   image_url: ${dockerhub_domain}/${namespace}/${image_name}
   qywechat_webhook_token: ${{ vars.QYWECHAT_WEBHOOK_TOKEN}}
 
@@ -37,9 +29,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Print Current Path
-        run: pwd && ls
-
       - name: Set IMAGE_TAG based on branch name
         run: |
           if [[ "${GITHUB_REF#refs/heads/}" =~ ^release/ ]]; then
@@ -50,7 +39,7 @@ jobs:
           fi  
 
       - name: Build Image
-        run: docker build -t ${{env.image_url}}:${{ env.image_tag }} ${{env.context}}/.
+        run: docker build -t ${{env.image_url}}:${{image_tag}} ./${{env.context}}/.
 
       # 登录dockerhub
       - name: Login to DockerHub
@@ -61,7 +50,7 @@ jobs:
           password: ${{ env.dockerhub_token }}
 
       - name: Docker push
-        run: docker push ${{ env.image_url }}:${{ env.image_tag }}
+        run: docker push ${{ env.image_url }}:${{image_tag}}
 
       - name: Get pre step result output image_pull_url
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"

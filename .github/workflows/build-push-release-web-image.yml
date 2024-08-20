@@ -1,11 +1,9 @@
-name: Build Push Web Image
+name: Build Push Web Release Image
 
 on:
   push:
     branches:
-      - dev
-    paths:
-      - 'web/**'
+      - release/*
   workflow_dispatch:
 
 env:
@@ -15,15 +13,9 @@ env:
   dockerhub_user: ${{ secrets.ALIYUN_DOCKER_USERNAME }}
   dockerhub_token: ${{ secrets.ALIYUN_DOCKER_PASSWORD }}
 
-  # 腾讯云
-#  dockerhub_domain: "hkccr.ccs.tencentyun.com"
-#  namespace: investoday_x
-#  dockerhub_user: ${{ secrets.TENCENT_DOCKER_USERNAME }}
-#  dockerhub_token: ${{ secrets.TENCENT_DOCKER_PASSWORD }}
-
   context: web
   image_name: dify-web
-  image_tag: "1.0"
+  image_tag: ""
   image_url: ${dockerhub_domain}/${namespace}/${image_name}
   qywechat_webhook_token: ${{ vars.QYWECHAT_WEBHOOK_TOKEN}}
 
@@ -72,4 +64,4 @@ jobs:
           url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${{ env.qywechat_webhook_token }}'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
-          data: '{ "msgtype": "text", "text": { "content": "[GitHub Actions] ${{env.image_name}}:${{env.image_tag}} 构建推送成功，可后续操作。如Jenkins构建等。"} }'
+          data: '{ "msgtype": "text", "text": { "content": "[GitHub Actions] ${{env.image_name}}:${{env.image_tag}} 构建推送成功。"} }'
