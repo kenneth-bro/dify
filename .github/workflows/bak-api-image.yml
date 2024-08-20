@@ -1,0 +1,57 @@
+name: Bak API Image
+
+on:
+  workflow_dispatch:
+
+env:
+  # 阿里云
+  dockerhub_domain: "registry.cn-shenzhen.aliyuncs.com"
+  namespace: investoday_x
+  dockerhub_user: ${{ secrets.ALIYUN_DOCKER_USERNAME }}
+  dockerhub_token: ${{ secrets.ALIYUN_DOCKER_PASSWORD }}
+
+  # 腾讯云
+#  dockerhub_domain: "hkccr.ccs.tencentyun.com"
+#  namespace: investoday_x
+#  dockerhub_user: ${{ secrets.TENCENT_DOCKER_USERNAME }}
+#  dockerhub_token: ${{ secrets.TENCENT_DOCKER_PASSWORD }}
+
+  context: ./api
+  image_name: dify-api
+  image_tag: "1.0"
+  image_base_url: ${dockerhub_domain}/${namespace}/${image_name}
+  image_url: ${dockerhub_domain}/${namespace}/${image_name}:${image_tag}
+  qywechat_webhook_token: ${{ vars.QYWECHAT_WEBHOOK_TOKEN}}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      # 登录dockerhub
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.dockerhub_domain }}
+          username: ${{ env.dockerhub_user }}
+          password: ${{ env.dockerhub_token }}
+
+      - name: Docker pull
+        run: docker pull ${{ env.image_url }}
+
+      - name: Get current timestamp
+        id: generate_timestamp
+        run: echo "::set-output name=timestamp::$(date +%s)"
+
+      - name: Docker Push
+        run: docker push ${{ env.image_base_url }}:${{ steps.generate_timestamp.outputs.timestamp }}
+
+      - name: Get pre step result output image_pull_url
+        run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
+
+      - name: Send Webhook
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${{ env.qywechat_webhook_token }}'
+          method: 'POST'
+          customHeaders: '{"Content-Type": "application/json"}'
+          data: '{ "msgtype": "text", "text": { "content": "[GitHub Actions] ${{env.image_name}}:${{env.image_tag}} 备份成功。"} }'
