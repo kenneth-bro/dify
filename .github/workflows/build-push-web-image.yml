@@ -45,9 +45,9 @@ jobs:
         run: |
           if [[ "${GITHUB_REF#refs/heads/}" =~ ^release/ ]]; then
             # 假设你想要使用分支名称作为标签
-            IMAGE_TAG="${GITHUB_REF#refs/heads/}"
-            echo "image_tag=${IMAGE_TAG}" >> $GITHUB_ENV
-            echo "Current tag set to: $IMAGE_TAG"
+            image_tag="${GITHUB_REF#refs/heads/release/}"
+            echo "image_tag=${image_tag}" >> $GITHUB_ENV
+            echo "Current tag set to: $image_tag"
           fi  
 
       - name: Build Image
