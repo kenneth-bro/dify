@@ -37,7 +37,7 @@ ENV APP_WEB_URL=http://127.0.0.1:3000
 EXPOSE 5001
 
 # set timezone
-ENV TZ=UTC
+ENV TZ=Asia/Shanghai
 
 WORKDIR /app/api
 
@@ -68,8 +68,5 @@ RUN chmod +x /entrypoint.sh
 
 ARG COMMIT_SHA
 ENV COMMIT_SHA=${COMMIT_SHA}
-
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN echo 'Asia/Shanghai' >/etc/timezone
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

@@ -42,7 +42,7 @@ ENV PORT=3000
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # set timezone
-ENV TZ=UTC
+ENV TZ=Asia/Shanghai
 RUN ln -s /usr/share/zoneinfo/${TZ} /etc/localtime \
     && echo ${TZ} > /etc/timezone
 
