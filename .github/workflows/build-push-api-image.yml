@@ -47,7 +47,7 @@ jobs:
           fi  
 
       - name: Build Image
-        run: docker build -t ${{env.image_url}}:${{image_tag}} ./${{env.context}}/.
+        run: docker build -t ${{env.image_url}}:${{env.image_tag}} ./${{env.context}}/.
 
       # 登录dockerhub
       - name: Login to DockerHub
@@ -58,7 +58,7 @@ jobs:
           password: ${{ env.dockerhub_token }}
 
       - name: Docker push
-        run: docker push ${{ env.image_url }}:${{image_tag}}
+        run: docker push ${{ env.image_url }}:${{env.image_tag}}
 
       - name: Get pre step result output image_pull_url
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
