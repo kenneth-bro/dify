@@ -44,6 +44,7 @@ class CompletionMessageApi(Resource):
     def post(self, app_model):
         parser = reqparse.RequestParser()
         parser.add_argument("inputs", type=dict, required=True, location="json")
+        parser.add_argument("inputs_reload", type=bool, required=False, default=False, location="json")
         parser.add_argument("query", type=str, location="json", default="")
         parser.add_argument("files", type=list, required=False, location="json")
         parser.add_argument("model_config", type=dict, required=True, location="json")
@@ -105,6 +106,7 @@ class ChatMessageApi(Resource):
     def post(self, app_model):
         parser = reqparse.RequestParser()
         parser.add_argument("inputs", type=dict, required=True, location="json")
+        parser.add_argument("inputs_reload", type=bool, required=False, default=False, location="json")
         parser.add_argument("query", type=str, required=True, location="json")
         parser.add_argument("files", type=list, required=False, location="json")
         parser.add_argument("model_config", type=dict, required=True, location="json")

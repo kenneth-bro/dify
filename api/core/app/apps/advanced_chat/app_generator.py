@@ -66,6 +66,7 @@ class AdvancedChatAppGenerator(MessageBasedAppGenerator):
 
         query = query.replace('\x00', '')
         inputs = args['inputs']
+        inputs_reload = args["inputs_reload"]
 
         extras = {
             "auto_generate_conversation_name": args.get('auto_generate_name', False)
@@ -109,7 +110,7 @@ class AdvancedChatAppGenerator(MessageBasedAppGenerator):
             task_id=str(uuid.uuid4()),
             app_config=app_config,
             conversation_id=conversation.id if conversation else None,
-            inputs=conversation.inputs if conversation else self._get_cleaned_inputs(inputs, app_config),
+            inputs=conversation.inputs if conversation and not inputs_reload else self._get_cleaned_inputs(inputs, app_config),
             query=query,
             files=file_objs,
             user_id=user.id,
