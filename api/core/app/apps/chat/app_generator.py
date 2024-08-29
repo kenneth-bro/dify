@@ -76,6 +76,7 @@ class ChatAppGenerator(MessageBasedAppGenerator):
 
         query = query.replace("\x00", "")
         inputs = args["inputs"]
+        inputs_reload = args["inputs_reload"]
 
         extras = {"auto_generate_conversation_name": args.get("auto_generate_name", True)}
 
@@ -135,7 +136,7 @@ class ChatAppGenerator(MessageBasedAppGenerator):
             model_conf=ModelConfigConverter.convert(app_config),
             conversation_id=conversation.id if conversation else None,
             inputs=conversation.inputs
-            if conversation
+            if conversation and not inputs_reload
             else self._prepare_user_inputs(user_inputs=inputs, app_config=app_config, user_id=user.id, role=role),
             query=query,
             files=file_objs,

@@ -167,6 +167,7 @@ class AdvancedChatDraftWorkflowRunApi(Resource):
 
         parser = reqparse.RequestParser()
         parser.add_argument("inputs", type=dict, location="json")
+        parser.add_argument("inputs_reload", type=bool, required=False, default=False, location="json")
         parser.add_argument("query", type=str, required=True, location="json", default="")
         parser.add_argument("files", type=list, location="json")
         parser.add_argument("conversation_id", type=uuid_value, location="json")
