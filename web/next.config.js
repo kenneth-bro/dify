@@ -45,7 +45,7 @@ const nextConfig = {
     ]
   },
   output: 'standalone',
-  basePath: '/dify',
+  basePath: '/agents',
 }
 
 module.exports = withMDX(nextConfig)

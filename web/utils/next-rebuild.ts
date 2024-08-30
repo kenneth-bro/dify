@@ -7,7 +7,7 @@ import { usePathname as useNextPathname } from 'next/navigation'
  **/
 export function usePathname(): string | null {
   let pathname = useNextPathname()
-  const publicBasePath = '/dify'
+  const publicBasePath = '/agents'
   if (pathname && publicBasePath)
     pathname = publicBasePath + pathname
   console.debug(`[NextRebuild] oriPathName:${useNextPathname()}, currentPathName:${pathname}`, process.env)
