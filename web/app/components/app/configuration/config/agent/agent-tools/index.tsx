@@ -126,6 +126,7 @@ const AgentTools: FC = () => {
                   >
                     <span className='text-gray-500'>{item.tool_name}</span>
                   </Tooltip>
+                  <div className="text-xs text-gray-500">{item?.tool?.description}</div>
                 </div>
               </div>
               <div className='shrink-0 ml-1 flex items-center'>
