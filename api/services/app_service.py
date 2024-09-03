@@ -5,6 +5,7 @@ from typing import cast
 
 from flask_login import current_user
 from flask_sqlalchemy.pagination import Pagination
+from sqlalchemy import text
 
 from configs import dify_config
 from constants.model_template import default_app_templates
@@ -93,8 +94,8 @@ class AppService:
 
             if model_instance:
                 if (
-                    model_instance.model == default_model_config["model"]["name"]
-                    and model_instance.provider == default_model_config["model"]["provider"]
+                        model_instance.model == default_model_config["model"]["name"]
+                        and model_instance.provider == default_model_config["model"]["provider"]
                 ):
                     default_model_dict = default_model_config["model"]
                 else:
@@ -182,6 +183,14 @@ class AppService:
 
                     # override tool parameters
                     tool["tool_parameters"] = masked_parameter
+
+                    # 添加工具描述:
+                    if "provider_id" in tool:
+                        with db.engine.connect() as connection:
+                            provider_id = tool["provider_id"]
+                            sql = text('SELECT name, description FROM tool_api_providers WHERE id = :provider_id')
+                            result = connection.execute(sql,{"provider_id": str(provider_id)}).fetchone()._asdict()
+                            tool["tool"] = result
                 except Exception as e:
                     pass
 
