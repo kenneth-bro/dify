@@ -129,6 +129,8 @@ class AppService:
         app.tenant_id = tenant_id
         app.api_rph = args.get("api_rph", 0)
         app.api_rpm = args.get("api_rpm", 0)
+        app.created_by = account.id
+        app.updated_by = account.id
 
         db.session.add(app)
         db.session.flush()
@@ -136,6 +138,8 @@ class AppService:
         if default_model_config:
             app_model_config = AppModelConfig(**default_model_config)
             app_model_config.app_id = app.id
+            app_model_config.created_by = account.id
+            app_model_config.updated_by = account.id
             db.session.add(app_model_config)
             db.session.flush()
 
@@ -247,6 +251,8 @@ class AppService:
         app.icon_type = args.get("icon_type", "emoji")
         app.icon = args.get("icon")
         app.icon_background = args.get("icon_background")
+        app.use_icon_as_answer_icon = args.get("use_icon_as_answer_icon", False)
+        app.updated_by = current_user.id
         app.updated_at = datetime.now(timezone.utc).replace(tzinfo=None)
         db.session.commit()
 
@@ -263,6 +269,7 @@ class AppService:
         :return: App instance
         """
         app.name = name
+        app.updated_by = current_user.id
         app.updated_at = datetime.now(timezone.utc).replace(tzinfo=None)
         db.session.commit()
 
@@ -278,6 +285,7 @@ class AppService:
         """
         app.icon = icon
         app.icon_background = icon_background
+        app.updated_by = current_user.id
         app.updated_at = datetime.now(timezone.utc).replace(tzinfo=None)
         db.session.commit()
 
@@ -294,6 +302,7 @@ class AppService:
             return app
 
         app.enable_site = enable_site
+        app.updated_by = current_user.id
         app.updated_at = datetime.now(timezone.utc).replace(tzinfo=None)
         db.session.commit()
 
@@ -310,6 +319,7 @@ class AppService:
             return app
 
         app.enable_api = enable_api
+        app.updated_by = current_user.id
         app.updated_at = datetime.now(timezone.utc).replace(tzinfo=None)
         db.session.commit()
 
