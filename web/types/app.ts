@@ -121,14 +121,11 @@ export type AgentTool = {
   provider_name: string
   tool_name: string
   tool_label: string
+  tool_description: string
   tool_parameters: Record<string, any>
   enabled: boolean
   isDeleted?: boolean
   notAuthor?: boolean
-  tool?: {
-    name: string
-    description: string
-  }
 }
 
 export type ToolItem = {
