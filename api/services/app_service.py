@@ -2,11 +2,9 @@ import json
 import logging
 from datetime import datetime, timezone
 from typing import cast
-from uuid import UUID
 
 from flask_login import current_user
 from flask_sqlalchemy.pagination import Pagination
-from sqlalchemy import text, bindparam
 
 from configs import dify_config
 from constants.model_template import default_app_templates
@@ -189,35 +187,6 @@ class AppService:
                     tool["tool_parameters"] = masked_parameter
                 except Exception as e:
                     pass
-
-            # 添加工具描述:
-            provider_ids = set()
-            for tool in agent_mode.get("tools") or []:
-                if not isinstance(tool, dict) or len(tool.keys()) <= 3:
-                    continue
-                if "provider_id" in tool:
-                    provider_ids.add(tool["provider_id"])
-            # 获取所有工具描述
-            provider_map = {}
-            if provider_ids:
-                with db.engine.connect() as connection:
-                    sql = text(
-                        'SELECT id, name, description FROM tool_api_providers WHERE id IN :provider_ids').bindparams(
-                        bindparam('provider_ids', expanding=True)
-                    )
-                    results = connection.execute(sql, {"provider_ids": tuple(provider_ids)}).fetchall()
-                for i in results:
-                    provider_map[str(i.id)] = {
-                        "name": i.name or "",
-                        "description": i.description or "",
-                    }
-            # 填充工具描述数据
-            for tool in agent_mode.get("tools") or []:
-                if not isinstance(tool, dict) or len(tool.keys()) <= 3:
-                    continue
-                if "provider_id" in tool:
-                    provider_id = tool["provider_id"]
-                    tool["tool"] = provider_map.get(provider_id, {})
 
             # override agent mode
             model_config.agent_mode = json.dumps(agent_mode)
