@@ -27,6 +27,7 @@ from configs import dify_config
 
 # DO NOT REMOVE BELOW
 from events import event_handlers
+
 from extensions import (
     ext_celery,
     ext_code_based_extension,
@@ -39,6 +40,7 @@ from extensions import (
     ext_redis,
     ext_sentry,
     ext_storage,
+    ext_flask_restx,
 )
 from extensions.ext_database import db
 from extensions.ext_login import login_manager
@@ -158,6 +160,7 @@ def initialize_extensions(app):
     ext_mail.init_app(app)
     ext_hosting_provider.init_app(app)
     ext_sentry.init_app(app)
+    ext_flask_restx.init_app(app)
 
 
 # Flask-Login configuration
@@ -206,7 +209,8 @@ def register_blueprints(app):
     from controllers.inner_api import bp as inner_api_bp
     from controllers.service_api import bp as service_api_bp
     from controllers.web import bp as web_bp
-
+    from controllers.system import init_system
+    init_system(app)
     CORS(
         service_api_bp,
         allow_headers=["Content-Type", "Authorization", "X-App-Code"],
