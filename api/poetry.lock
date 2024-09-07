@@ -2452,6 +2452,24 @@ files = [
 ]
 
 [[package]]
+name = "flasgger"
+version = "0.9.7.1"
+description = "Extract swagger specs from your flask project"
+optional = false
+python-versions = "*"
+files = [
+    {file = "flasgger-0.9.7.1.tar.gz", hash = "sha256:ca098e10bfbb12f047acc6299cc70a33851943a746e550d86e65e60d4df245fb"},
+]
+
+[package.dependencies]
+Flask = ">=0.10"
+jsonschema = ">=3.0.1"
+mistune = "*"
+packaging = "*"
+PyYAML = ">=3.0"
+six = ">=1.10.0"
+
+[[package]]
 name = "flask"
 version = "3.0.3"
 description = "A simple framework for building complex web applications."
@@ -2502,6 +2520,20 @@ files = [
 
 [package.dependencies]
 Flask = ">=0.9"
+
+[[package]]
+name = "flask-docs"
+version = "0.7.6"
+description = "Adds Docs support to Flask."
+optional = false
+python-versions = "*"
+files = [
+    {file = "Flask_Docs-0.7.6-py3-none-any.whl", hash = "sha256:c0e1ae06e8879113d1a2ef1b4f476f73ced8dffba014d2a1379d4f51daf6391e"},
+    {file = "flask_docs-0.7.6.tar.gz", hash = "sha256:df579c9264c806ca484ba612041a0b0bb550109ecedf3a0ee252bffc486fc2a3"},
+]
+
+[package.dependencies]
+Flask = "*"
 
 [[package]]
 name = "flask-login"
@@ -2610,6 +2642,35 @@ files = [
 [package.dependencies]
 flask = ">=2.2.5"
 sqlalchemy = ">=2.0.16"
+
+[[package]]
+name = "flask-swagger"
+version = "0.2.14"
+description = "Extract swagger specs from your flask project"
+optional = false
+python-versions = "*"
+files = [
+    {file = "flask-swagger-0.2.14.tar.gz", hash = "sha256:b4085f5bc36df4c20b6548cd1413adc9cf35719b0f0695367cd542065145294d"},
+    {file = "flask_swagger-0.2.14-py2-none-any.whl", hash = "sha256:3caddb1311388eafc86f82f8e64ba386a5df6b84e5f16dfae19ca08173eba216"},
+]
+
+[package.dependencies]
+Flask = ">=0.10"
+PyYAML = ">=5.1"
+
+[[package]]
+name = "flask-swagger-ui"
+version = "4.11.1"
+description = "Swagger UI blueprint for Flask"
+optional = false
+python-versions = "*"
+files = [
+    {file = "flask-swagger-ui-4.11.1.tar.gz", hash = "sha256:a370199a780d678b32e38f1be10d4d81efa0ee63e9fe2fb766ff1a4b6c37dac8"},
+    {file = "flask_swagger_ui-4.11.1-py3-none-any.whl", hash = "sha256:c951928fe4592d3561b543e0e1ca32703f55d3474de86c894a9d27f795d96c83"},
+]
+
+[package.dependencies]
+flask = "*"
 
 [[package]]
 name = "flatbuffers"
@@ -4840,6 +4901,17 @@ files = [
 
 [package.dependencies]
 tqdm = "*"
+
+[[package]]
+name = "mistune"
+version = "3.0.2"
+description = "A sane and fast Markdown parser with useful plugins and renderers"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "mistune-3.0.2-py3-none-any.whl", hash = "sha256:71481854c30fdbc938963d3605b72501f5c10a9320ecd412c121c163a1c7d205"},
+    {file = "mistune-3.0.2.tar.gz", hash = "sha256:fc7f93ded930c92394ef2cb6f04a8aabab4117a91449e72dcc8dfa646a508be8"},
+]
 
 [[package]]
 name = "mmh3"
@@ -10087,4 +10159,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.13"
-content-hash = "97146ebd024683acca86ec8f2decee4e2d523d80620ea2b0d87a58d19887301c"
+content-hash = "cf7053522b0169a8bb342ec040055743b5d03c6ce888cd78fedb6127255d7e7e"

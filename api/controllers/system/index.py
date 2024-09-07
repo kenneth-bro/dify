@@ -1,7 +1,8 @@
 from flask_restx import Resource, fields
 
-from controllers.system import api
 from configs import dify_config
+
+from . import api
 
 # 定义响应模型
 response_model = api.model('系统版本信息', {

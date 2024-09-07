@@ -1,5 +1,7 @@
 import os
 
+from flask_docs import ApiDoc
+
 if os.environ.get("DEBUG", "false").lower() != "true":
     from gevent import monkey
 
@@ -27,12 +29,12 @@ from configs import dify_config
 
 # DO NOT REMOVE BELOW
 from events import event_handlers
-
 from extensions import (
     ext_celery,
     ext_code_based_extension,
     ext_compress,
     ext_database,
+    ext_flask_restx,
     ext_hosting_provider,
     ext_login,
     ext_mail,
@@ -40,7 +42,6 @@ from extensions import (
     ext_redis,
     ext_sentry,
     ext_storage,
-    ext_flask_restx,
 )
 from extensions.ext_database import db
 from extensions.ext_login import login_manager
@@ -208,8 +209,8 @@ def register_blueprints(app):
     from controllers.files import bp as files_bp
     from controllers.inner_api import bp as inner_api_bp
     from controllers.service_api import bp as service_api_bp
-    from controllers.web import bp as web_bp
     from controllers.system import init_system
+    from controllers.web import bp as web_bp
     init_system(app)
     CORS(
         service_api_bp,
@@ -248,6 +249,16 @@ def register_blueprints(app):
 
 # create app
 app = create_app()
+
+# 源码开发文档  /docs/api
+app.config["API_DOC_MEMBER"] = ["console", "files", "inner_api", "service_api", "web"]
+ApiDoc(
+    app,
+    title="Dify接口开发文档",
+    version="1.0.0",
+    description="源码接口",
+)
+
 celery = app.extensions["celery"]
 
 if app.config.get("TESTING"):
