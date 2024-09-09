@@ -32,4 +32,17 @@ gitignore: Git版本控制忽略的文件列表。
 Dockerfile: Docker镜像构建脚本。
 global.d.ts: TypeScript全局声明文件。
 jest.config.ts: Jest测试框架配置文件。
+next.config.js: Next.js应用程序配置文件。
+next-env.d.ts: 与Next.js环境相关的TypeScript类型定义文件。
+package.json: Node.js项目的元数据文件。
+package-lock.json: 包锁定文件。
+postcss.config.js: PostCSS配置文件。
+README.md: 项目的说明文档。
+README_CN.md: 项目的中文版说明文档。
+tailwind.config.js: Tailwind CSS配置文件。
+tsconfig.json: TypeScript编译配置文件。
+typography.js: 定义项目的排版样式。
+yarn.lock: Yarn包管理器的锁定文件。
+
+
 ```
