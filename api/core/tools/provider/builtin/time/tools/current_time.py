@@ -16,11 +16,10 @@ class CurrentTimeTool(BuiltinTool):
             invoke tools
         """
         # get timezone
-        tz = tool_parameters.get('timezone', 'UTC')
+        tz = tool_parameters.get('timezone', 'Asia/Shanghai')
         fm = tool_parameters.get('format') or '%Y-%m-%d %H:%M:%S %Z'
         if tz == 'UTC':
             return self.create_text_message(f'{datetime.now(timezone.utc).strftime(fm)}')
-        
         try:
             tz = pytz_timezone(tz)
         except:
