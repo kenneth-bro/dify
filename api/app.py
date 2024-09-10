@@ -209,9 +209,10 @@ def register_blueprints(app):
     from controllers.files import bp as files_bp
     from controllers.inner_api import bp as inner_api_bp
     from controllers.service_api import bp as service_api_bp
-    from controllers.system import init_system
     from controllers.web import bp as web_bp
-    init_system(app)
+    # 新增 : 注册路由
+    from controllers.ai_chat_report import init_ai_chat_report
+    init_ai_chat_report(app)
     CORS(
         service_api_bp,
         allow_headers=["Content-Type", "Authorization", "X-App-Code"],

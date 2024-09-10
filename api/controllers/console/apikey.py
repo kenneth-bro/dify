@@ -8,6 +8,7 @@ from libs.helper import TimestampField
 from libs.login import login_required
 from models.dataset import Dataset
 from models.model import ApiToken, App
+from services.ai_chat_report.llm_cache_update import LLMCacheUpdate
 
 from . import api
 from .setup import setup_required
@@ -81,6 +82,8 @@ class BaseApiKeyListResource(Resource):
         api_token.type = self.resource_type
         db.session.add(api_token)
         db.session.commit()
+        # 新增 : update llm cache
+        LLMCacheUpdate().update()
         return api_token, 201
 
 
@@ -115,6 +118,8 @@ class BaseApiKeyResource(Resource):
 
         db.session.query(ApiToken).filter(ApiToken.id == api_key_id).delete()
         db.session.commit()
+        # 新增 : update llm cache
+        LLMCacheUpdate().update()
 
         return {"result": "success"}, 204
 

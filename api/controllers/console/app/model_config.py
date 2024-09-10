@@ -15,6 +15,7 @@ from events.app_event import app_model_config_was_updated
 from extensions.ext_database import db
 from libs.login import login_required
 from models.model import AppMode, AppModelConfig
+from services.ai_chat_report.llm_cache_update import LLMCacheUpdate
 from services.app_model_config_service import AppModelConfigService
 
 
@@ -136,7 +137,8 @@ class ModelConfigResource(Resource):
         db.session.commit()
 
         app_model_config_was_updated.send(app_model, app_model_config=new_app_model_config)
-
+        # 新增 : update llm cache
+        LLMCacheUpdate().update()
         return {"result": "success"}
 
 

@@ -7,13 +7,13 @@
 from extensions.ext_flask_restx import api_root
 
 # 添加命名空间(新的路由分支) 主要是为了显示在 Swagger 文档中的分类
-api = api_root.namespace('system', description='二开系统模块', path='/system')
+api = api_root.namespace('ai_chat_report', description='二开系统模块', path='/ai_chat_report')
 
 from . import index
 
 app = None
 
 
-def init_system(app_):
+def init_ai_chat_report(app_):
     global app
     app = app_

@@ -2,7 +2,7 @@
 # @Date    ：2024/9/1 14:12 
 # @File    : ext_flask_restx.py
 # :Author:  fum
-from flask import Blueprint
+# desc: 路由中心
 from flask_restx import Api
 
 # 初始化 API
