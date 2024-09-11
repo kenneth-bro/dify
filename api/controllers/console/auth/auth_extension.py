@@ -1,6 +1,6 @@
 import logging
 
-from flask_login import login_required, current_user
+from flask_login import current_user, login_required
 from flask_restful import Resource
 
 from .. import api

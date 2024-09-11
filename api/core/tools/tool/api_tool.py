@@ -182,7 +182,7 @@ class ApiTool(Tool):
         # parse http body data if needed, for GET/HEAD/OPTIONS/TRACE, the body is ignored
         if 'Content-Type' in headers:
             if headers['Content-Type'] == 'application/json':
-                body = json.dumps(body)
+                body = json.dumps(body) or ''
             elif headers['Content-Type'] == 'application/x-www-form-urlencoded':
                 body = urlencode(body)
             else:

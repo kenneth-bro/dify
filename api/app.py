@@ -205,13 +205,13 @@ def unauthorized_handler():
 
 # register blueprint routers
 def register_blueprints(app):
+    # 新增 : 注册路由
+    from controllers.ai_chat_report import init_ai_chat_report
     from controllers.console import bp as console_app_bp
     from controllers.files import bp as files_bp
     from controllers.inner_api import bp as inner_api_bp
     from controllers.service_api import bp as service_api_bp
     from controllers.web import bp as web_bp
-    # 新增 : 注册路由
-    from controllers.ai_chat_report import init_ai_chat_report
     init_ai_chat_report(app)
     CORS(
         service_api_bp,
