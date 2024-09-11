@@ -12,7 +12,7 @@ from sqlalchemy import bindparam, text
 from extensions.ext_database import db
 from models import Message
 
-from . import dify_app
+from . import Flask
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
@@ -22,7 +22,7 @@ import unittest
 class MyFlaskDBTests(TestCase):
 
     def test_sql(self):
-        with dify_app.app_context():
+        with Flask.app_context():
             # 使用原生 SQL 查询
             with db.engine.connect() as connection:
                 query = text("SELECT * FROM messages LIMIT 10")
@@ -31,7 +31,7 @@ class MyFlaskDBTests(TestCase):
                     print(row)
 
     def test_orm(self):
-        with dify_app.app_context():
+        with Flask.app_context():
             # 查询数据库
             history_messages = db.session.query(Message).filter(
                 Message.conversation_id == "f9ed127e-efbb-477e-b750-8b3c24f032f6").order_by(
@@ -39,7 +39,7 @@ class MyFlaskDBTests(TestCase):
             print(history_messages)
 
     def test_provider_id(self):
-        with dify_app.app_context():
+        with Flask.app_context():
             with db.engine.connect() as connection:
                 # 查询数据库
                 sql = text('SELECT name, description FROM tool_api_providers WHERE id = :provider_id')
@@ -52,7 +52,7 @@ class MyFlaskDBTests(TestCase):
 
     def test_provider_id(self):
         provider_ids = ("7cf9c295-24c2-492a-8d7f-b04636512224", "552f9f01-efa3-4f68-9eaf-7c14f6d53ca8")
-        with dify_app.app_context():
+        with Flask.app_context():
             with db.engine.connect() as connection:
                 sql = text('SELECT id, name, description FROM tool_api_providers WHERE id IN :provider_ids').bindparams(
                     bindparam('provider_ids', expanding=True)

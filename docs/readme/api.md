@@ -37,7 +37,7 @@ upgrade: 升级脚本或升级相关逻辑存放目录。
 ```
 
 # 源码 路由文档地址
-http://127.0.0.1:5001/docs/api
+ > http://127.0.0.1:5001/docs/api
 
 
 # config 添加配置方法
@@ -57,6 +57,22 @@ LLM_BASE_UPDATE_INFO_URL = https://aistock-retail.test.investoday.net/llm-base/t
 
 3. 使用方法
 ```angular2html
+
 app.config.get("LLM_BASE_UPDATE_INFO_URL","")
+
 ```
+
+
+# 接口添加方法
+```python
+
+# 路由：
+# 参考：api/controllers/ai_chat_report/index.py
+
+# 业务代码
+# 参考： api/services/ai_chat_report/llm_cache_update.py
+
+```
+
+# post请求入参支持 body
 
