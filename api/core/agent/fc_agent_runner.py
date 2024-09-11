@@ -26,6 +26,7 @@ from core.prompt.agent_history_prompt_transform import AgentHistoryPromptTransfo
 from core.tools.entities.tool_entities import ToolInvokeMeta
 from core.tools.tool_engine import ToolEngine
 from models.model import Message
+from configs import dify_config
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +45,7 @@ class FunctionCallAgentRunner(BaseAgentRunner):
         tool_instances, prompt_messages_tools = self._init_prompt_tools()
 
         iteration_step = 1
-        max_iteration_steps = min(app_config.agent.max_iteration, 5) + 1
+        max_iteration_steps = min(app_config.agent.max_iteration, dify_config.AGENT_MAX_ITERATION) + 1
 
         # continue to run until there is not any tool call
         function_call_state = True

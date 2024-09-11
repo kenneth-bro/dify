@@ -6,6 +6,7 @@ from configs.extra import ExtraServiceConfig
 from configs.feature import FeatureConfig
 from configs.middleware import MiddlewareConfig
 from configs.packaging import PackagingInfo
+from configs.agent import AgentConfig
 
 
 class DifyConfig(
@@ -22,6 +23,8 @@ class DifyConfig(
     # Enterprise feature configs
     # **Before using, please contact business@dify.ai by email to inquire about licensing matters.**
     EnterpriseFeatureConfig,
+    # Agent配置
+    AgentConfig
 ):
     model_config = SettingsConfigDict(
         # read from dotenv format config file
