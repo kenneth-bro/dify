@@ -4,6 +4,7 @@ from collections.abc import Generator
 from copy import deepcopy
 from typing import Any, Union
 
+from configs import dify_config
 from core.agent.base_agent_runner import BaseAgentRunner
 from core.app.apps.base_app_queue_manager import PublishFrom
 from core.app.entities.queue_entities import QueueAgentThoughtEvent, QueueMessageEndEvent, QueueMessageFileEvent
@@ -21,7 +22,6 @@ from core.prompt.agent_history_prompt_transform import AgentHistoryPromptTransfo
 from core.tools.entities.tool_entities import ToolInvokeMeta
 from core.tools.tool_engine import ToolEngine
 from models.model import Message
-from configs import dify_config
 
 logger = logging.getLogger(__name__)
 
