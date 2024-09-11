@@ -67,10 +67,10 @@ app.config.get("LLM_BASE_UPDATE_INFO_URL","")
 ```python
 
 # 路由：
-# 参考：api/controllers/ai_chat_report/index.py
+# 参考：api/controllers/investoday/index.py
 
 # 业务代码
-# 参考： api/services/ai_chat_report/llm_cache_update.py
+# 参考： api/services/investoday/llm_cache_update.py
 
 ```
 

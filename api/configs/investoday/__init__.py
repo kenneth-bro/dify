@@ -6,7 +6,10 @@ from pydantic import Field
 from pydantic_settings import BaseSettings
 
 
-class LlmBaseUpdateInfoConfig(BaseSettings):
+class InvestodayApplicationConfig(BaseSettings):
+    """
+    新增变量
+    """
     LLM_BASE_UPDATE_INFO_URL: str = Field(
         description="模型更新信息地址",
         default="",

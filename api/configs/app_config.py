@@ -1,6 +1,6 @@
 from pydantic_settings import SettingsConfigDict
 
-from configs.ai_chat_report import LlmBaseUpdateInfoConfig
+from configs.investoday import InvestodayApplicationConfig
 from configs.deploy import DeploymentConfig
 from configs.enterprise import EnterpriseFeatureConfig
 from configs.extra import ExtraServiceConfig
@@ -24,7 +24,7 @@ class DifyConfig(
     # **Before using, please contact business@dify.ai by email to inquire about licensing matters.**
     EnterpriseFeatureConfig,
     # 新增
-    LlmBaseUpdateInfoConfig,
+    InvestodayApplicationConfig,
 ):
     model_config = SettingsConfigDict(
         # read from dotenv format config file
