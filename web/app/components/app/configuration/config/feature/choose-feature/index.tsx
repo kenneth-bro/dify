@@ -65,10 +65,11 @@ const ChooseFeature: FC<IChooseFeatureProps> = ({
             description={t('appDebug.feature.groupChat.description') as string}
           >
             <>
+              {/* 对话开场白 */}
               <FeatureItem
                 icon={OpeningStatementIcon}
                 previewImgClassName='openingStatementPreview'
-                title={t('appDebug.feature.conversationOpener.title')}
+                title={`${t('appDebug.feature.conversationOpener.title')}123`}
                 description={t('appDebug.feature.conversationOpener.description')}
                 value={config.openingStatement}
                 onChange={value => onChange('openingStatement', value)}
@@ -105,10 +106,11 @@ const ChooseFeature: FC<IChooseFeatureProps> = ({
                   />
                 )
               }
+              {/* 引用和归属 */}
               <FeatureItem
                 icon={<Citations className='w-4 h-4 text-[#FD853A]' />}
                 previewImgClassName='citationPreview'
-                title={t('appDebug.feature.citation.title')}
+                title={`${t('appDebug.feature.citation.title')}456`}
                 description={t('appDebug.feature.citation.description')}
                 value={config.citation}
                 onChange={value => onChange('citation', value)}

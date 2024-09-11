@@ -74,7 +74,7 @@ const FeatureModal: FC<FeatureModalProps> = ({
             <FeatureItem
               icon={<MessageHeartCircle className='w-4 h-4 text-[#DD2590]' />}
               previewImgClassName='openingStatementPreview'
-              title={t('appDebug.feature.conversationOpener.title')}
+              title={`${t('appDebug.feature.conversationOpener.title')}2/123`}
               description={t('appDebug.feature.conversationOpener.description')}
               value={!!features.opening?.enabled}
               onChange={handleChange}
@@ -118,7 +118,7 @@ const FeatureModal: FC<FeatureModalProps> = ({
             <FeatureItem
               icon={<Citations className='w-4 h-4 text-[#FD853A]' />}
               previewImgClassName='citationPreview'
-              title={t('appDebug.feature.citation.title')}
+              title={`${t('appDebug.feature.citation.title')}2/456`}
               description={t('appDebug.feature.citation.description')}
               value={!!features.citation?.enabled}
               onChange={handleChange}

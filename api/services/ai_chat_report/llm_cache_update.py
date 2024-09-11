@@ -35,9 +35,9 @@ class LLMCacheUpdate:
         try:
             res = requests.get(self.url, headers=headers).json()
             if res.get("code") == "Success":
-                logger.info("缓存更新成功")
+                logger.info("【LLMBase】应用缓存更新成功.")
             else:
-                logger.error("缓存更新失败")
+                logger.error("【LLMBase】应用缓存更新失败.")
         except Exception as e:
             logging.error(e)
             return
