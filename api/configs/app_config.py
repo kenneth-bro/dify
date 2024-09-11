@@ -7,6 +7,7 @@ from configs.extra import ExtraServiceConfig
 from configs.feature import FeatureConfig
 from configs.middleware import MiddlewareConfig
 from configs.packaging import PackagingInfo
+from configs.agent import AgentConfig
 
 
 class DifyConfig(
@@ -25,6 +26,8 @@ class DifyConfig(
     EnterpriseFeatureConfig,
     # 新增
     LlmBaseUpdateInfoConfig,
+    # Agent配置
+    AgentConfig
 ):
     model_config = SettingsConfigDict(
         # read from dotenv format config file
