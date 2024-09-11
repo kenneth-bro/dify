@@ -1,5 +1,6 @@
 from pydantic_settings import SettingsConfigDict
 
+from configs.agent import AgentConfig
 from configs.deploy import DeploymentConfig
 from configs.enterprise import EnterpriseFeatureConfig
 from configs.extra import ExtraServiceConfig
@@ -25,6 +26,9 @@ class DifyConfig(
     EnterpriseFeatureConfig,
     # 新增
     InvestodayApplicationConfig,
+    # Agent配置
+    AgentConfig,
+
 ):
     model_config = SettingsConfigDict(
         # read from dotenv format config file

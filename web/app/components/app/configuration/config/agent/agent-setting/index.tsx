@@ -9,7 +9,7 @@ import { CuteRobote } from '@/app/components/base/icons/src/vender/solid/communi
 import { Unblur } from '@/app/components/base/icons/src/vender/solid/education'
 import Slider from '@/app/components/base/slider'
 import type { AgentConfig } from '@/models/debug'
-import { DEFAULT_AGENT_PROMPT } from '@/config'
+import { DEFAULT_AGENT_PROMPT, ITERATIONS_LIMIT } from '@/config'
 
 type Props = {
   isChatModel: boolean
@@ -19,8 +19,8 @@ type Props = {
   onSave: (payload: any) => void
 }
 
-const maxIterationsMin = 1
-const maxIterationsMax = 5
+const maxIterationsMin = ITERATIONS_LIMIT.min
+const maxIterationsMax = ITERATIONS_LIMIT.max
 
 const AgentSetting: FC<Props> = ({
   isChatModel,
@@ -99,7 +99,7 @@ const AgentSetting: FC<Props> = ({
                 type="number"
                 min={maxIterationsMin}
                 max={maxIterationsMax} step={1}
-                className="block w-11 h-7 leading-7 rounded-lg border-0 pl-1 px-1.5 bg-gray-100 text-gray-900  placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-primary-600"
+                className="block w-20 h-7 leading-7 rounded-lg border-0 pl-1 px-1.5 bg-gray-100 text-gray-900  placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-primary-600"
                 value={tempPayload.max_iteration}
                 onChange={(e) => {
                   let value = parseInt(e.target.value, 10)

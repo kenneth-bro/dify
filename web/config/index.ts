@@ -151,11 +151,18 @@ export const ANNOTATION_DEFAULT = {
 // 最大工具数量
 export const MAX_TOOLS_NUM = 100
 
+// Agent配置
 export const DEFAULT_AGENT_SETTING = {
   enabled: false,
-  max_iteration: 5,
+  max_iteration: MAX_TOOLS_NUM,
   strategy: AgentStrategy.functionCall,
   tools: [],
+}
+
+// 最大的迭代次数上限
+export const ITERATIONS_LIMIT = {
+  min: 1,
+  max: 100,
 }
 
 export const DEFAULT_AGENT_PROMPT = {

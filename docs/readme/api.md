@@ -1,6 +1,9 @@
 
 
-# 目录结构介绍
+# 目录结构
+
+## 整体介绍
+
 ```
 .idea: IntelliJ IDEA 的工作空间配置文件夹，包含了项目的结构、设置等信息。
 .vscode: VSCode 的配置文件夹，可以包含如任务定义、扩展配置等。
@@ -36,7 +39,34 @@ script.sql: SQL 脚本文件，用于数据库操作。
 upgrade: 升级脚本或升级相关逻辑存放目录。
 ```
 
+## Core
+
+```
+|- agent agent最终的运行函数
+|-- cot_agent_runner agent运行
+|-- cot_chat_agent_runner chat agent运行
+|-- fc_agent_runner functionCall的agent运行（回调工具）
+
+|- app
+|-- apps
+|---- agent_chat agent对话的配置生成
+|------ app_generator
+|------ app_runner 应用运行
+
+|- callback_handler
+|---- agent_tool_callback_handler.py 回调处理(工具调用日志打印等)
+
+|- tools 工具
+|-- tool
+|---- tool_engine.py 工具运行引擎
+|---- api_tool.py 工具请求
+
+```
+
+
+
 # 源码 路由文档地址
+
  > http://127.0.0.1:5001/docs/api
 
 
