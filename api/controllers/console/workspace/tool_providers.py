@@ -502,9 +502,9 @@ class ToolBuiltinListApi(Resource):
             [
                 provider.to_dict()
                 for provider in BuiltinToolManageService.list_builtin_tools(
-                    user_id,
-                    tenant_id,
-                )
+                user_id,
+                tenant_id,
+            )
             ]
         )
 
@@ -521,9 +521,9 @@ class ToolApiListApi(Resource):
             [
                 provider.to_dict()
                 for provider in ApiToolManageService.list_api_tools(
-                    user_id,
-                    tenant_id,
-                )
+                user_id,
+                tenant_id,
+            )
             ]
         )
 
@@ -540,9 +540,9 @@ class ToolWorkflowListApi(Resource):
             [
                 provider.to_dict()
                 for provider in WorkflowToolManageService.list_tenant_workflow_tools(
-                    user_id,
-                    tenant_id,
-                )
+                user_id,
+                tenant_id,
+            )
             ]
         )
 

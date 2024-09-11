@@ -1,10 +1,10 @@
 from pydantic_settings import SettingsConfigDict
 
-from configs.investoday import InvestodayApplicationConfig
 from configs.deploy import DeploymentConfig
 from configs.enterprise import EnterpriseFeatureConfig
 from configs.extra import ExtraServiceConfig
 from configs.feature import FeatureConfig
+from configs.investoday import InvestodayApplicationConfig
 from configs.middleware import MiddlewareConfig
 from configs.packaging import PackagingInfo
 

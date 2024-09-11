@@ -1,4 +1,3 @@
-
 from core.tools.entities.common_entities import I18nObject
 from core.tools.entities.tool_bundle import ApiToolBundle
 from core.tools.entities.tool_entities import (
@@ -111,7 +110,7 @@ class ApiToolProviderController(ToolProviderController):
         """
         return ApiTool(**{
             'api_bundle': tool_bundle,
-            'identity' : {
+            'identity': {
                 'author': tool_bundle.author,
                 'name': tool_bundle.operation_id,
                 'label': {
@@ -128,7 +127,7 @@ class ApiToolProviderController(ToolProviderController):
                 },
                 'llm': tool_bundle.summary or ''
             },
-            'parameters' : tool_bundle.parameters if tool_bundle.parameters else [],
+            'parameters': tool_bundle.parameters if tool_bundle.parameters else [],
         })
 
     def load_bundled_tools(self, tools: list[ApiToolBundle]) -> list[ApiTool]:
@@ -152,7 +151,7 @@ class ApiToolProviderController(ToolProviderController):
         """
         if self.tools is not None:
             return self.tools
-        
+
         tools: list[Tool] = []
 
         # get tenant api providers
@@ -167,10 +166,10 @@ class ApiToolProviderController(ToolProviderController):
                     assistant_tool = self._parse_tool_bundle(tool)
                     assistant_tool.is_team_authorization = True
                     tools.append(assistant_tool)
-        
+
         self.tools = tools
         return tools
-    
+
     def get_tool(self, tool_name: str) -> ApiTool:
         """
             get tool by name
