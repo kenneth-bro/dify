@@ -14,6 +14,7 @@ from . import index
 app = None
 
 
-def init_ai_chat_report(app_):
+def investoday(app_):
     global app
     app = app_
+

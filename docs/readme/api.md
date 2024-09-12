@@ -113,4 +113,10 @@ app.config.get("LLM_BASE_UPDATE_INFO_URL","")
 ```
 
 # post请求入参支持 body
+> 入参需提示说明为body={} or body=[] or body=json
 
+
+# 源数据返回
+```python
+
+```

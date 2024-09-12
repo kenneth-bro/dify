@@ -272,5 +272,9 @@ ruff = "~0.6.1"
 
 [[tool.poetry.source]]
 name = "aliyun"
-url = "http://mirrors.aliyun.com/pypi/simple"
+url = "http://mirrors.aliyun.com/pypi/simple/"
+default = false
+[[tool.poetry.source]]
+name = "tuna"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
 default = true

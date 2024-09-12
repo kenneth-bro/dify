@@ -15,8 +15,8 @@ from events.app_event import app_model_config_was_updated
 from extensions.ext_database import db
 from libs.login import login_required
 from models.model import AppMode, AppModelConfig
-from services.investoday.llm_cache_update import LLMCacheUpdate
 from services.app_model_config_service import AppModelConfigService
+from services.investoday.llm_cache_update import LLMCacheUpdate
 
 
 class ModelConfigResource(Resource):
