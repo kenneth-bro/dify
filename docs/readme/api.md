@@ -104,5 +104,13 @@ app.config.get("LLM_BASE_UPDATE_INFO_URL","")
 
 ```
 
+
+# 环境依赖更新方法
+```python
+# poetry update
+# poetry lock
+# poetry install
+```
+
 # post请求入参支持 body
 

@@ -11,7 +11,7 @@ from extensions.ext_database import init_app
 
 Flask = Flask(__name__)
 
-######################## 测试文件中兼容没有env ########################################
+# 测试文件中兼容没有env ########################################
 DB_USERNAME = "dify"
 DB_PASSWORD = "MJwKmr5n5egcN77Y"
 DB_HOST = "10.9.1.33"

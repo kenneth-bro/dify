@@ -21,7 +21,7 @@ from libs import helper
 from libs.helper import TimestampField, uuid_value
 from libs.login import current_user, login_required
 from models.model import App, AppMode
-from services.ai_chat_report.llm_cache_update import LLMCacheUpdate
+from services.investoday.llm_cache_update import LLMCacheUpdate
 from services.app_dsl_service import AppDslService
 from services.app_generate_service import AppGenerateService
 from services.errors.app import WorkflowHashNotEqualError

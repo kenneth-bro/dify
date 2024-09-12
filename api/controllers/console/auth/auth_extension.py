@@ -9,6 +9,7 @@ from ..wraps import account_initialization_required
 
 logger = logging.getLogger(__name__)
 
+
 class LoginAuth(Resource):
 
     @login_required

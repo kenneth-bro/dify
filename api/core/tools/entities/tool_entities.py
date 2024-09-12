@@ -24,7 +24,6 @@ class ToolLabelEnum(Enum):
     UTILITIES = "utilities"
     OTHER = "other"
 
-
     # 内部标签
     INVESTODAY = "investoday"
     STOCK = "stock"
@@ -32,6 +31,7 @@ class ToolLabelEnum(Enum):
     RESEARCH_REPORT = "researchReport"
     # 诊断
     DIAGNOSIS = "diagnosis"
+
 
 class ToolProviderType(Enum):
     """

@@ -8,7 +8,7 @@ from libs.helper import TimestampField
 from libs.login import login_required
 from models.dataset import Dataset
 from models.model import ApiToken, App
-from services.ai_chat_report.llm_cache_update import LLMCacheUpdate
+from services.investoday.llm_cache_update import LLMCacheUpdate
 
 from . import api
 from .setup import setup_required
