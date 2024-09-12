@@ -116,6 +116,50 @@ app.config.get("LLM_BASE_UPDATE_INFO_URL","")
 > 入参需提示说明为body={} or body=[] or body=json
 
 
+# 模型调用工具流程
+> 1. 发送请求调用大模型
+> 2. 大模型返回调用工具的参数，以及调用哪些工具  / 或者告诉用户需要什么参数
+```python
+# 例如： 生成调用工具的参数+工具名称
+ChatCompletion(
+    id='chatcmpl-A6XYtBLFcMOYYZ1wm3xiOJ4Iet7mg',
+    choices=[
+        Choice(finish_reason='tool_calls',
+               index=0, logprobs=None,
+               message=ChatCompletionMessage(
+                   content=None,
+                   role='assistant',
+                   function_call=None,
+                   tool_calls=[
+                       ChatCompletionMessageToolCall(
+                           id='call_eoYPq9VEuDu3fjAncsC0K5UW',
+                           function=Function(
+                               arguments='{"order_id":"order_12345"}',
+                               name='get_delivery_date'),
+                           type='function'
+                       )
+                   ]
+               )
+               )
+    ],
+    created=1726122343,
+    model='gpt-4o-2024-05-13',
+    object='chat.completion',
+    system_fingerprint='fp_80a1bad4c7',
+    usage=CompletionUsage(completion_tokens=19, prompt_tokens=211, total_tokens=230)
+)
+
+tool_call = response.choices[0].message.tool_calls[0]
+arguments = json.loads(tool_call['function']['arguments'])
+
+```
+> 3. 调用函数生成数据
+> 4. 带着工具生成的数据（每个工具有一个id：测试得出 id 应该是本地生成的）+LLM生成的参数+历史记录再次调用模型回答
+
+解决方案:
+生成工具参数时，有requestbody 时将requestbody 添加到工具参数中,让模型生成requestbody 的值
+
+
 # 源数据返回
 ```python
 
