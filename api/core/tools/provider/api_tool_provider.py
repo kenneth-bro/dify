@@ -107,7 +107,7 @@ class ApiToolProviderController(ToolProviderController):
                     "human": {"en_US": tool_bundle.summary or "", "zh_Hans": tool_bundle.summary or ""},
                     "llm": tool_bundle.summary or "",
                 },
-                "parameters": tool_bundle.parameters if tool_bundle.parameters else [],
+                "parameters": tool_bundle.parameters or [],
             }
         )
 
