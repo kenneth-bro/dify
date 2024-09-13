@@ -187,7 +187,7 @@ if you are not sure about the structure.
 <instructions>
 {{instructions}}
 </instructions>
-"""  # noqa: E501
+"""
 
         code_block = model_parameters.get("response_format", "")
         if not code_block:
