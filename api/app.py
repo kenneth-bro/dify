@@ -206,10 +206,10 @@ def unauthorized_handler():
 # register blueprint routers
 def register_blueprints(app):
     # 新增 : 注册路由
-    from controllers.investoday import investoday
     from controllers.console import bp as console_app_bp
     from controllers.files import bp as files_bp
     from controllers.inner_api import bp as inner_api_bp
+    from controllers.investoday import investoday
     from controllers.service_api import bp as service_api_bp
     from controllers.web import bp as web_bp
     investoday(app)

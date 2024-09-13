@@ -55,7 +55,8 @@ FUNCTION_CALLING_EXTRACTOR_EXAMPLE = [
             },
         },
         "assistant": {
-            "text": "I need always call the function with the correct parameters. in this case, I need to call the function with the location parameter.",
+            "text": "I need always call the function with the correct parameters."
+            " in this case, I need to call the function with the location parameter.",
             "function_call": {"name": FUNCTION_CALLING_EXTRACTOR_NAME, "parameters": {"location": "San Francisco"}},
         },
     },
@@ -72,7 +73,8 @@ FUNCTION_CALLING_EXTRACTOR_EXAMPLE = [
             },
         },
         "assistant": {
-            "text": "I need always call the function with the correct parameters. in this case, I need to call the function with the food parameter.",
+            "text": "I need always call the function with the correct parameters."
+            " in this case, I need to call the function with the food parameter.",
             "function_call": {"name": FUNCTION_CALLING_EXTRACTOR_NAME, "parameters": {"food": "apple pie"}},
         },
     },
