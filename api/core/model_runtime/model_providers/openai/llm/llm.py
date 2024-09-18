@@ -166,16 +166,16 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
         )
 
     def _transform_chat_json_prompts(
-        self,
-        model: str,
-        credentials: dict,
-        prompt_messages: list[PromptMessage],
-        model_parameters: dict,
-        tools: list[PromptMessageTool] | None = None,
-        stop: list[str] | None = None,
-        stream: bool = True,
-        user: str | None = None,
-        response_format: str = "JSON",
+            self,
+            model: str,
+            credentials: dict,
+            prompt_messages: list[PromptMessage],
+            model_parameters: dict,
+            tools: list[PromptMessageTool] | None = None,
+            stop: list[str] | None = None,
+            stream: bool = True,
+            user: str | None = None,
+            response_format: str = "JSON",
     ) -> None:
         """
         Transform json prompts
@@ -207,16 +207,16 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
             prompt_messages.append(AssistantPromptMessage(content=f"\n```{response_format}"))
 
     def _transform_completion_json_prompts(
-        self,
-        model: str,
-        credentials: dict,
-        prompt_messages: list[PromptMessage],
-        model_parameters: dict,
-        tools: list[PromptMessageTool] | None = None,
-        stop: list[str] | None = None,
-        stream: bool = True,
-        user: str | None = None,
-        response_format: str = "JSON",
+            self,
+            model: str,
+            credentials: dict,
+            prompt_messages: list[PromptMessage],
+            model_parameters: dict,
+            tools: list[PromptMessageTool] | None = None,
+            stop: list[str] | None = None,
+            stream: bool = True,
+            user: str | None = None,
+            response_format: str = "JSON",
     ) -> None:
         """
         Transform json prompts
@@ -252,11 +252,11 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
                 prompt_messages[i].content += f"\n```{response_format}\n"
 
     def get_num_tokens(
-        self,
-        model: str,
-        credentials: dict,
-        prompt_messages: list[PromptMessage],
-        tools: Optional[list[PromptMessageTool]] = None,
+            self,
+            model: str,
+            credentials: dict,
+            prompt_messages: list[PromptMessage],
+            tools: Optional[list[PromptMessageTool]] = None,
     ) -> int:
         """
         Get number of tokens for given prompt messages
@@ -380,14 +380,14 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
         return ai_model_entities
 
     def _generate(
-        self,
-        model: str,
-        credentials: dict,
-        prompt_messages: list[PromptMessage],
-        model_parameters: dict,
-        stop: Optional[list[str]] = None,
-        stream: bool = True,
-        user: Optional[str] = None,
+            self,
+            model: str,
+            credentials: dict,
+            prompt_messages: list[PromptMessage],
+            model_parameters: dict,
+            stop: Optional[list[str]] = None,
+            stream: bool = True,
+            user: Optional[str] = None,
     ) -> Union[LLMResult, Generator]:
         """
         Invoke llm completion model
@@ -429,7 +429,7 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
         return self._handle_generate_response(model, credentials, response, prompt_messages)
 
     def _handle_generate_response(
-        self, model: str, credentials: dict, response: Completion, prompt_messages: list[PromptMessage]
+            self, model: str, credentials: dict, response: Completion, prompt_messages: list[PromptMessage]
     ) -> LLMResult:
         """
         Handle llm completion response
@@ -470,7 +470,7 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
         return result
 
     def _handle_generate_stream_response(
-        self, model: str, credentials: dict, response: Stream[Completion], prompt_messages: list[PromptMessage]
+            self, model: str, credentials: dict, response: Stream[Completion], prompt_messages: list[PromptMessage]
     ) -> Generator:
         """
         Handle llm completion stream response
@@ -549,15 +549,15 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
         yield final_chunk
 
     def _chat_generate(
-        self,
-        model: str,
-        credentials: dict,
-        prompt_messages: list[PromptMessage],
-        model_parameters: dict,
-        tools: Optional[list[PromptMessageTool]] = None,
-        stop: Optional[list[str]] = None,
-        stream: bool = True,
-        user: Optional[str] = None,
+            self,
+            model: str,
+            credentials: dict,
+            prompt_messages: list[PromptMessage],
+            model_parameters: dict,
+            tools: Optional[list[PromptMessageTool]] = None,
+            stop: Optional[list[str]] = None,
+            stream: bool = True,
+            user: Optional[str] = None,
     ) -> Union[LLMResult, Generator]:
         """
         Invoke llm chat model
@@ -610,10 +610,12 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
                 try:
                     if 'properties' not in tool.parameters:
                         tool.parameters['properties'] = {}
-                    tool.parameters['properties']['body'] = {'type': 'array', 'description': 'body中数组类型的数据', 'items': {'type': 'string'}}
+                    tool.parameters['properties']['body'] = {'type': 'array', 'description': 'body中数组类型的数据',
+                                                             'items': {'type': 'string'}}
                 except Exception as e:
                     tool.parameters = parameters
-                obj = {"name": tool.name, "description": f"{tool.description}, body为必须参数为同列为其他参数的汇总", "parameters": tool.parameters}
+                obj = {"name": tool.name, "description": f"{tool.description}, body为必须参数为同列为其他参数的汇总",
+                       "parameters": tool.parameters}
                 tool_list.append(obj)
             extra_model_kwargs["functions"] = tool_list
             #####################################################################################################
@@ -661,10 +663,10 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
         return block_result
 
     def _handle_chat_block_as_stream_response(
-        self,
-        block_result: LLMResult,
-        prompt_messages: list[PromptMessage],
-        stop: Optional[list[str]] = None,
+            self,
+            block_result: LLMResult,
+            prompt_messages: list[PromptMessage],
+            stop: Optional[list[str]] = None,
     ) -> Generator[LLMResultChunk, None, None]:
         """
         Handle llm chat response
@@ -696,12 +698,12 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
         )
 
     def _handle_chat_generate_response(
-        self,
-        model: str,
-        credentials: dict,
-        response: ChatCompletion,
-        prompt_messages: list[PromptMessage],
-        tools: Optional[list[PromptMessageTool]] = None,
+            self,
+            model: str,
+            credentials: dict,
+            response: ChatCompletion,
+            prompt_messages: list[PromptMessage],
+            tools: Optional[list[PromptMessageTool]] = None,
     ) -> LLMResult:
         """
         Handle llm chat response
@@ -750,12 +752,12 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
         return response
 
     def _handle_chat_generate_stream_response(
-        self,
-        model: str,
-        credentials: dict,
-        response: Stream[ChatCompletionChunk],
-        prompt_messages: list[PromptMessage],
-        tools: Optional[list[PromptMessageTool]] = None,
+            self,
+            model: str,
+            credentials: dict,
+            response: Stream[ChatCompletionChunk],
+            prompt_messages: list[PromptMessage],
+            tools: Optional[list[PromptMessageTool]] = None,
     ) -> Generator:
         """
         Handle llm chat stream response
@@ -792,9 +794,9 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
             has_finish_reason = delta.finish_reason is not None
 
             if (
-                not has_finish_reason
-                and (delta.delta.content is None or delta.delta.content == "")
-                and delta.delta.function_call is None
+                    not has_finish_reason
+                    and (delta.delta.content is None or delta.delta.content == "")
+                    and delta.delta.function_call is None
             ):
                 continue
 
@@ -870,7 +872,7 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
         yield final_chunk
 
     def _extract_response_tool_calls(
-        self, response_tool_calls: list[ChatCompletionMessageToolCall | ChoiceDeltaToolCall]
+            self, response_tool_calls: list[ChatCompletionMessageToolCall | ChoiceDeltaToolCall]
     ) -> list[AssistantPromptMessage.ToolCall]:
         """
         Extract tool calls from response
@@ -893,7 +895,7 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
         return tool_calls
 
     def _extract_response_function_call(
-        self, response_function_call: FunctionCall | ChoiceDeltaFunctionCall
+            self, response_function_call: FunctionCall | ChoiceDeltaFunctionCall
     ) -> AssistantPromptMessage.ToolCall:
         """
         Extract function call from response
@@ -1033,7 +1035,7 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
         return num_tokens
 
     def _num_tokens_from_messages(
-        self, model: str, messages: list[PromptMessage], tools: Optional[list[PromptMessageTool]] = None
+            self, model: str, messages: list[PromptMessage], tools: Optional[list[PromptMessageTool]] = None
     ) -> int:
         """Calculate num tokens for gpt-3.5-turbo and gpt-4 with tiktoken package.
 
