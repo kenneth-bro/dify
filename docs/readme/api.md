@@ -64,6 +64,17 @@ upgrade: 升级脚本或升级相关逻辑存放目录。
 ```
 
 
+# 重要核心操作代码位置
+0. 参数类型获取： api/core/agent/fc_agent_runner.py:40
+1. 大模型生成参数：  api/core/agent/fc_agent_runner.py:82
+2. 模型调用工具生成参数提取： api/core/agent/fc_agent_runner.py:325
+3. 工具参数生成提示词拼接：api/core/agent/base_agent_runner.py:256
+模型调用:   api/core/model_runtime/model_providers/openai/llm/llm.py:579
+
+
+
+生成参数时的工具需要的参数： prompt_messages_tools
+
 
 # 源码 路由文档地址
 
@@ -120,3 +131,8 @@ app.config.get("LLM_BASE_UPDATE_INFO_URL","")
 ```python
 
 ```
+
+
+# 工具调用原理
+1. 全部工具放到大模型里面，大模型根据工具生成参数
+2. 

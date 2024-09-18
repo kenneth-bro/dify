@@ -597,10 +597,26 @@ class OpenAILargeLanguageModel(_CommonOpenAI, LargeLanguageModel):
 
         if tools:
             # extra_model_kwargs['tools'] = [helper.dump_model(PromptMessageFunction(function=tool)) for tool in tools]
-            extra_model_kwargs["functions"] = [
-                {"name": tool.name, "description": tool.description, "parameters": tool.parameters} for tool in tools
-            ]
-
+            # 源码################################################################################################
+            # extra_model_kwargs["functions"] = [
+            #     {"name": tool.name, "description": tool.description, "parameters": tool.parameters} for tool in tools
+            # ]
+            # 修改###############################################################################################
+            # 生成 body 参数
+            # 修改###############################################################################################
+            tool_list = []
+            for tool in tools:
+                parameters = tool.parameters
+                try:
+                    if 'properties' not in tool.parameters:
+                        tool.parameters['properties'] = {}
+                    tool.parameters['properties']['body'] = {'type': 'array', 'description': 'body中数组类型的数据', 'items': {'type': 'string'}}
+                except Exception as e:
+                    tool.parameters = parameters
+                obj = {"name": tool.name, "description": f"{tool.description}, body为必须参数为同列为其他参数的汇总", "parameters": tool.parameters}
+                tool_list.append(obj)
+            extra_model_kwargs["functions"] = tool_list
+            #####################################################################################################
         if stop:
             extra_model_kwargs["stop"] = stop
 
