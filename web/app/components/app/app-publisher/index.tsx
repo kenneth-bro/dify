@@ -1,4 +1,4 @@
-import {
+import React, {
   memo,
   useCallback,
   useState,
@@ -25,6 +25,7 @@ import { FileText } from '@/app/components/base/icons/src/vender/line/files'
 import WorkflowToolConfigureButton from '@/app/components/tools/workflow-tool/configure-button'
 import type { InputVar } from '@/app/components/workflow/types'
 import { appDefaultIconBackground } from '@/config'
+import { SimpleSelect } from '@/app/components/base/select'
 
 export type AppPublisherProps = {
   disabled?: boolean
@@ -41,13 +42,18 @@ export type AppPublisherProps = {
   crossAxisOffset?: number
   toolPublished?: boolean
   inputs?: InputVar[]
+  selects: any[]
   onRefreshData?: () => void
+  onSelect: (item: string) => void
+  onAgentAddAndDelete: (status: number) => void
+  detail: any
 }
 
 const AppPublisher = ({
   disabled = false,
   publishDisabled = false,
   publishedAt,
+  selects,
   draftUpdatedAt,
   debugWithMultipleModel = false,
   multipleModelConfigs = [],
@@ -58,6 +64,9 @@ const AppPublisher = ({
   toolPublished,
   inputs,
   onRefreshData,
+  onAgentAddAndDelete,
+  onSelect,
+  detail,
 }: AppPublisherProps) => {
   const { t } = useTranslation()
   const [published, setPublished] = useState(false)
@@ -94,7 +103,6 @@ const AppPublisher = ({
 
   const handleTrigger = useCallback(() => {
     const state = !open
-
     if (disabled) {
       setOpen(false)
       return
@@ -106,9 +114,7 @@ const AppPublisher = ({
     if (state)
       setPublished(false)
   }, [disabled, onToggle, open])
-
   const [embeddingModalOpen, setEmbeddingModalOpen] = useState(false)
-
   return (
     <PortalToFollowElem
       open={open}
@@ -138,7 +144,8 @@ const AppPublisher = ({
             {publishedTime
               ? (
                 <div className='flex justify-between items-center h-[18px]'>
-                  <div className='flex items-center mt-[3px] mb-[3px] leading-[18px] text-[13px] font-medium text-gray-700'>
+                  <div
+                    className='flex items-center mt-[3px] mb-[3px] leading-[18px] text-[13px] font-medium text-gray-700'>
                     {t('workflow.common.publishedAt')} {formatTimeFromNow(publishedTime)}
                   </div>
                   <Button
@@ -164,7 +171,7 @@ const AppPublisher = ({
                 <PublishWithMultipleModel
                   multipleModelConfigs={multipleModelConfigs}
                   onSelect={item => handlePublish(item)}
-                // textGenerationModelList={textGenerationModelList}
+                  // textGenerationModelList={textGenerationModelList}
                 />
               )
               : (
@@ -184,13 +191,60 @@ const AppPublisher = ({
             }
           </div>
           <div className='p-4 pt-3 border-t-[0.5px] border-t-black/5'>
-            <SuggestedAction disabled={!publishedTime} link={appURL} icon={<PlayCircle />}>{t('workflow.common.runApp')}</SuggestedAction>
+            <div className='h2 mb-2'>
+              智能体中心
+            </div>
+            <div className="relative rounded-md">
+              <SimpleSelect
+                defaultValue={detail?.agentTypeId || 'all'}
+                className='!w-[300px]'
+                placeholder="请选择类别"
+                onSelect={
+                  (item: any) => {
+                    if (!detail?.agentTypeId)
+                      onSelect(item.value)
+                  }
+                }
+                items={selects.map((item) => {
+                  return {
+                    value: item.id,
+                    name: item.name,
+                  }
+                })}
+              />
+            </div>
+            <div className='flex'>
+              <Button
+                variant='primary'
+                className='w-full mt-3'
+                onClick={() => onAgentAddAndDelete(1)}
+                disabled={detail?.agentStatus === 1}
+              >
+                {
+                  t('workflow.common.publish')
+                }
+              </Button>
+              <Button
+                variant='warning'
+                className='w-full mt-3 ml-7'
+                onClick={() => onAgentAddAndDelete(0)}
+                disabled={detail?.agentStatus === 0}
+              >
+                {
+                  t('workflow.common.delist')
+                }
+              </Button>
+            </div>
+          </div>
+          <div className='p-4 pt-3 border-t-[0.5px] border-t-black/5'>
+            <SuggestedAction disabled={!publishedTime} link={appURL}
+              icon={<PlayCircle/>}>{t('workflow.common.runApp')}</SuggestedAction>
             {appDetail?.mode === 'workflow'
               ? (
                 <SuggestedAction
                   disabled={!publishedTime}
                   link={`${appURL}${appURL.includes('?') ? '&' : '?'}mode=batch`}
-                  icon={<LeftIndent02 className='w-4 h-4' />}
+                  icon={<LeftIndent02 className='w-4 h-4'/>}
                 >
                   {t('workflow.common.batchRunApp')}
                 </SuggestedAction>
@@ -202,12 +256,13 @@ const AppPublisher = ({
                     handleTrigger()
                   }}
                   disabled={!publishedTime}
-                  icon={<CodeBrowser className='w-4 h-4' />}
+                  icon={<CodeBrowser className='w-4 h-4'/>}
                 >
                   {t('workflow.common.embedIntoSite')}
                 </SuggestedAction>
               )}
-            <SuggestedAction disabled={!publishedTime} link='./develop' icon={<FileText className='w-4 h-4' />}>{t('workflow.common.accessAPIReference')}</SuggestedAction>
+            <SuggestedAction disabled={!publishedTime} link='./develop' icon={<FileText
+              className='w-4 h-4'/>}>{t('workflow.common.accessAPIReference')}</SuggestedAction>
             {appDetail?.mode === 'workflow' && (
               <WorkflowToolConfigureButton
                 disabled={!publishedTime}
@@ -235,7 +290,7 @@ const AppPublisher = ({
         appBaseUrl={appBaseURL}
         accessToken={accessToken}
       />
-    </PortalToFollowElem >
+    </PortalToFollowElem>
   )
 }
 

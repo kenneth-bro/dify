@@ -125,6 +125,7 @@ const translation = {
     newApp: '创建应用',
     newDataset: '创建知识库',
     tools: '工具',
+    agent: '智能体中心',
   },
   userProfile: {
     settings: '设置',

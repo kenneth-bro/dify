@@ -7,6 +7,7 @@ const translation = {
     unpublished: '未发布',
     published: '已发布',
     publish: '发布',
+    delist: '下架',
     update: '更新',
     run: '运行',
     running: '运行中',
