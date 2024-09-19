@@ -126,7 +126,7 @@ const Header: FC = () => {
     }
   }, [appID, handleCheckBeforePublish, notify, t, workflowStore])
   const getData = useCallback(async () => {
-    const res: any = await getAgentTypeList('/dify/agent-type/list')
+    const res: any = await getAgentTypeList({ page: 1, pageSize: 999999 })
     setSelects(res.data)
     const detail: any = await getDifyList({
       appId: appID,

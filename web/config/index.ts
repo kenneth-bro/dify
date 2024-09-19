@@ -29,7 +29,6 @@ else {
   apiPrefix = 'http://localhost:5001/agents/console/api'
   publicApiPrefix = 'http://localhost:5001/api' // avoid browser private mode api cross origin
 }
-console.log(process.env.NEXT_CUSTOM_API_PREFIX, 31, customApiPrefix, publicApiPrefix)
 export const API_PREFIX: string = apiPrefix
 export const PUBLIC_API_PREFIX: string = publicApiPrefix
 export const CUSTOM_API_PREFIX: string = customApiPrefix
