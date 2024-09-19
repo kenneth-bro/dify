@@ -3,6 +3,7 @@ import {
   memo,
   useCallback,
   useMemo,
+  useState,
 } from 'react'
 import { RiApps2AddLine } from '@remixicon/react'
 import { useNodes } from 'reactflow'
@@ -39,6 +40,7 @@ import { useStore as useAppStore } from '@/app/components/app/store'
 import { publishWorkflow } from '@/service/workflow'
 import { ArrowNarrowLeft } from '@/app/components/base/icons/src/vender/line/arrows'
 import { useFeatures } from '@/app/components/base/features/hooks'
+import { agentAdd, getAgentTypeList, getDifyList } from '@/service/agent'
 
 const Header: FC = () => {
   const { t } = useTranslation()
@@ -55,6 +57,9 @@ const Header: FC = () => {
   const startNode = nodes.find(node => node.data.type === BlockEnum.Start)
   const startVariables = startNode?.data.variables
   const fileSettings = useFeatures(s => s.features.file)
+  const [selects, setSelects] = useState([])
+  const [agentType, setAgentType] = useState<string>()
+  const [detail, setDetail] = useState<any>()
   const variables = useMemo(() => {
     const data = startVariables || []
     if (fileSettings?.image?.enabled) {
@@ -96,7 +101,6 @@ const Header: FC = () => {
       return
     setShowFeaturesPanel(!showFeaturesPanel)
   }, [workflowStore, getNodesReadOnly])
-
   const handleCancelRestore = useCallback(() => {
     handleLoadBackupDraft()
     workflowStore.setState({ isRestoring: false })
@@ -121,27 +125,55 @@ const Header: FC = () => {
       throw new Error('Checklist failed')
     }
   }, [appID, handleCheckBeforePublish, notify, t, workflowStore])
+  const getData = useCallback(async () => {
+    const res: any = await getAgentTypeList('/dify/agent-type/list')
+    setSelects(res.data)
+    const detail: any = await getDifyList('/dify/list', {
+      appId: appID,
+    },
+    )
+    setDetail(detail.data[0])
+    setAgentType(detail.data[0].agentTypeId)
+  }, [appID])
+  const onAgentAddAndDelete = useCallback(async (status: number) => {
+    if (!agentType && status === 1) {
+      notify({ type: 'error', message: '请选择类型' })
+      return
+    }
+    const url = '/dify/agent/up-down-shelves'
+    const res = await agentAdd(url, {
+      agentTypeId: agentType,
+      appId: appID,
+      sort: 0,
+      status,
+    })
+    if (res.code === 'Success') {
+      await getData()
+      notify({ type: 'success', message: t('common.api.actionSuccess') })
+    }
+    else { notify({ type: 'error', message: res.message }) }
+  }, [agentType, appID, detail, getData, notify, t])
 
   const onStartRestoring = useCallback(() => {
     workflowStore.setState({ isRestoring: true })
     handleBackupDraft()
     handleRestoreFromPublishedWorkflow()
   }, [handleBackupDraft, handleRestoreFromPublishedWorkflow, workflowStore])
-
-  const onPublisherToggle = useCallback((state: boolean) => {
-    if (state)
+  const onPublisherToggle = useCallback(async (state: boolean) => {
+    if (state) {
       handleSyncWorkflowDraft(true)
-  }, [handleSyncWorkflowDraft])
-
+      console.log(123, 12)
+      await getData()
+    }
+  }, [getData, handleSyncWorkflowDraft])
   const handleGoBackToEdit = useCallback(() => {
     handleLoadBackupDraft()
     workflowStore.setState({ historyWorkflowData: undefined })
   }, [workflowStore, handleLoadBackupDraft])
 
-  const handleToolConfigureUpdate = useCallback(() => {
+  const handleToolConfigureUpdate = useCallback(async () => {
     workflowStore.setState({ toolPublished: true })
   }, [workflowStore])
-
   return (
     <div
       className='absolute top-0 left-0 z-10 flex items-center justify-between w-full px-3 h-14'
@@ -185,6 +217,12 @@ const Header: FC = () => {
                 inputs: variables,
                 onRefreshData: handleToolConfigureUpdate,
                 onPublish,
+                onAgentAddAndDelete,
+                selects,
+                detail,
+                onSelect: (id: string) => {
+                  setAgentType(id)
+                },
                 onRestore: onStartRestoring,
                 onToggle: onPublisherToggle,
                 crossAxisOffset: 4,

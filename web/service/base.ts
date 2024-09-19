@@ -294,16 +294,18 @@ const baseFetch = <T>(
     options.signal = abortController.signal
   }
   if (isPublicAPI) {
-    const sharedToken = globalThis.location.pathname.split('/').slice(-1)[0]
-    const accessToken = localStorage.getItem('token') || JSON.stringify({ [sharedToken]: '' })
-    let accessTokenJson = { [sharedToken]: '' }
-    try {
-      accessTokenJson = JSON.parse(accessToken)
-    }
-    catch (e) {
-
-    }
-    options.headers.set('Authorization', `Bearer ${accessTokenJson[sharedToken]}`)
+    // const sharedToken = globalThis.location.pathname.split('/').slice(-1)[0]
+    // const accessToken = localStorage.getItem('token') || JSON.stringify({ [sharedToken]: '' })
+    // let accessTokenJson = { [sharedToken]: '' }
+    // try {
+    //   accessTokenJson = JSON.parse(accessToken)
+    // }
+    // catch (e) {
+    //
+    // }
+    // options.headers.set('Authorization', `Bearer ${accessTokenJson[sharedToken]}`)
+    const accessToken = localStorage.getItem('console_token') || ''
+    options.headers.set('Authorization', `Bearer ${accessToken}`)
   }
   else {
     const accessToken = localStorage.getItem('console_token') || ''
@@ -337,7 +339,6 @@ const baseFetch = <T>(
 
     delete options.params
   }
-
   if (body && bodyStringify)
     options.body = JSON.stringify(body)
 
