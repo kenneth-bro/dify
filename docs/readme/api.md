@@ -64,6 +64,17 @@ upgrade: 升级脚本或升级相关逻辑存放目录。
 ```
 
 
+# 重要核心操作代码位置
+0. 参数类型获取： api/core/agent/fc_agent_runner.py:40
+1. 大模型生成参数：  api/core/agent/fc_agent_runner.py:82
+2. 模型调用工具生成参数提取： api/core/agent/fc_agent_runner.py:325
+3. 工具参数生成提示词拼接：api/core/agent/base_agent_runner.py:256
+模型调用:   api/core/model_runtime/model_providers/openai/llm/llm.py:579
+
+
+
+生成参数时的工具需要的参数： prompt_messages_tools
+
 
 # 源码 路由文档地址
 
@@ -112,8 +123,12 @@ app.config.get("LLM_BASE_UPDATE_INFO_URL","")
 # poetry install
 ```
 
-# post请求入参支持 body
-> 入参需提示说明为body={} or body=[] or body=json
+# post 请求入参支持 数组 body
+> 因为数组类型的body 源码无法自动默认生成， 也无法自动赋值，所以采用生成body 的方式来填充数组类型的缺陷。
+> 还有一种更好的办法就是让像生成对象参数(properties)那样，生成数组类型 单个参数，将数组类型body 作为单一参数放进参数里面生成（包括描述），
+> 最后提取出来的时候也根据数组类型的body， 因为数组没有名字，所以无法提取， 此时就需要body 作为名字提取,所以和第一条方法一致。
+> 存在的问题： 描述如何传递给生成时的数组参数？
+
 
 
 # 模型调用工具流程
@@ -164,3 +179,8 @@ arguments = json.loads(tool_call['function']['arguments'])
 ```python
 
 ```
+
+
+# 工具调用原理
+1. 全部工具放到大模型里面，大模型根据工具生成参数
+2. 

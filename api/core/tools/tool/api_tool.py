@@ -40,7 +40,7 @@ class ApiTool(Tool):
         )
 
     def validate_credentials(
-        self, credentials: dict[str, Any], parameters: dict[str, Any], format_only: bool = False
+            self, credentials: dict[str, Any], parameters: dict[str, Any], format_only: bool = False
     ) -> str:
         """
         validate the credentials for Api tool
@@ -127,7 +127,7 @@ class ApiTool(Tool):
             return (parameter.get("schema", {}) or {}).get("default", "")
 
     def do_http_request(
-        self, url: str, method: str, headers: dict[str, Any], parameters: dict[str, Any]
+            self, url: str, method: str, headers: dict[str, Any], parameters: dict[str, Any]
     ) -> httpx.Response:
         """
         do http request depending on api bundle
@@ -185,7 +185,7 @@ class ApiTool(Tool):
         # parse http body data if needed, for GET/HEAD/OPTIONS/TRACE, the body is ignored
         if "Content-Type" in headers:
             if headers["Content-Type"] == "application/json":
-                if 'body' in parameters:
+                if not body and 'body' in parameters:
                     body = parameters['body']
                     if not isinstance(body, str):
                         body = json.dumps(body)
@@ -211,7 +211,7 @@ class ApiTool(Tool):
             raise ValueError(f"Invalid http method {self.method}")
 
     def _convert_body_property_any_of(
-        self, property: dict[str, Any], value: Any, any_of: list[dict[str, Any]], max_recursive=10
+            self, property: dict[str, Any], value: Any, any_of: list[dict[str, Any]], max_recursive=10
     ) -> Any:
         if max_recursive <= 0:
             raise Exception("Max recursion depth reached")
