@@ -1,6 +1,6 @@
 import { get, post } from './base'
 
-const baseURL = '/llm-base2'
+const baseURL = '/llm-base'
 
 /**
  * agent类型列表
