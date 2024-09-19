@@ -20,14 +20,13 @@ import type {
 
 import Pricing from '@/app/components/billing/pricing'
 import type { ModerationConfig } from '@/models/debug'
-import {
+import type {
   ApiBasedExtension,
   ExternalDataTool,
 } from '@/models/common'
 import ModelLoadBalancingEntryModal from '@/app/components/header/account-setting/model-provider-page/model-modal/model-load-balancing-entry-modal'
 import type { ModelLoadBalancingModalProps } from '@/app/components/header/account-setting/model-provider-page/provider-added-card/model-load-balancing-modal'
 import ModelLoadBalancingModal from '@/app/components/header/account-setting/model-provider-page/provider-added-card/model-load-balancing-modal'
-import {AgentTool} from "@/types/app";
 
 export type ModalState<T> = {
   payload: T
@@ -55,7 +54,7 @@ export type CitationForm = {
   match_column?: string
   show_column?: string
   to_link?: string
-  tools?: AgentTool[]
+  tools?: { name: string; value: string }[]
   name?: string
   isEdit?: boolean
 }

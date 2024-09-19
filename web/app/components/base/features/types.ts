@@ -19,7 +19,19 @@ export type TextToSpeech = EnabledOrDisabled & {
 
 export type SpeechToText = EnabledOrDisabled
 
-export type RetrieverResource = EnabledOrDisabled
+export type ResourcesItem = {
+  type?: string
+  id?: string
+  data_type?: string
+  src_column?: string
+  match_column?: string
+  show_column?: string
+  to_link?: string
+  name?: string
+}
+export type RetrieverResource = EnabledOrDisabled & {
+  resources?: ResourcesItem[]
+}
 
 export type SensitiveWordAvoidance = EnabledOrDisabled & {
   type?: string

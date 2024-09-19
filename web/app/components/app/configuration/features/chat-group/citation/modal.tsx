@@ -6,7 +6,6 @@ import Button from '@/app/components/base/button'
 import type { Item } from '@/app/components/base/select'
 import Select from '@/app/components/base/select'
 import type { CitationForm } from '@/context/modal-context'
-import type { AgentTool } from '@/types/app'
 
 type Props = {
   onCancel?: () => void
@@ -42,11 +41,6 @@ const CitationModal: FC<Props> = (props) => {
     isEdit: Boolean(id)
   })
 
-  const toolData = tools?.filter((item: AgentTool) => item.enabled).map((item: AgentTool) => ({
-    name: item.provider_name,
-    value: item.provider_id,
-  }))
-
   const handleSelect = (row: Item) => {
     setFormData({
       ...formData,
@@ -69,7 +63,7 @@ const CitationModal: FC<Props> = (props) => {
         <div className='leading-9 text-sm font-medium text-gray-900'>
           {t('appDebug.feature.citation.modal.tool')}
         </div>
-        <Select disabled={Boolean(id)} defaultValue={id} allowSearch={false} onSelect={handleSelect} placeholder={t('appDebug.feature.citation.modal.toolPlaceholder') as string} items={toolData} className='w-full'/>
+        <Select disabled={Boolean(id)} defaultValue={id} allowSearch={false} onSelect={handleSelect} placeholder={t('appDebug.feature.citation.modal.toolPlaceholder') as string} items={tools} className='w-full'/>
       </div>
       <div className="py-2">
         <div className='leading-9 text-sm font-medium text-gray-900'>
