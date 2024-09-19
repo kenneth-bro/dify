@@ -279,13 +279,13 @@ pytest-mock = "~3.14.0"
 # Lint dependencies for code style linting
 ############################################################
 
-#[tool.poetry.group.lint]
-#optional = true
-#
-#[tool.poetry.group.lint.dependencies]
-#dotenv-linter = "~0.5.0"
-#ruff = "~0.6.4"
-#
+[tool.poetry.group.lint]
+optional = true
+
+[tool.poetry.group.lint.dependencies]
+dotenv-linter = "~0.5.0"
+ruff = "~0.6.4"
+
 #[[tool.poetry.source]]
 #name = "tuna"
 #url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
