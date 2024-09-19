@@ -70,6 +70,7 @@ export type IOnTextReplace = (textReplace: TextReplaceResponse) => void
 
 export type IOtherOptions = {
   isPublicAPI?: boolean
+  customAPI?: boolean // 自定义API
   bodyStringify?: boolean
   needAllResponseContent?: boolean
   deleteContentType?: boolean
@@ -280,6 +281,7 @@ const baseFetch = <T>(
   fetchOptions: FetchOptionType,
   {
     isPublicAPI = false,
+    customAPI = false,
     bodyStringify = true,
     needAllResponseContent,
     deleteContentType,
@@ -321,7 +323,7 @@ const baseFetch = <T>(
       options.headers.set('Content-Type', ContentType.json)
   }
 
-  const urlPrefix = isPublicAPI ? PUBLIC_API_PREFIX : API_PREFIX
+  const urlPrefix = customAPI ? '' : isPublicAPI ? PUBLIC_API_PREFIX : API_PREFIX
   let urlWithPrefix = `${urlPrefix}${url.startsWith('/') ? url : `/${url}`}`
 
   const { method, params, body } = options

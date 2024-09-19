@@ -1,14 +1,16 @@
 import type { Fetcher } from 'swr'
 import { get, post } from './base'
 
+const baseURL = '/llm-base'
+
 /**
  * agent类型列表
  * @param url
  * @param param
  */
 export const getAgentTypeList: Fetcher<any, string> = (url: string) => {
-  return get<any>(url, {}, {
-    isPublicAPI: true,
+  return get<any>(`${baseURL}/dify/agent-type/list`, {}, {
+    customAPI: true,
   })
 }
 
