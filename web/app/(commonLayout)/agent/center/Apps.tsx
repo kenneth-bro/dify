@@ -9,6 +9,7 @@ import { RiRobot2Line, RiRobot3Line } from '@remixicon/react'
 import cn from 'classnames'
 import { Pagination } from 'react-headless-pagination'
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
+import { useRouter } from 'next/navigation'
 import useAppsQueryState from './hooks/useAppsQueryState'
 import { APP_PAGE_LIMIT, NEED_REFRESH_APP_LIST_KEY } from '@/config'
 import { CheckModal } from '@/hooks/use-pay'
@@ -24,6 +25,8 @@ import EditAgentType from '@/app/(commonLayout)/agent/center/EditAgentType'
 import DragDropSort from '@/app/(commonLayout)/agent/center/DraggableList'
 import Confirm from '@/app/components/base/confirm'
 import DragDropSortType from '@/app/(commonLayout)/agent/center/DraggableTypeList'
+import { getRedirection } from '@/utils/app-redirection'
+import { useAppContext } from '@/context/app-context'
 
 const getKey = (
   activeTab: string,
@@ -48,7 +51,8 @@ const Apps = () => {
     null,
     { revalidateFirstPage: true },
   )
-
+  const { isCurrentWorkspaceEditor } = useAppContext()
+  const { push } = useRouter()
   const anchorRef = useRef<HTMLDivElement>(null)
   const [options, setOptions] = useState<any[]>([])
   const [types, setTypes] = useState<any[]>([])
@@ -96,7 +100,6 @@ const Apps = () => {
       mutate()
     }
     getTypes()
-    getOptTypes()
   }, [mutate])
 
   const { run: handleSearch } = useDebounceFn(() => {
@@ -107,7 +110,6 @@ const Apps = () => {
     handleSearch()
   }
   useEffect(() => {
-    getTypes()
     getOptTypes()
   }, [currPage])
 
@@ -148,6 +150,10 @@ const Apps = () => {
                 {
                   difys.map((app: any, index) => {
                     return (<div key={index}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        getRedirection(isCurrentWorkspaceEditor, { id: app.appId, mode: app.mode }, push)
+                      }}
                       className="flex bg-white p-8 radius-2xl  shadow-sm mt-4 transition-all duration-200 ease-in-out cursor-pointer hover:shadow-lg">
                       <img className="mr-8 h-12 rounded-2xl w-12 "
                         src={app.imageUrl}
