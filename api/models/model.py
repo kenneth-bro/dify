@@ -878,13 +878,13 @@ class Message(db.Model):
         for node in retriever_resource_config:
             for agent_thought in self.agent_thoughts:
                 # 限制工具
-                if agent_thought.tool != node['id']:
+                if node['id'] not in agent_thought.tool_inputs_dict:
                     continue
                 data_resource = {}
                 # 类型 node-节点, tool-工具
                 data_resource['type'] = node['type'] or "node/tool"
                 # 节点或工具的id
-                data_resource['id'] = agent_thought.tool
+                data_resource['id'] = node['id']
                 # 来源字段
                 if 'src_column' in node:
                     data_resource['src_column'] = node['src_column']
@@ -902,8 +902,8 @@ class Message(db.Model):
                     data_resource['to_link'] = node['to_link']
 
                 # 数据
-                if agent_thought.tool and agent_thought.tool_outputs_dict:
-                    _data = agent_thought.tool_outputs_dict[agent_thought.tool]
+                if agent_thought.tool_outputs_dict:
+                    _data = agent_thought.tool_outputs_dict[node['id']]
                     try:
                         data = json.loads(_data)
                         if 'Data' in data:
@@ -915,10 +915,12 @@ class Message(db.Model):
                         # 限制字段
                         filtered_data = []
                         for row in data:
-                            filtered_row = {key: value for key, value in row.items() if key in data_resource['show_column']}
+                            filtered_row = {key: value for key, value in row.items() if
+                                            key in data_resource['show_column']}
                             # 跳转链接,其中%s动态替换为match_column，示例[完整链接,以https或者http开头: https://fs.investoday.net/xxxx?guid=%s, 内部链接(以/开头): /pages/to?guid=%s]
                             if 'match_column' in data_resource and data_resource['match_column'] in row:
-                                filtered_row['to_link'] = f"{data_resource['to_link']}?{data_resource['match_column']}={row[data_resource['match_column']]}"
+                                filtered_row[
+                                    'to_link'] = f"{data_resource['to_link']}?{data_resource['match_column']}={row[data_resource['match_column']]}"
                             filtered_data.append(filtered_row)
                         data = filtered_data
                     except Exception:
