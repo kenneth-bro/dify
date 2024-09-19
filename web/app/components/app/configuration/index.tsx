@@ -1,6 +1,6 @@
 'use client'
 import type { FC } from 'react'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useContext } from 'use-context-selector'
 import { usePathname } from 'next/navigation'
@@ -61,6 +61,7 @@ import {
   getMultipleRetrievalConfig,
   getSelectedDatasetsMode,
 } from '@/app/components/workflow/nodes/knowledge-retrieval/utils'
+import { agentAdd, getAgentTypeList, getDifyList } from '@/service/agent'
 
 type PublishConfig = {
   modelConfig: ModelConfig
@@ -79,11 +80,12 @@ const Configuration: FC = () => {
   const [hasFetchedDetail, setHasFetchedDetail] = useState(false)
   const isLoading = !hasFetchedDetail
   const pathname = usePathname()
+  const [selects, setSelects] = useState([])
   const matched = pathname.match(/\/app\/([^/]+)/)
   const appId = (matched?.length && matched[1]) ? matched[1] : ''
   const [mode, setMode] = useState('')
   const [publishedConfig, setPublishedConfig] = useState<PublishConfig | null>(null)
-
+  const [agentType, setAgentType] = useState<string>()
   const modalConfig = useMemo(() => appDetail?.model_config || {} as BackendModelConfig, [appDetail])
   const [conversationId, setConversationId] = useState<string | null>('')
 
@@ -98,6 +100,7 @@ const Configuration: FC = () => {
     prompt_template: '',
     prompt_variables: [],
   })
+  const [detail, setDetail] = useState<any>()
   const [moreLikeThisConfig, setMoreLikeThisConfig] = useState<MoreLikeThisConfig>({
     enabled: false,
   })
@@ -292,7 +295,7 @@ const Configuration: FC = () => {
     })
     setCitationConfig(modelConfig.retriever_resource || {
       enabled: false,
-      resources: []
+      resources: [],
     })
   }
 
@@ -685,6 +688,37 @@ const Configuration: FC = () => {
     return true
   }
 
+  const getData = useCallback(async () => {
+    const res: any = await getAgentTypeList({ page: 1, pageSize: 999999 })
+    setSelects(res.data)
+    const detail: any = await getDifyList({
+      appId,
+    },
+    )
+    setDetail(detail.data[0])
+    setAgentType(detail.data[0].agentTypeId)
+  }, [appId])
+  useEffect(() => {
+    getData()
+  }, [])
+  const onAgentAddAndDelete = useCallback(async (status: number) => {
+    if (!agentType && status === 1) {
+      notify({ type: 'error', message: '请选择类型' })
+      return
+    }
+    const res = await agentAdd({
+      agentTypeId: agentType,
+      appId,
+      sort: 0,
+      status,
+    })
+    if (res.code === 'Success') {
+      await getData()
+      notify({ type: 'success', message: t('common.api.actionSuccess') })
+    }
+    else { notify({ type: 'error', message: res.message }) }
+  }, [agentType, appId, detail, getData, notify, t])
+
   const [restoreConfirmOpen, setRestoreConfirmOpen] = useState(false)
   const resetAppConfig = () => {
     syncToPublishedConfig(publishedConfig!)
@@ -850,6 +884,12 @@ const Configuration: FC = () => {
                     debugWithMultipleModel,
                     multipleModelConfigs,
                     onPublish,
+                    detail,
+                    onAgentAddAndDelete,
+                    selects,
+                    onSelect: (id: string) => {
+                      setAgentType(id)
+                    },
                     onRestore: () => setRestoreConfirmOpen(true),
                   }} />
                 </div>

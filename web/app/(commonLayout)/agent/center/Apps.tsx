@@ -67,7 +67,6 @@ const Apps = () => {
   const getDifys = () => {
     getDifyList({ name: searchKeywords, agentTypeId: activeTab, page: difysCurrPage + 1, pageSize: APP_PAGE_LIMIT }).then((res) => {
       setDifys(res.data)
-      console.log(res.data)
       setDifysTotal(res.totalCount)
     })
   }
@@ -145,26 +144,29 @@ const Apps = () => {
                   setShowDrag(true)
                 }}>排序</Button>
               </div>
-              <nav className=' content-start  grow p-10 pt-0'>
+              <nav className='grid content-start grid-cols-1 gap-4 px-12 pt-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grow shrink-0'>
                 {
                   difys.map((app: any, index) => {
                     return (<div key={index}
                       className="flex bg-white p-8 radius-2xl  shadow-sm mt-4 transition-all duration-200 ease-in-out cursor-pointer hover:shadow-lg">
-                      <img className="mr-8 h-4/5"
+                      <img className="mr-8 h-12 rounded-2xl w-12 "
                         src={app.imageUrl}
                         alt=""/>
                       <div>
-                        <h3>{app.name}</h3>
-                        <div>{app.description}</div>
-                        <div>
-                          开发者：{app.author}
+                        <h3 className="font-bold">{app.name}</h3>
+                        <div className="mt-3 text-sm">{app.description}</div>
+                        <div className ="mt-5 text-sm flex justify-end">
+                          {app.author}
                         </div>
                       </div>
                     </div>)
                   })
                 }
-                {
-                  difysTotal > 0 && <Pagination
+                <CheckModal/>
+              </nav>
+              {
+                difysTotal > 0 && <div className="p-20 pb-0 pt-0">
+                  <Pagination
                     className="flex items-center w-full h-10 text-sm select-none mt-8"
                     currentPage={difysCurrPage}
                     edgePageCount={2}
@@ -194,9 +196,8 @@ const Apps = () => {
                       <ArrowRightIcon className="ml-3 h-3 w-3" />
                     </Pagination.NextButton>
                   </Pagination>
-                }
-                <CheckModal/>
-              </nav>
+                </div>
+              }
             </div>
           )
           : (<div className=' overflow-auto content-start  grow p-10 pt-2'>
