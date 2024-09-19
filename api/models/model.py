@@ -872,66 +872,72 @@ class Message(db.Model):
         """
         工具数据源， 根据思考数据获取指定工具的数据源， tool_id  获取指定字段
         """
-        retriever_resource_config = self.app_model_config.retriever_resource_dict['resources']
-        data_resources = []
-        no_repeat_data = {}
-        for node in retriever_resource_config:
-            for agent_thought in self.agent_thoughts:
-                # 限制工具
-                if node['id'] not in agent_thought.tool_inputs_dict:
-                    continue
-                data_resource = {}
-                # 类型 node-节点, tool-工具
-                data_resource['type'] = node['type'] or "node/tool"
-                # 节点或工具的id
-                data_resource['id'] = node['id']
-                # 来源字段
-                if 'src_column' in node:
-                    data_resource['src_column'] = node['src_column']
-                # 数据类型(中文)
-                if 'data_type' in node:
-                    data_resource['data_type'] = node['data_type']
-                # ! 索引的匹配字段
-                if 'match_column' in node:
-                    data_resource['match_column'] = node['match_column']
-                # 展示字段
-                if 'show_column' in node:
-                    data_resource['show_column'] = node['show_column']
-                # 链接
-                if 'to_link' in node:
-                    data_resource['to_link'] = node['to_link']
+        try:
+            if 'resources' in self.app_model_config.retriever_resource_dict:
+                retriever_resource_config = self.app_model_config.retriever_resource_dict['resources']
+            else:
+                return ['未配置']
+            data_resources = []
+            no_repeat_data = {}
+            for node in retriever_resource_config:
+                for agent_thought in self.agent_thoughts:
+                    # 限制工具
+                    if node['id'] not in agent_thought.tool_inputs_dict:
+                        continue
+                    data_resource = {}
+                    # 类型 node-节点, tool-工具
+                    data_resource['type'] = node['type'] or "node/tool"
+                    # 节点或工具的id
+                    data_resource['id'] = node['id']
+                    # 来源字段
+                    if 'src_column' in node:
+                        data_resource['src_column'] = node['src_column']
+                    # 数据类型(中文)
+                    if 'data_type' in node:
+                        data_resource['data_type'] = node['data_type']
+                    # ! 索引的匹配字段
+                    if 'match_column' in node:
+                        data_resource['match_column'] = node['match_column']
+                    # 展示字段
+                    if 'show_column' in node:
+                        data_resource['show_column'] = node['show_column']
+                    # 链接
+                    if 'to_link' in node:
+                        data_resource['to_link'] = node['to_link']
 
-                # 数据
-                if agent_thought.tool_outputs_dict:
-                    _data = agent_thought.tool_outputs_dict[node['id']]
-                    try:
-                        data = json.loads(_data)
-                        if 'Data' in data:
-                            data = data['Data']
-                        elif 'data' in data:
-                            data = data['data']
-                        else:
-                            data = data[data_resource['src_column']]
-                        # 限制字段
-                        filtered_data = []
-                        for row in data:
-                            filtered_row = {key: value for key, value in row.items() if
-                                            key in data_resource['show_column']}
-                            # 跳转链接,其中%s动态替换为match_column，示例[完整链接,以https或者http开头: https://fs.investoday.net/xxxx?guid=%s, 内部链接(以/开头): /pages/to?guid=%s]
-                            if 'match_column' in data_resource and data_resource['match_column'] in row:
-                                filtered_row[
-                                    'to_link'] = f"{data_resource['to_link']}?{data_resource['match_column']}={row[data_resource['match_column']]}"
-                            filtered_data.append(filtered_row)
-                        data = filtered_data
-                    except Exception:
-                        data = _data.split('\n') if _data else []
+                    # 数据
+                    if agent_thought.tool_outputs_dict:
+                        _data = agent_thought.tool_outputs_dict[node['id']]
+                        try:
+                            data = json.loads(_data)
+                            if 'Data' in data:
+                                data = data['Data']
+                            elif 'data' in data:
+                                data = data['data']
+                            else:
+                                data = data[data_resource['src_column']]
+                            # 限制字段
+                            filtered_data = []
+                            for row in data:
+                                filtered_row = {key: value for key, value in row.items() if
+                                                key in data_resource['show_column']}
+                                # 跳转链接,其中%s动态替换为match_column，示例[完整链接,以https或者http开头: https://fs.investoday.net/xxxx?guid=%s, 内部链接(以/开头): /pages/to?guid=%s]
+                                if 'match_column' in data_resource and data_resource['match_column'] in row:
+                                    filtered_row[
+                                        'to_link'] = f"{data_resource['to_link']}?{data_resource['match_column']}={row[data_resource['match_column']]}"
+                                filtered_data.append(filtered_row)
+                            data = filtered_data
+                        except Exception:
+                            data = _data.split('\n') if _data else []
 
-                    data_resource['data'] = data
-                    if data_resource:
-                        no_repeat_data[data_resource['id']] = data_resource
-        for i in no_repeat_data.values():
-            data_resources.append(i)
-        return data_resources
+                        data_resource['data'] = data
+                        if data_resource:
+                            no_repeat_data[data_resource['id']] = data_resource
+            for i in no_repeat_data.values():
+                data_resources.append(i)
+            return data_resources
+        except Exception as e:
+            pass
 
     @property
     def message_files(self):
