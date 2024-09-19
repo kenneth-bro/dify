@@ -37,6 +37,16 @@ class MessageListApi(Resource):
         "created_at": TimestampField,
     }
 
+    data_resources = {
+        "type": fields.String,
+        "id": fields.String,
+        "src_column": fields.String,
+        "data_type": fields.String,
+        "match_column": fields.String,
+        "show_column": fields.Raw,
+        "data": fields.List(fields.Raw),
+      }
+
     agent_thought_fields = {
         "id": fields.String,
         "chain_id": fields.String,
@@ -60,6 +70,7 @@ class MessageListApi(Resource):
         "message_files": fields.List(fields.Nested(message_file_fields), attribute="files"),
         "feedback": fields.Nested(feedback_fields, attribute="user_feedback", allow_null=True),
         "retriever_resources": fields.List(fields.Nested(retriever_resource_fields)),
+        "data_resources": fields.List(fields.Nested(data_resources)),
         "created_at": TimestampField,
         "agent_thoughts": fields.List(fields.Nested(agent_thought_fields)),
         "status": fields.String,
