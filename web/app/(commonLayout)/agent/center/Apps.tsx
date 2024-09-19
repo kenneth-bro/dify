@@ -9,7 +9,6 @@ import { RiRobot2Line, RiRobot3Line } from '@remixicon/react'
 import cn from 'classnames'
 import { Pagination } from 'react-headless-pagination'
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
-import Image from 'next/image'
 import useAppsQueryState from './hooks/useAppsQueryState'
 import { APP_PAGE_LIMIT, NEED_REFRESH_APP_LIST_KEY } from '@/config'
 import { CheckModal } from '@/hooks/use-pay'
@@ -24,6 +23,7 @@ import Toast from '@/app/components/base/toast'
 import EditAgentType from '@/app/(commonLayout)/agent/center/EditAgentType'
 import DragDropSort from '@/app/(commonLayout)/agent/center/DraggableList'
 import Confirm from '@/app/components/base/confirm'
+import DragDropSortType from '@/app/(commonLayout)/agent/center/DraggableTypeList'
 
 const getKey = (
   activeTab: string,
@@ -58,10 +58,21 @@ const Apps = () => {
   const [showAddAgentModal, setShowAddAgentModal] = useState<boolean>(false)
   const [showEditAgentModal, setShowEditAgentModal] = useState<boolean>(false)
   const [showDrag, setShowDrag] = useState<boolean>(false)
+  const [showDragType, setShowDragType] = useState<boolean>(false)
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
   const [deleteId, setDeleteId] = useState<string>('')
+  const [difys, setDifys] = useState<any[]>([])
+  const [difysTotal, setDifysTotal] = useState<number>(0)
+  const [row, setRow] = useState<any>()
+  const getDifys = () => {
+    getDifyList({ name: searchKeywords, agentTypeId: activeTab, page: difysCurrPage + 1, pageSize: APP_PAGE_LIMIT }).then((res) => {
+      setDifys(res.data)
+      console.log(res.data)
+      setDifysTotal(res.totalCount)
+    })
+  }
   const getTypes = () => {
-    getAgentTypeList('/dify/agent-type/list').then((res: any) => {
+    getAgentTypeList({ page: currPage + 1, pageSize: 999999 }).then((res: any) => {
       setOptions(res.data.map((item: any) => {
         return {
           value: item.id,
@@ -73,18 +84,9 @@ const Apps = () => {
     })
   }
   const getOptTypes = () => {
-    getDifyList('/dify/agent-type/list', { page: currPage + 1, pageSize: APP_PAGE_LIMIT }).then((res: any) => {
+    getAgentTypeList({ page: currPage + 1, pageSize: APP_PAGE_LIMIT }).then((res: any) => {
       setTotal(res.totalCount)
       setTypes(res.data)
-    })
-  }
-  const [difys, setDifys] = useState<any[]>([])
-  const [difysTotal, setDifysTotal] = useState<number>(0)
-  const [row, setRow] = useState<any>()
-  const getDifys = () => {
-    getDifyList('/dify/list', { name: searchKeywords, agentTypeId: activeTab, page: difysCurrPage + 1, pageSize: APP_PAGE_LIMIT }).then((res) => {
-      setDifys(res.data)
-      setDifysTotal(res.totalCount)
     })
   }
 
@@ -96,8 +98,7 @@ const Apps = () => {
     }
     getTypes()
     getOptTypes()
-    getDifys()
-  }, [mutate, t])
+  }, [mutate])
 
   const { run: handleSearch } = useDebounceFn(() => {
     setSearchKeywords(keywords)
@@ -113,7 +114,7 @@ const Apps = () => {
 
   useEffect(() => {
     getDifys()
-  }, [difysCurrPage, searchKeywords])
+  }, [difysCurrPage, searchKeywords, activeTab])
   return (
     <>
       <div className="flex pt-4 px-12 pb-2">
@@ -146,10 +147,10 @@ const Apps = () => {
               </div>
               <nav className=' content-start  grow p-10 pt-0'>
                 {
-                  difys.map((app: any) => {
-                    return (<div key={app.id}
+                  difys.map((app: any, index) => {
+                    return (<div key={index}
                       className="flex bg-white p-8 radius-2xl  shadow-sm mt-4 transition-all duration-200 ease-in-out cursor-pointer hover:shadow-lg">
-                      <Image className="mr-8 h-4/5"
+                      <img className="mr-8 h-4/5"
                         src={app.imageUrl}
                         alt=""/>
                       <div>
@@ -202,6 +203,9 @@ const Apps = () => {
             <Button variant='primary' className="mb-4" onClick={() => {
               setShowAddAgentModal(true)
             }}>添加</Button>
+            <Button variant='secondary' className="ml-4" onClick={() => {
+              setShowDragType(true)
+            }}>排序</Button>
             <table
               className='bg-white table-fixed w-full border-separate border-spacing-0 border border-gray-200 rounded-lg text-xs'>
               <thead className='text-gray-500'>
@@ -293,7 +297,7 @@ const Apps = () => {
         isShow={showDeleteModal}
         onCancel={() => setShowDeleteModal(false)}
         onConfirm={() => {
-          agentTypeDelete('/dify/agent-type/delete', {
+          agentTypeDelete({
             id: deleteId,
           }).then((r) => {
             if (r.data) {
@@ -309,11 +313,13 @@ const Apps = () => {
         <AddAgentType show={showAddAgentModal} onHide={() => {
           setShowAddAgentModal(false)
           getOptTypes()
+          getTypes()
         }}/>
       )}
       {showEditAgentModal && (
         <EditAgentType show={showEditAgentModal} row={row} onHide={() => {
           setShowEditAgentModal(false)
+          getOptTypes()
           getTypes()
         }}/>
       )}
@@ -322,6 +328,14 @@ const Apps = () => {
           <DragDropSort show={showDrag} activeTab={activeTab} onHide={() => {
             setShowDrag(false)
             getDifys()
+          }}/>
+        )
+      }
+      {
+        showDragType && (
+          <DragDropSortType show={showDragType} onHide={() => {
+            setShowDragType(false)
+            getOptTypes()
           }}/>
         )
       }

@@ -2,22 +2,21 @@ import React, { useEffect, useState } from 'react'
 import cn from 'classnames'
 import Button from '@/app/components/base/button'
 import Modal from '@/app/components/base/modal'
-import { agentUpdateSortBatch, getDifyList } from '@/service/agent'
+import { agentTypeUpdateSortBatch, getAgentTypeList } from '@/service/agent'
 import Toast from '@/app/components/base/toast'
 
 type Item = {
-  appId: number
+  id: number
   name: string
-  agentSort: number
+  sort: number
 }
 
 export type DuplicateAppModalProps = {
   show: boolean
   onHide: () => void
-  activeTab: string
 }
 
-const DragDropSort: React.FC<DuplicateAppModalProps> = ({ show = false, onHide, activeTab }) => {
+const DragDropSortType: React.FC<DuplicateAppModalProps> = ({ show = false, onHide }) => {
   const [items, setItems] = useState<Item[]>([])
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
 
@@ -26,15 +25,15 @@ const DragDropSort: React.FC<DuplicateAppModalProps> = ({ show = false, onHide, 
     setDraggedIndex(index)
   }
 
-  const getDifys = () => {
-    getDifyList({ agentTypeId: activeTab, page: 1, pageSize: 999999 }).then((res) => {
+  const getAgentTypes = () => {
+    getAgentTypeList({ page: 1, pageSize: 999999 }).then((res) => {
       setItems(res.data)
     })
   }
 
   useEffect(() => {
     if (show)
-      getDifys()
+      getAgentTypes()
   }, [show])
 
   const handleDragOver = (index: number) => {
@@ -54,14 +53,13 @@ const DragDropSort: React.FC<DuplicateAppModalProps> = ({ show = false, onHide, 
   }
 
   const submit = () => {
-    console.log(items)
     const arr = items.map((item, index) => {
       return {
-        appId: item.appId,
+        id: item.id,
         sort: index,
       }
     })
-    agentUpdateSortBatch(arr).then((r) => {
+    agentTypeUpdateSortBatch(arr).then((r) => {
       if (r.data) {
         Toast.notify({ type: 'success', message: '操作成功' })
         onHide()
@@ -84,7 +82,7 @@ const DragDropSort: React.FC<DuplicateAppModalProps> = ({ show = false, onHide, 
       <div>
         {items.map((item, index) => (
           <div
-            key={item.appId}
+            key={item.id}
             draggable
             className="bg-amber-100 rounded-14 shadow-2xl mb-2 p-2 flex pl-5 pr-5 mt-2 justify-between"
             onDragStart={e => handleDragStart(e, index)}
@@ -92,7 +90,7 @@ const DragDropSort: React.FC<DuplicateAppModalProps> = ({ show = false, onHide, 
             onDragEnd={handleDragEnd}
           >
             <div>{item.name}</div>
-            <div>{item.agentSort}</div>
+            <div>{item.sort}</div>
           </div>
         ))}
       </div>
@@ -105,4 +103,4 @@ const DragDropSort: React.FC<DuplicateAppModalProps> = ({ show = false, onHide, 
   )
 }
 
-export default DragDropSort
+export default DragDropSortType

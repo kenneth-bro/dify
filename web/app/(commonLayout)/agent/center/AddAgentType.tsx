@@ -28,7 +28,7 @@ const AddAgentType = ({
       Toast.notify({ type: 'error', message: '请输入类型名称' })
       return
     }
-    agentTypeAdd('/dify/agent-type/add', {
+    agentTypeAdd({
       name,
       description,
       sort,

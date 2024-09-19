@@ -128,7 +128,7 @@ const Header: FC = () => {
   const getData = useCallback(async () => {
     const res: any = await getAgentTypeList('/dify/agent-type/list')
     setSelects(res.data)
-    const detail: any = await getDifyList('/dify/list', {
+    const detail: any = await getDifyList({
       appId: appID,
     },
     )
@@ -140,8 +140,7 @@ const Header: FC = () => {
       notify({ type: 'error', message: '请选择类型' })
       return
     }
-    const url = '/dify/agent/up-down-shelves'
-    const res = await agentAdd(url, {
+    const res = await agentAdd({
       agentTypeId: agentType,
       appId: appID,
       sort: 0,
@@ -162,7 +161,6 @@ const Header: FC = () => {
   const onPublisherToggle = useCallback(async (state: boolean) => {
     if (state) {
       handleSyncWorkflowDraft(true)
-      console.log(123, 12)
       await getData()
     }
   }, [getData, handleSyncWorkflowDraft])

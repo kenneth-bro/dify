@@ -1,75 +1,94 @@
-import type { Fetcher } from 'swr'
 import { get, post } from './base'
 
-const baseURL = '/llm-base'
+const baseURL = '/llm-base2'
 
 /**
  * agent类型列表
- * @param url
  * @param param
  */
-export const getAgentTypeList: Fetcher<any, string> = (url: string) => {
-  return get<any>(`${baseURL}/dify/agent-type/list`, {}, {
+export const getAgentTypeList = (param: any) => {
+  return get<any>(`${baseURL}/dify/agent-type/list`, {
+    param,
+  }, {
     customAPI: true,
   })
 }
 
 /**
  * 发布、下架
- * @param url
  * @param data
  */
-export const agentAdd: (url: string, data: any) => Promise<any> = (url: string, data: any) => {
-  return post<any>(url, {
+export const agentAdd: (data: any) => Promise<any> = (data: any) => {
+  return post<any>(`${baseURL}/dify/agent/up-down-shelves`, {
     body: data,
-  }, {
-    isPublicAPI: true,
-  })
+  }, { customAPI: true })
 }
 
 /**
  * 智能体列表
- * @param url
  * @param params
  */
-export const getDifyList = (url: string, params: any) => {
-  return get<any>(url, {
+export const getDifyList = (params: any) => {
+  return get<any>(`${baseURL}/dify/list`, {
     params,
-  }, {
-    isPublicAPI: true,
-  })
+  }, { customAPI: true })
 }
 
 /**
  * 添加类型
- * @param url
  * @param data
  */
-export const agentTypeAdd: (url: string, data: any) => Promise<any> = (url: string, data: any) => {
-  return post<any>(url, {
+export const agentTypeAdd: (data: any) => Promise<any> = (data: any) => {
+  return post<any>(`${baseURL}/dify/agent-type/add`, {
     body: data,
   }, {
-    isPublicAPI: true,
+    customAPI: true,
+  })
+}
+
+/**
+ * 更新类型
+ * @param data
+ */
+export const agentTypeUpdate: (data: any) => Promise<any> = (data: any) => {
+  return post<any>(`${baseURL}/dify/agent-type/update`, {
+    body: data,
+  }, {
+    customAPI: true,
   })
 }
 
 /**
  * 删除类型
- * @param url
  * @param params
  */
-export const agentTypeDelete = (url: string, params: any) => {
-  return get<any>(url, {
+export const agentTypeDelete = (params: any) => {
+  return get<any>(`${baseURL}/dify/agent-type/delete`, {
     params,
   }, {
-    isPublicAPI: true,
+    customAPI: true,
+  })
+}
+/**
+ * agent排序(批量)
+ * @param data
+ */
+export const agentUpdateSortBatch: (data: any) => Promise<any> = (data: any) => {
+  return post<any>(`${baseURL}/dify/agent/update-sort-batch`, {
+    body: data,
+  }, {
+    customAPI: true,
   })
 }
 
-export const agentUpdateSortBatch: (url: string, data: any) => Promise<any> = (url: string, data: any) => {
-  return post<any>(url, {
+/**
+ * agent类型排序(批量)
+ * @param data
+ */
+export const agentTypeUpdateSortBatch: (data: any) => Promise<any> = (data: any) => {
+  return post<any>(`${baseURL}/dify/agent-type/update-sort-batch`, {
     body: data,
   }, {
-    isPublicAPI: true,
+    customAPI: true,
   })
 }
