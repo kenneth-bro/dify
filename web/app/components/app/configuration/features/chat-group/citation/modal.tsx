@@ -69,7 +69,7 @@ const CitationModal: FC<Props> = (props) => {
         <div className='leading-9 text-sm font-medium text-gray-900'>
           {t('appDebug.feature.citation.modal.tool')}
         </div>
-        <Select defaultValue={id} allowSearch={false} onSelect={handleSelect} placeholder={t('appDebug.feature.citation.modal.toolPlaceholder') as string} items={toolData} className='w-full'/>
+        <Select disabled={Boolean(id)} defaultValue={id} allowSearch={false} onSelect={handleSelect} placeholder={t('appDebug.feature.citation.modal.toolPlaceholder') as string} items={toolData} className='w-full'/>
       </div>
       <div className="py-2">
         <div className='leading-9 text-sm font-medium text-gray-900'>
@@ -151,6 +151,7 @@ const CitationModal: FC<Props> = (props) => {
         </Button>
         <Button
           variant='primary'
+          disabled={!formData.id || !formData.dataType || !formData.srcColumn || !formData.matchColumn || !formData.showColumn}
           onClick={() => props?.onSave?.(formData)}
         >
           {t('common.operation.save')}
