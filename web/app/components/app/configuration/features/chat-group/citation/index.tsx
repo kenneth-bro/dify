@@ -1,5 +1,5 @@
 'use client'
-import React, { type FC, useState } from 'react'
+import React, { type FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useContext } from 'use-context-selector'
 import produce from 'immer'
@@ -12,29 +12,32 @@ import { Citations } from '@/app/components/base/icons/src/vender/solid/editor'
 import OperationBtn from '@/app/components/app/configuration/base/operation-btn'
 import type { AgentTool } from '@/types/app'
 import ConfigContext from '@/context/debug-configuration'
-import {CitationForm, useModalContext} from '@/context/modal-context'
+import { useModalContext } from '@/context/modal-context'
 import type { CitationConfig, ResourcesItem } from '@/models/debug'
 import Tooltip from '@/app/components/base/tooltip'
 import Toast from '@/app/components/base/toast'
 import {
   Settings01,
 } from '@/app/components/base/icons/src/vender/line/general'
-import type { FormData } from "@/app/components/app/configuration/features/chat-group/citation/modal";
+import type { FormData } from '@/app/components/app/configuration/features/chat-group/citation/modal'
 
 const Citation: FC = () => {
   const { t } = useTranslation()
-  const { modelConfig, collectionList, setCitationConfig, setModelConfig } = useContext(ConfigContext)
+  const { modelConfig, setCitationConfig, setModelConfig } = useContext(ConfigContext)
   const { setShowCitationModal } = useModalContext()
-  const [readonly, setReadonly] = useState(true)
 
   const retrieveResource = modelConfig?.retriever_resource?.resources as ResourcesItem[] || []
-  const tools = (modelConfig?.agentConfig?.tools as AgentTool[] || []).map((item) => {
-    const collection = collectionList.find(collection => collection.id === item.provider_id && collection.type === item.provider_type)
-    const icon = collection?.icon
-    return {
-      ...item,
-      icon,
-      collection,
+  const agentTools = modelConfig?.agentConfig?.tools as AgentTool[]
+  const tools: {
+    name: string
+    value: string
+  }[] = []
+  agentTools?.forEach((item: AgentTool) => {
+    if (item.enabled) {
+      tools.push({
+        name: item.provider_name,
+        value: item.provider_id,
+      })
     }
   })
 
@@ -44,7 +47,7 @@ const Citation: FC = () => {
     if (retrieveResource.find(item => item.id === id) && !isEdit) {
       return Toast.notify({
         type: 'error',
-        message: '请勿重复添加'
+        message: '请勿重复添加',
       })
     }
     const resourceItem: ResourcesItem = {
@@ -55,19 +58,20 @@ const Citation: FC = () => {
       show_column,
       to_link,
       src_column,
-      name
+      name,
     }
 
     const newAgentConfig = produce(modelConfig.retriever_resource, (draft) => {
       if (draft) {
         if (isEdit) {
           draft.resources = draft.resources?.map((item) => {
-            if (item.id === id) {
+            if (item.id === id)
               return resourceItem
-            }
+
             return item
           })
-        } else {
+        }
+        else {
           draft.resources = [
             ...(draft.resources || []),
             resourceItem,
@@ -86,9 +90,8 @@ const Citation: FC = () => {
 
   const handleDelete = (id: string) => {
     const newAgentConfig = produce(modelConfig.retriever_resource, (draft) => {
-      if (draft) {
+      if (draft)
         draft.resources = draft.resources?.filter(item => item.id !== id)
-      }
     })
     const newModelConfig = produce(modelConfig, (draft) => {
       draft.retriever_resource = newAgentConfig

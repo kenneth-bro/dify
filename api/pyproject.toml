@@ -286,7 +286,7 @@ optional = true
 dotenv-linter = "~0.5.0"
 ruff = "~0.6.4"
 
-[[tool.poetry.source]]
-name = "tuna"
-url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
-default = true
+#[[tool.poetry.source]]
+#name = "tuna"
+#url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+#default = true
