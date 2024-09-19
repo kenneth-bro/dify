@@ -208,7 +208,7 @@ const AppPublisher = ({
                       onSelect(item.value)
                   }
                 }
-                items={selects.map((item) => {
+                items={selects && selects.map((item) => {
                   return {
                     value: item.id,
                     name: item.name,

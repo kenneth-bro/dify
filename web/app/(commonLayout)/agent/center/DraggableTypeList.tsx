@@ -9,6 +9,7 @@ type Item = {
   id: number
   name: string
   sort: number
+  description: string
 }
 
 export type DuplicateAppModalProps = {
@@ -84,13 +85,20 @@ const DragDropSortType: React.FC<DuplicateAppModalProps> = ({ show = false, onHi
           <div
             key={item.id}
             draggable
-            className="bg-amber-100 rounded-14 shadow-2xl mb-2 p-2 flex pl-5 pr-5 mt-2 justify-between"
+            className="rounded-14 shadow-2xl mb-2 p-2 flex pl-5 pr-5 mt-2 justify-between items-center"
             onDragStart={e => handleDragStart(e, index)}
             onDragOver={() => handleDragOver(index)}
             onDragEnd={handleDragEnd}
           >
-            <div>{item.name}</div>
-            <div>{item.sort}</div>
+            <div className="flex justify-between items-center">
+              <div>
+                <div>{item.name}</div>
+                <div className="text-sm mt-2 caret-amber-950">{item.description}</div>
+              </div>
+            </div>
+            <div className="accent-blue-300 text-sm" style={{ color: 'blue' }}>
+              拖拽排序
+            </div>
           </div>
         ))}
       </div>
