@@ -292,6 +292,7 @@ const Configuration: FC = () => {
     })
     setCitationConfig(modelConfig.retriever_resource || {
       enabled: false,
+      resources: []
     })
   }
 

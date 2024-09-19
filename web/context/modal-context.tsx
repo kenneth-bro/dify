@@ -8,6 +8,7 @@ import AccountSetting from '@/app/components/header/account-setting'
 import ApiBasedExtensionModal from '@/app/components/header/account-setting/api-based-extension-page/modal'
 import ModerationSettingModal from '@/app/components/app/configuration/toolbox/moderation/moderation-setting-modal'
 import ExternalDataToolModal from '@/app/components/app/configuration/tools/external-data-tool-modal'
+import CitationModal from '@/app/components/app/configuration/features/chat-group/citation/modal'
 import AnnotationFullModal from '@/app/components/billing/annotation-full/modal'
 import ModelModal from '@/app/components/header/account-setting/model-provider-page/model-modal'
 import type {
@@ -19,13 +20,14 @@ import type {
 
 import Pricing from '@/app/components/billing/pricing'
 import type { ModerationConfig } from '@/models/debug'
-import type {
+import {
   ApiBasedExtension,
   ExternalDataTool,
 } from '@/models/common'
 import ModelLoadBalancingEntryModal from '@/app/components/header/account-setting/model-provider-page/model-modal/model-load-balancing-entry-modal'
 import type { ModelLoadBalancingModalProps } from '@/app/components/header/account-setting/model-provider-page/provider-added-card/model-load-balancing-modal'
 import ModelLoadBalancingModal from '@/app/components/header/account-setting/model-provider-page/provider-added-card/model-load-balancing-modal'
+import {AgentTool} from "@/types/app";
 
 export type ModalState<T> = {
   payload: T
@@ -44,6 +46,20 @@ export type LoadBalancingEntryModalType = ModelModalType & {
   entry?: ModelLoadBalancingConfigEntry
   index?: number
 }
+
+export type CitationForm = {
+  type?: string
+  id?: string
+  data_type?: string
+  src_column?: string
+  match_column?: string
+  show_column?: string
+  to_link?: string
+  tools?: AgentTool[]
+  name?: string
+  isEdit?: boolean
+}
+
 export type ModalContextState = {
   setShowAccountSettingModal: Dispatch<SetStateAction<ModalState<string> | null>>
   setShowApiBasedExtensionModal: Dispatch<SetStateAction<ModalState<ApiBasedExtension> | null>>
@@ -54,6 +70,7 @@ export type ModalContextState = {
   setShowModelModal: Dispatch<SetStateAction<ModalState<ModelModalType> | null>>
   setShowModelLoadBalancingModal: Dispatch<SetStateAction<ModelLoadBalancingModalProps | null>>
   setShowModelLoadBalancingEntryModal: Dispatch<SetStateAction<ModalState<LoadBalancingEntryModalType> | null>>
+  setShowCitationModal: Dispatch<SetStateAction<ModalState<CitationForm> | null>>
 }
 const ModalContext = createContext<ModalContextState>({
   setShowAccountSettingModal: () => { },
@@ -65,6 +82,7 @@ const ModalContext = createContext<ModalContextState>({
   setShowModelModal: () => { },
   setShowModelLoadBalancingModal: () => { },
   setShowModelLoadBalancingEntryModal: () => { },
+  setShowCitationModal: () => { },
 })
 
 export const useModalContext = () => useContext(ModalContext)
@@ -88,6 +106,7 @@ export const ModalContextProvider = ({
   const [showModelModal, setShowModelModal] = useState<ModalState<ModelModalType> | null>(null)
   const [showModelLoadBalancingModal, setShowModelLoadBalancingModal] = useState<ModelLoadBalancingModalProps | null>(null)
   const [showModelLoadBalancingEntryModal, setShowModelLoadBalancingEntryModal] = useState<ModalState<LoadBalancingEntryModalType> | null>(null)
+  const [showCitationModal, setShowCitationModal] = useState<ModalState<CitationForm> | null>(null)
   const searchParams = useSearchParams()
   const router = useRouter()
   const [showPricingModal, setShowPricingModal] = useState(searchParams.get('show-pricing') === '1')
@@ -164,6 +183,18 @@ export const ModalContextProvider = ({
     return true
   }
 
+  const handleCancelCitationModal = () => {
+    setShowCitationModal(null)
+    if (showCitationModal?.onCancelCallback)
+      showCitationModal.onCancelCallback()
+  }
+
+  const handleSaveCitationModal = (newCitationForm: CitationForm) => {
+    if (showCitationModal?.onSaveCallback)
+      showCitationModal.onSaveCallback(newCitationForm)
+    setShowCitationModal(null)
+  }
+
   return (
     <ModalContext.Provider value={{
       setShowAccountSettingModal,
@@ -175,6 +206,7 @@ export const ModalContextProvider = ({
       setShowModelModal,
       setShowModelLoadBalancingModal,
       setShowModelLoadBalancingEntryModal,
+      setShowCitationModal,
     }}>
       <>
         {children}
@@ -260,6 +292,15 @@ export const ModalContextProvider = ({
               onCancel={handleCancelModelLoadBalancingEntryModal}
               onSave={handleSaveModelLoadBalancingEntryModal}
               onRemove={handleRemoveModelLoadBalancingEntry}
+            />
+          )
+        }
+        {
+          !!showCitationModal && (
+            <CitationModal
+              data={showCitationModal.payload}
+              onCancel={handleCancelCitationModal}
+              onSave={handleSaveCitationModal}
             />
           )
         }
