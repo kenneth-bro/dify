@@ -6,7 +6,7 @@ import Modal from '@/app/components/base/modal'
 import Button from '@/app/components/base/button'
 import Toast from '@/app/components/base/toast'
 import { useProviderContext } from '@/context/provider-context'
-import { agentTypeAdd } from '@/service/agent'
+import { agentTypeUpdate } from '@/service/agent'
 
 export type DuplicateAppModalProps = {
   show: boolean
@@ -35,7 +35,7 @@ const EditAgentType = ({
       Toast.notify({ type: 'error', message: '请输入类型名称' })
       return
     }
-    agentTypeAdd('/dify/agent-type/update', {
+    agentTypeUpdate({
       id: row.id,
       name,
       description,

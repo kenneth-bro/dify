@@ -5,11 +5,13 @@ import { PromptRole } from '@/models/debug'
 
 export let apiPrefix = ''
 export let publicApiPrefix = ''
+export let customApiPrefix = ''
 
 // NEXT_PUBLIC_API_PREFIX=/console/api NEXT_PUBLIC_PUBLIC_API_PREFIX=/api npm run start
-if (process.env.NEXT_PUBLIC_API_PREFIX && process.env.NEXT_PUBLIC_PUBLIC_API_PREFIX) {
+if (process.env.NEXT_PUBLIC_API_PREFIX && process.env.NEXT_PUBLIC_PUBLIC_API_PREFIX && process.env.NEXT_CUSTOM_API_PREFIX) {
   apiPrefix = process.env.NEXT_PUBLIC_API_PREFIX
   publicApiPrefix = process.env.NEXT_PUBLIC_PUBLIC_API_PREFIX
+  customApiPrefix = process.env.NEXT_CUSTOM_API_PREFIX
 }
 else if (
   globalThis.document?.body?.getAttribute('data-api-prefix')
@@ -18,17 +20,19 @@ else if (
   // Not build can not get env from process.env.NEXT_PUBLIC_ in browser https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser
   apiPrefix = globalThis.document.body.getAttribute('data-api-prefix') as string
   publicApiPrefix = globalThis.document.body.getAttribute('data-pubic-api-prefix') as string
+  customApiPrefix = globalThis.document.body.getAttribute('data-custom-api-prefix') as string
 }
 else {
   // const domainParts = globalThis.location?.host?.split('.');
   // in production env, the host is dify.app . In other env, the host is [dev].dify.app
   // const env = domainParts.length === 2 ? 'ai' : domainParts?.[0];
-  apiPrefix = 'https://aistock-retail.test.investoday.net/agents/console/api'
+  apiPrefix = 'http://localhost:5001/agents/console/api'
   publicApiPrefix = 'http://localhost:5001/api' // avoid browser private mode api cross origin
 }
-
+console.log(process.env.NEXT_CUSTOM_API_PREFIX, 31, customApiPrefix, publicApiPrefix)
 export const API_PREFIX: string = apiPrefix
 export const PUBLIC_API_PREFIX: string = publicApiPrefix
+export const CUSTOM_API_PREFIX: string = customApiPrefix
 
 const EDITION = process.env.NEXT_PUBLIC_EDITION || globalThis.document?.body?.getAttribute('data-public-edition') || 'SELF_HOSTED'
 export const IS_CE_EDITION = EDITION === 'SELF_HOSTED'
