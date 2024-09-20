@@ -163,11 +163,11 @@ const Apps = () => {
                       <img className="mr-8 h-12 rounded-2xl w-12 "
                         src={app.imageUrl}
                         alt=""/>
-                      <div>
+                      <div className="flex-1">
                         <h3 className="font-bold">{app.name}</h3>
-                        <div className="mt-3 text-sm">{app.description}</div>
+                        <div className="mt-3 text-sm w-5/5 overflow-hidden line-clamp-3">{app.description}</div>
                         <div className="text-xs text-right">
-                          <div className="mt-5 flex justify-end">来自: {app.author}</div>
+                          {app.author && <div className="mt-5 flex justify-end">来自: {app.author}</div>}
                           <div className="flex justify-end">
                             上架状态: <span className={app.agentStatus === 1 ? 'text-primary-700' : 'text-red-700'}>{app.agentStatus === 1 ? '已上架' : '未上架'}</span>
                           </div>
