@@ -18,6 +18,7 @@ import LogoSite from '@/app/components/base/logo/logo-site'
 import useBreakpoints, { MediaType } from '@/hooks/use-breakpoints'
 import { useProviderContext } from '@/context/provider-context'
 import { useModalContext } from '@/context/modal-context'
+import AgentNav from '@/app/components/header/agent-nav'
 
 const navClassName = `
   flex items-center relative mr-0 sm:mr-3 px-3 h-8 rounded-xl
@@ -76,6 +77,7 @@ const Header = () => {
           {!isCurrentWorkspaceDatasetOperator && <AppNav />}
           {(isCurrentWorkspaceEditor || isCurrentWorkspaceDatasetOperator) && <DatasetNav />}
           {!isCurrentWorkspaceDatasetOperator && <ToolsNav className={navClassName} />}
+          {!isCurrentWorkspaceDatasetOperator && <AgentNav className={navClassName} />}
         </div>
       )}
       <div className='flex items-center flex-shrink-0'>
@@ -95,6 +97,7 @@ const Header = () => {
           {!isCurrentWorkspaceDatasetOperator && <AppNav />}
           {(isCurrentWorkspaceEditor || isCurrentWorkspaceDatasetOperator) && <DatasetNav />}
           {!isCurrentWorkspaceDatasetOperator && <ToolsNav className={navClassName} />}
+          {!isCurrentWorkspaceDatasetOperator && <AgentNav className={navClassName} />}
         </div>
       )}
     </div>

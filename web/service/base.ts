@@ -1,4 +1,4 @@
-import { API_PREFIX, IS_CE_EDITION, PUBLIC_API_PREFIX } from '@/config'
+import { API_PREFIX, CUSTOM_API_PREFIX, IS_CE_EDITION, PUBLIC_API_PREFIX } from '@/config'
 import Toast from '@/app/components/base/toast'
 import type { AnnotationReply, MessageEnd, MessageReplace, ThoughtItem } from '@/app/components/base/chat/chat/type'
 import type { VisionFile } from '@/types/app'
@@ -70,6 +70,7 @@ export type IOnTextReplace = (textReplace: TextReplaceResponse) => void
 
 export type IOtherOptions = {
   isPublicAPI?: boolean
+  customAPI?: boolean // 自定义API
   bodyStringify?: boolean
   needAllResponseContent?: boolean
   deleteContentType?: boolean
@@ -280,6 +281,7 @@ const baseFetch = <T>(
   fetchOptions: FetchOptionType,
   {
     isPublicAPI = false,
+    customAPI = false,
     bodyStringify = true,
     needAllResponseContent,
     deleteContentType,
@@ -309,7 +311,6 @@ const baseFetch = <T>(
     const accessToken = localStorage.getItem('console_token') || ''
     options.headers.set('Authorization', `Bearer ${accessToken}`)
   }
-
   if (deleteContentType) {
     options.headers.delete('Content-Type')
   }
@@ -318,8 +319,7 @@ const baseFetch = <T>(
     if (!contentType)
       options.headers.set('Content-Type', ContentType.json)
   }
-
-  const urlPrefix = isPublicAPI ? PUBLIC_API_PREFIX : API_PREFIX
+  const urlPrefix = customAPI ? CUSTOM_API_PREFIX : isPublicAPI ? PUBLIC_API_PREFIX : API_PREFIX
   let urlWithPrefix = `${urlPrefix}${url.startsWith('/') ? url : `/${url}`}`
 
   const { method, params, body } = options
@@ -337,7 +337,6 @@ const baseFetch = <T>(
 
     delete options.params
   }
-
   if (body && bodyStringify)
     options.body = JSON.stringify(body)
 
@@ -361,10 +360,8 @@ const baseFetch = <T>(
                   return bodyJson.then((data: ResponseError) => {
                     if (!silent)
                       Toast.notify({ type: 'error', message: data.message })
-
                     if (data.code === 'web_sso_auth_required')
                       requiredWebSSOLogin()
-
                     if (data.code === 'unauthorized') {
                       removeAccessToken()
                       globalThis.location.reload()
