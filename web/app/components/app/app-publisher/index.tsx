@@ -205,8 +205,7 @@ const AppPublisher = ({
                 disabled={detail?.agentStatus === 1}
                 onSelect={
                   (item: any) => {
-                    if (!detail?.agentTypeId)
-                      onSelect(item.value)
+                    onSelect(item.value)
                   }
                 }
                 items={selects && selects.map((item) => {
