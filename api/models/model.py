@@ -919,8 +919,7 @@ class Message(db.Model):
                             # 限制字段
                             filtered_data = []
                             for row in data:
-                                filtered_row = {key: value for key, value in row.items() if
-                                                key in data_resource['show_column']}
+                                filtered_row = {key: value for key, value in row.items()}
                                 # 跳转链接,其中%s动态替换为match_column，示例[完整链接,以https或者http开头: https://fs.investoday.net/xxxx?guid=%s, 内部链接(以/开头): /pages/to?guid=%s]
                                 if 'match_column' in data_resource and data_resource['match_column'] in row:
                                     filtered_row[
