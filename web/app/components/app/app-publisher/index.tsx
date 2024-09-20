@@ -202,6 +202,7 @@ const AppPublisher = ({
                 defaultValue={detail?.agentTypeId || 'all'}
                 className='!w-[300px]'
                 placeholder="请选择类别"
+                disabled={detail?.agentStatus === 1}
                 onSelect={
                   (item: any) => {
                     if (!detail?.agentTypeId)
@@ -220,7 +221,9 @@ const AppPublisher = ({
               <Button
                 variant='primary'
                 className='w-full mt-3'
-                onClick={() => onAgentAddAndDelete(1)}
+                onClick={() => {
+                  onAgentAddAndDelete(1)
+                }}
                 disabled={detail?.agentStatus === 1}
               >
                 {
@@ -230,8 +233,11 @@ const AppPublisher = ({
               <Button
                 variant='warning'
                 className='w-full mt-3 ml-7'
-                onClick={() => onAgentAddAndDelete(0)}
-                disabled={detail?.agentStatus === 0}
+                onClick={() => {
+                  detail.agentStatus = 1
+                  onAgentAddAndDelete(0)
+                }}
+                disabled={!detail || detail?.agentStatus === 0}
               >
                 {
                   t('workflow.common.delist')

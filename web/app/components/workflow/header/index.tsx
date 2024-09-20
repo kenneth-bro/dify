@@ -143,7 +143,6 @@ const Header: FC = () => {
     const res = await agentAdd({
       agentTypeId: agentType,
       appId: appID,
-      sort: 0,
       status,
     })
     if (res.code === 'Success') {

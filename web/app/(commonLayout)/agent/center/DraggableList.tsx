@@ -56,11 +56,10 @@ const DragDropSort: React.FC<DuplicateAppModalProps> = ({ show = false, onHide, 
   }
 
   const submit = () => {
-    console.log(items)
     const arr = items.map((item, index) => {
       return {
         appId: item.appId,
-        sort: index,
+        sort: index + 1,
       }
     })
     agentUpdateSortBatch(arr).then((r) => {
@@ -97,7 +96,7 @@ const DragDropSort: React.FC<DuplicateAppModalProps> = ({ show = false, onHide, 
               <img src={item.imageUrl} className="w-10 h-10 mr-4 rounded-b-sm" alt=""/>
               <div>
                 <div>{item.name}</div>
-                <div className="text-sm mt-2 caret-amber-950">{item.description}</div>
+                <div className="text-sm mt-2 caret-amber-950 truncate w-64">{item.description}</div>
               </div>
             </div>
             <div className="accent-blue-300 text-sm" style={{ color: 'blue' }}>

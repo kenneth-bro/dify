@@ -709,7 +709,6 @@ const Configuration: FC = () => {
     const res = await agentAdd({
       agentTypeId: agentType,
       appId,
-      sort: 0,
       status,
     })
     if (res.code === 'Success') {
