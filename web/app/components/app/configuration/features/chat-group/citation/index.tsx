@@ -36,7 +36,7 @@ const Citation: FC = () => {
     if (item.enabled) {
       tools.push({
         name: item.provider_name,
-        value: item.provider_id,
+        value: item.tool_label,
       })
     }
   })
@@ -55,7 +55,7 @@ const Citation: FC = () => {
       id,
       data_type,
       match_column,
-      show_column,
+      show_column: show_column?.split(','),
       to_link,
       src_column,
       name,

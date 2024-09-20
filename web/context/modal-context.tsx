@@ -52,7 +52,7 @@ export type CitationForm = {
   data_type?: string
   src_column?: string
   match_column?: string
-  show_column?: string
+  show_column?: string[]
   to_link?: string
   tools?: { name: string; value: string }[]
   name?: string
