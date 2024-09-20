@@ -38,7 +38,7 @@ const getKey = (
 const Apps = () => {
   const { t } = useTranslation()
   const [activeTab, setActiveTab] = useTabSearchParams({
-    defaultTab: 'all',
+    defaultTab: '',
   })
   const { query: { tagIDs = [], keywords = '' }, setQuery } = useAppsQueryState()
   const [searchKeywords, setSearchKeywords] = useState(keywords)
