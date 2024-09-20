@@ -17,6 +17,7 @@ from fields.app_fields import (
 from libs.login import login_required
 from services.app_dsl_service import AppDslService
 from services.app_service import AppService
+from services.investoday.llm_cache_update import LLMCacheUpdate
 
 ALLOW_CREATE_APP_MODES = ["chat", "agent-chat", "advanced-chat", "workflow", "completion"]
 
@@ -194,7 +195,8 @@ class AppApi(Resource):
 
         app_service = AppService()
         app_service.delete_app(app_model)
-
+        # 新增 : update llm cache
+        LLMCacheUpdate().update()
         return {"result": "success"}, 204
 
 
