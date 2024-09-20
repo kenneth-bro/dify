@@ -59,7 +59,7 @@ const Citation: FC = () => {
       id,
       data_type,
       match_column,
-      show_column,
+      show_column: show_column?.split(','),
       to_link,
       src_column,
       name,
