@@ -74,7 +74,7 @@ export const agentTypeDelete = (params: any) => {
  * @param data
  */
 export const agentUpdateSortBatch: (data: any) => Promise<any> = (data: any) => {
-  return post<any>(`${baseURL}/dify/agent/update-sort-batch`, {
+  return post<any>(`${baseURL}/dify/agent/sort`, {
     body: data,
   }, {
     customAPI: true,
@@ -86,7 +86,7 @@ export const agentUpdateSortBatch: (data: any) => Promise<any> = (data: any) => 
  * @param data
  */
 export const agentTypeUpdateSortBatch: (data: any) => Promise<any> = (data: any) => {
-  return post<any>(`${baseURL}/dify/agent-type/update-sort-batch`, {
+  return post<any>(`${baseURL}/dify/agent-type/sort`, {
     body: data,
   }, {
     customAPI: true,

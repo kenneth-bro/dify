@@ -161,9 +161,13 @@ const Apps = () => {
                       <div>
                         <h3 className="font-bold">{app.name}</h3>
                         <div className="mt-3 text-sm">{app.description}</div>
-                        <div className ="mt-5 text-sm flex justify-end">
-                          {app.author}
+                        <div className="text-xs text-right">
+                          <div className="mt-5 flex justify-end">来自: {app.author}</div>
+                          <div className="flex justify-end">
+                            上架状态: <span className={app.agentStatus === 1 ? 'text-primary-700' : 'text-red-700'}>{app.agentStatus === 1 ? '已上架' : '未上架'}</span>
+                          </div>
                         </div>
+
                       </div>
                     </div>)
                   })
