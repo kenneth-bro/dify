@@ -76,14 +76,15 @@ const Apps = () => {
   }
   const getTypes = () => {
     getAgentTypeList({ page: currPage + 1, pageSize: 999999 }).then((res: any) => {
-      setOptions(res.data.map((item: any) => {
+      setOptions([{
+        value: '',
+        text: '全部',
+      }, ...res.data.map((item: any) => {
         return {
           value: item.id,
           text: item.name,
         }
-      }))
-      if (res.data.length > 0 && activeTab === 'all')
-        setActiveTab(res.data[0].id)
+      })])
     })
   }
   const getOptTypes = () => {
@@ -116,6 +117,10 @@ const Apps = () => {
   useEffect(() => {
     getDifys()
   }, [difysCurrPage, searchKeywords, activeTab])
+
+  useEffect(() => {
+    setDifysCurrPage(0)
+  }, [activeTab])
   return (
     <>
       <div className="flex pt-4 px-12 pb-2">
@@ -160,7 +165,7 @@ const Apps = () => {
                         alt=""/>
                       <div>
                         <h3 className="font-bold">{app.name}</h3>
-                        <div className="mt-3 text-sm">{app.description}</div>
+                        <div className="mt-3 text-sm overflow-hidden line-clamp-3 w-9/10" >{app.description}</div>
                         <div className ="mt-5 text-sm flex justify-end">
                           {app.author}
                         </div>
@@ -331,7 +336,7 @@ const Apps = () => {
         }}/>
       )}
       {
-        showDrag && (
+        (
           <DragDropSort show={showDrag} activeTab={activeTab} onHide={() => {
             setShowDrag(false)
             getDifys()
@@ -339,7 +344,7 @@ const Apps = () => {
         )
       }
       {
-        showDragType && (
+        (
           <DragDropSortType show={showDragType} onHide={() => {
             setShowDragType(false)
             getOptTypes()
