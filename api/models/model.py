@@ -923,7 +923,7 @@ class Message(db.Model):
                                 # 跳转链接,其中%s动态替换为match_column，示例[完整链接,以https或者http开头: https://fs.investoday.net/xxxx?guid=%s, 内部链接(以/开头): /pages/to?guid=%s]
                                 if 'match_column' in data_resource and data_resource['match_column'] in row:
                                     filtered_row[
-                                        'to_link'] = f"{data_resource['to_link']}?{data_resource['match_column']}={row[data_resource['match_column']]}"
+                                        'to_link'] = f"{data_resource['to_link']}"
                                 filtered_data.append(filtered_row)
                             data = filtered_data
                         except Exception:
