@@ -36,7 +36,7 @@ const CitationModal: FC<Props> = (props) => {
     dataType: data_type || '',
     srcColumn: src_column || '',
     matchColumn: match_column || '',
-    showColumn: show_column || '',
+    showColumn: show_column?.join(',') || '',
     toLink: to_link || '',
     isEdit: Boolean(id)
   })
