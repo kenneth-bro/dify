@@ -119,6 +119,7 @@ class MessageEndStreamResponse(StreamResponse):
     event: StreamEvent = StreamEvent.MESSAGE_END
     id: str
     metadata: dict = {}
+    retriever_resource_config: Optional[Any] = None
 
 
 class MessageFileStreamResponse(StreamResponse):

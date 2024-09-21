@@ -53,7 +53,7 @@ class AgentChatAppGenerator(MessageBasedAppGenerator):
     ) -> Union[dict, Generator[dict, None, None]]:
         """
         Generate App response.
-
+        生成响应
         :param app_model: App
         :param user: account or end user
         :param args: request args
@@ -149,7 +149,7 @@ class AgentChatAppGenerator(MessageBasedAppGenerator):
             message_id=message.id,
         )
 
-        # new thread
+        # new thread 队列启动LLM 调用
         worker_thread = threading.Thread(
             target=self._generate_worker,
             kwargs={
@@ -163,7 +163,7 @@ class AgentChatAppGenerator(MessageBasedAppGenerator):
 
         worker_thread.start()
 
-        # return response or stream generator
+        # return response or stream generator 队列中获取响应  process
         response = self._handle_response(
             application_generate_entity=application_generate_entity,
             queue_manager=queue_manager,
@@ -173,6 +173,7 @@ class AgentChatAppGenerator(MessageBasedAppGenerator):
             stream=stream,
         )
 
+        # 准换响格式
         return AgentChatAppGenerateResponseConverter.convert(response=response, invoke_from=invoke_from)
 
     def _generate_worker(
@@ -184,6 +185,7 @@ class AgentChatAppGenerator(MessageBasedAppGenerator):
         message_id: str,
     ) -> None:
         """
+        后台执行生成任务
         Generate worker in a new thread.
         :param flask_app: Flask app
         :param application_generate_entity: application generate entity

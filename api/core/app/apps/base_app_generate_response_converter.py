@@ -87,11 +87,6 @@ class AppGenerateResponseConverter(ABC):
                         "content": resource["content"],
                     }
                 )
-        ############################################################
-        # 新增 数据源
-        ############################################################
-        
-        ############################################################
 
         # show annotation reply
         if "annotation_reply" in metadata:

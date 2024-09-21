@@ -37,6 +37,7 @@ class AgentChatAppRunner(AppRunner):
         message: Message,
     ) -> None:
         """
+        队列中 响应主体
         Run assistant application
         :param application_generate_entity: application generate entity
         :param queue_manager: application queue manager

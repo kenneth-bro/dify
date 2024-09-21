@@ -91,6 +91,7 @@ class EasyUIBasedGenerateTaskPipeline(BasedGenerateTaskPipeline, MessageCycleMan
         super().__init__(application_generate_entity, queue_manager, user, stream)
         self._model_config = application_generate_entity.model_conf
         self._app_config = application_generate_entity.app_config
+        self.retriever_resource_config = application_generate_entity.app_config.app_model_config_dict["retriever_resource"]
         self._conversation = conversation
         self._message = message
 
@@ -125,7 +126,7 @@ class EasyUIBasedGenerateTaskPipeline(BasedGenerateTaskPipeline, MessageCycleMan
             self._conversation_name_generate_thread = self._generate_conversation_name(
                 self._conversation, self._application_generate_entity.query
             )
-
+        # 构建生成器 顺序
         generator = self._wrapper_process_stream_response(trace_manager=self._application_generate_entity.trace_manager)
         if self._stream:
             return self._to_stream_response(generator)
@@ -413,10 +414,10 @@ class EasyUIBasedGenerateTaskPipeline(BasedGenerateTaskPipeline, MessageCycleMan
         :return:
         """
         self._task_state.metadata["usage"] = jsonable_encoder(self._task_state.llm_result.usage)
-
         extras = {}
         if self._task_state.metadata:
             extras["metadata"] = self._task_state.metadata
+            extras["retriever_resource_config"] = self.retriever_resource_config
 
         return MessageEndStreamResponse(
             task_id=self._application_generate_entity.task_id, id=self._message.id, **extras
@@ -444,7 +445,6 @@ class EasyUIBasedGenerateTaskPipeline(BasedGenerateTaskPipeline, MessageCycleMan
         )
         db.session.refresh(agent_thought)
         db.session.close()
-
         if agent_thought:
             return AgentThoughtStreamResponse(
                 task_id=self._application_generate_entity.task_id,
