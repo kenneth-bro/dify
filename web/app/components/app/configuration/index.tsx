@@ -695,8 +695,10 @@ const Configuration: FC = () => {
       appId,
     },
     )
-    setDetail(detail.data[0])
-    setAgentType(detail.data[0].agentTypeId)
+    if (detail.data.length > 0) {
+      setDetail(detail.data[0])
+      setAgentType(detail.data[0].agentTypeId)
+    }
   }, [appId])
   useEffect(() => {
     getData()
