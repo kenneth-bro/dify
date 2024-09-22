@@ -867,12 +867,63 @@ class Message(db.Model):
             .all()
         )
 
+    def workflow_data_resources(self):
+        retriever_resource_dict = self.workflow.features_dict.get('retriever_resource', {})
+        if 'resources' in retriever_resource_dict:
+            data_resources = []
+            no_repeat_data = {}
+            for node in retriever_resource_dict['resources']:
+                data = []
+                for i in self.workflow_node:
+                    if i.title == node['id']:
+                        _data = i.outputs_dict
+                        if 'text' in _data:
+                            try:
+                                text = json.loads(_data['text'])
+                                if "data" in text or "Data" in text:
+                                    if isinstance(text["data"], list):
+                                        data = text["data"]
+                                        for i in data:
+                                            i["to_link"] = node["to_link"]
+                                    else:
+                                        data = [text["data"]]
+                            except Exception as e:
+                                data = [_data['text']]
+                        elif 'result' in _data:
+                            if isinstance(_data['result'], list):
+                                data = _data['result']
+                            else:
+                                data = [_data['result']]
+                        elif _data:
+                            data = [_data]
+                        data_resource = {
+                            "type": node['type'],
+                            "id": node['id'],
+                            "src_column": node['src_column'],
+                            "data_type": node['data_type'],
+                            "match_column": node['match_column'],
+                            "show_column": node['show_column'],
+                            "to_link": node['to_link'],
+                            "data": data,
+                        }
+                        no_repeat_data[node['id']] = data_resource
+                        break
+            for i in no_repeat_data.values():
+                data_resources.append(i)
+            return data_resources
+        else:
+            return ['未配置']
+
     @property
     def data_resources(self):
         """
         工具数据源， 根据思考数据获取指定工具的数据源， tool_id  获取指定字段
         """
         try:
+            # 工作流
+            if self.workflow_run_id:
+                return self.workflow_data_resources()
+            # agent
             if 'resources' in self.app_model_config.retriever_resource_dict:
                 retriever_resource_config = self.app_model_config.retriever_resource_dict['resources']
             else:
@@ -992,6 +1043,24 @@ class Message(db.Model):
 
             return db.session.query(WorkflowRun).filter(WorkflowRun.id == self.workflow_run_id).first()
 
+        return None
+
+    @property
+    def workflow_node(self):
+        if self.workflow_run_id:
+            from .workflow import WorkflowNodeExecution
+
+            return db.session.query(WorkflowNodeExecution).filter(
+                WorkflowNodeExecution.workflow_run_id == self.workflow_run_id).all()
+        return None
+
+    @property
+    def workflow(self):
+        if self.app_id:
+            from .workflow import Workflow
+
+            return db.session.query(Workflow).filter(Workflow.app_id == self.app_id).order_by(
+                Workflow.created_at.desc()).first()
         return None
 
     def to_dict(self) -> dict:

@@ -44,6 +44,7 @@ class MessageListApi(Resource):
         "data_type": fields.String,
         "match_column": fields.String,
         "show_column": fields.Raw,
+        "to_link": fields.String,
         "data": fields.List(fields.Raw),
       }
 
