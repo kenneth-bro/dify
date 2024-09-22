@@ -888,15 +888,11 @@ class Message(db.Model):
                                             data = text["data"]
                                             for d in data:
                                                 d["to_link"] = node["to_link"]
-                                        else:
-                                            data = [text["data"]]
-                                    if "Data" in text:
+                                    elif "Data" in text:
                                         if isinstance(text["Data"], list):
                                             data = text["Data"]
                                             for d in data:
                                                 d["to_link"] = node["to_link"]
-                                        else:
-                                            data = [text["Data"]]
                                     else:
                                         data = [text]
                             except Exception as e:
