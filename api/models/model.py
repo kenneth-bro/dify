@@ -880,13 +880,25 @@ class Message(db.Model):
                         if 'text' in _data:
                             try:
                                 text = json.loads(_data['text'])
-                                if "data" in text or "Data" in text:
-                                    if isinstance(text["data"], list):
-                                        data = text["data"]
-                                        for d in data:
-                                            d["to_link"] = node["to_link"]
+                                if isinstance(text, object):
+                                    if 'data' not in text and 'Data' not in text:
+                                        text = json.loads([v for v in text.values() if isinstance(v, str)][0])
+                                    if "data" in text:
+                                        if isinstance(text["data"], list):
+                                            data = text["data"]
+                                            for d in data:
+                                                d["to_link"] = node["to_link"]
+                                        else:
+                                            data = [text["data"]]
+                                    if "Data" in text:
+                                        if isinstance(text["Data"], list):
+                                            data = text["Data"]
+                                            for d in data:
+                                                d["to_link"] = node["to_link"]
+                                        else:
+                                            data = [text["Data"]]
                                     else:
-                                        data = [text["data"]]
+                                        data = [text]
                             except Exception as e:
                                 data = [_data['text']]
                         elif 'result' in _data:
