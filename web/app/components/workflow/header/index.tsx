@@ -132,8 +132,10 @@ const Header: FC = () => {
       appId: appID,
     },
     )
-    setDetail(detail.data[0])
-    setAgentType(detail.data[0].agentTypeId)
+    if (detail.data.length > 0) {
+      setDetail(detail.data[0])
+      setAgentType(detail.data[0].agentTypeId)
+    }
   }, [appID])
   const onAgentAddAndDelete = useCallback(async (status: number) => {
     if (!agentType && status === 1) {
@@ -143,7 +145,6 @@ const Header: FC = () => {
     const res = await agentAdd({
       agentTypeId: agentType,
       appId: appID,
-      sort: 0,
       status,
     })
     if (res.code === 'Success') {

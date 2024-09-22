@@ -57,7 +57,7 @@ const DragDropSortType: React.FC<DuplicateAppModalProps> = ({ show = false, onHi
     const arr = items.map((item, index) => {
       return {
         id: item.id,
-        sort: index,
+        sort: index + 1,
       }
     })
     agentTypeUpdateSortBatch(arr).then((r) => {
@@ -93,7 +93,7 @@ const DragDropSortType: React.FC<DuplicateAppModalProps> = ({ show = false, onHi
             <div className="flex justify-between items-center">
               <div>
                 <div>{item.name}</div>
-                <div className="text-sm mt-2 caret-amber-950">{item.description}</div>
+                <div className="text-sm mt-2 caret-amber-950 truncate w-64">{item.description}</div>
               </div>
             </div>
             <div className="accent-blue-300 text-sm" style={{ color: 'blue' }}>

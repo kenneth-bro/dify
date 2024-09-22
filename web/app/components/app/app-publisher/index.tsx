@@ -76,7 +76,6 @@ const AppPublisher = ({
   const { app_base_url: appBaseURL = '', access_token: accessToken = '' } = appDetail?.site ?? {}
   const appMode = (appDetail?.mode !== 'completion' && appDetail?.mode !== 'workflow') ? 'chat' : appDetail.mode
   const appURL = `${appBaseURL}/${appMode}/${accessToken}`
-
   const language = useGetLanguage()
   const formatTimeFromNow = useCallback((time: number) => {
     return dayjs(time).locale(language === 'zh_Hans' ? 'zh-cn' : language.replace('_', '-')).fromNow()
@@ -193,60 +192,76 @@ const AppPublisher = ({
               )
             }
           </div>
-          <div className='p-4 pt-3 border-t-[0.5px] border-t-black/5'>
-            <div className='h2 mb-2'>
-              智能体中心
-            </div>
-            <div className="relative rounded-md">
-              <SimpleSelect
-                defaultValue={detail?.agentTypeId || 'all'}
-                className='!w-[300px]'
-                placeholder="请选择类别"
-                onSelect={
-                  (item: any) => {
-                    if (!detail?.agentTypeId)
-                      onSelect(item.value)
-                  }
-                }
-                items={selects && selects.map((item) => {
-                  return {
-                    value: item.id,
-                    name: item.name,
-                  }
-                })}
-              />
-            </div>
-            <div className='flex'>
-              <Button
-                variant='primary'
-                className='w-full mt-3'
-                onClick={() => onAgentAddAndDelete(1)}
-                disabled={detail?.agentStatus === 1}
-              >
-                {
-                  t('workflow.common.publish')
-                }
-              </Button>
-              <Button
-                variant='warning'
-                className='w-full mt-3 ml-7'
-                onClick={() => onAgentAddAndDelete(0)}
-                disabled={detail?.agentStatus === 0}
-              >
-                {
-                  t('workflow.common.delist')
-                }
-              </Button>
-            </div>
+          <div>
           </div>
+          {
+            (detail?.mode === 'workflow' || detail === undefined)
+              ? ''
+              : (
+                <div>
+                  <div className='p-4 pt-3 border-t-[0.5px] border-t-black/5'>
+                    <div className='h2 mb-2'>
+                      智能体中心
+                    </div>
+                    <div className="relative rounded-md">
+                      <SimpleSelect
+                        defaultValue={detail?.agentTypeId || 'all'}
+                        className='!w-[300px]'
+                        placeholder="请选择类别"
+                        disabled={detail?.agentStatus === 1}
+                        onSelect={
+                          (item: any) => {
+                            onSelect(item.value)
+                          }
+                        }
+                        items={selects && selects.map((item) => {
+                          return {
+                            value: item.id,
+                            name: item.name,
+                          }
+                        })}
+                      />
+                    </div>
+                    <div className='flex'>
+                      <Button
+                        variant='primary'
+                        className='w-full mt-3'
+                        onClick={() => {
+                          onAgentAddAndDelete(1)
+                        }}
+                        disabled={detail?.agentStatus === 1}
+                      >
+                        {
+                          t('workflow.common.publish')
+                        }
+                      </Button>
+                      <Button
+                        variant='warning'
+                        className='w-full mt-3 ml-7'
+                        onClick={() => {
+                          detail.agentStatus = 1
+                          onAgentAddAndDelete(0)
+                        }}
+                        disabled={!detail || detail?.agentStatus === 0}
+                      >
+                        {
+                          t('workflow.common.delist')
+                        }
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )
+          }
           <div className='p-4 pt-3 border-t-[0.5px] border-t-black/5'>
-            <SuggestedAction disabled={!publishedTime} link={appURL} icon={<PlayCircle />}>{t('workflow.common.runApp')}</SuggestedAction>
+            <SuggestedAction disabled={!publishedTime} link={appURL}
+              icon={<PlayCircle/>}>{t('workflow.common.runApp')}</SuggestedAction>
             {appDetail?.mode === 'workflow'
               ? (
                 <SuggestedAction
                   disabled={!publishedTime}
                   link={`${appURL}${appURL.includes('?') ? '&' : '?'}mode=batch`}
-                  icon={<LeftIndent02 className='w-4 h-4' />}
+                  icon={<LeftIndent02 className='w-4 h-4'/>}
                 >
                   {t('workflow.common.batchRunApp')}
                 </SuggestedAction>
@@ -258,12 +273,13 @@ const AppPublisher = ({
                     handleTrigger()
                   }}
                   disabled={!publishedTime}
-                  icon={<CodeBrowser className='w-4 h-4' />}
+                  icon={<CodeBrowser className='w-4 h-4'/>}
                 >
                   {t('workflow.common.embedIntoSite')}
                 </SuggestedAction>
               )}
-            <SuggestedAction disabled={!publishedTime} link='./develop' icon={<FileText className='w-4 h-4' />}>{t('workflow.common.accessAPIReference')}</SuggestedAction>
+            <SuggestedAction disabled={!publishedTime} link='./develop' icon={<FileText
+              className='w-4 h-4'/>}>{t('workflow.common.accessAPIReference')}</SuggestedAction>
             {appDetail?.mode === 'workflow' && (
               <WorkflowToolConfigureButton
                 disabled={!publishedTime}
@@ -291,7 +307,7 @@ const AppPublisher = ({
         appBaseUrl={appBaseURL}
         accessToken={accessToken}
       />
-    </PortalToFollowElem >
+    </PortalToFollowElem>
   )
 }
 
