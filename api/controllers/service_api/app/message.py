@@ -40,6 +40,7 @@ class MessageListApi(Resource):
     data_resources = {
         "type": fields.String,
         "id": fields.String,
+        "name": fields.String,
         "src_column": fields.String,
         "data_type": fields.String,
         "match_column": fields.String,

@@ -883,8 +883,8 @@ class Message(db.Model):
                                 if "data" in text or "Data" in text:
                                     if isinstance(text["data"], list):
                                         data = text["data"]
-                                        for i in data:
-                                            i["to_link"] = node["to_link"]
+                                        for d in data:
+                                            d["to_link"] = node["to_link"]
                                     else:
                                         data = [text["data"]]
                             except Exception as e:
@@ -899,6 +899,7 @@ class Message(db.Model):
                         data_resource = {
                             "type": node['type'],
                             "id": node['id'],
+                            "name": i.title,
                             "src_column": node['src_column'],
                             "data_type": node['data_type'],
                             "match_column": node['match_column'],
