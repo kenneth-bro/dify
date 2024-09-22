@@ -97,7 +97,6 @@ class AdvancedChatAppGenerateResponseConverter(AppGenerateResponseConverter):
                                 if node['id'] == finished_node.data.node_id:
                                     data = []
                                     try:
-                                        print(finished_node.data.outputs)
                                         _data = finished_node.data.outputs
                                         if 'text' in _data:
                                             try:
