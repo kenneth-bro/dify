@@ -417,7 +417,8 @@ class EasyUIBasedGenerateTaskPipeline(BasedGenerateTaskPipeline, MessageCycleMan
         extras = {}
         if self._task_state.metadata:
             extras["metadata"] = self._task_state.metadata
-            extras["retriever_resource_config"] = self.retriever_resource_config
+            if self.retriever_resource_config:
+                extras["retriever_resource_config"] = self.retriever_resource_config
 
         return MessageEndStreamResponse(
             task_id=self._application_generate_entity.task_id, id=self._message.id, **extras

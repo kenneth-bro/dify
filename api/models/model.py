@@ -875,7 +875,7 @@ class Message(db.Model):
             for node in retriever_resource_dict['resources']:
                 data = []
                 for i in self.workflow_node:
-                    if i.title == node['id']:
+                    if i.node_id == node['id']:
                         _data = i.outputs_dict
                         if 'text' in _data:
                             try:

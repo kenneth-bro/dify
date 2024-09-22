@@ -20,7 +20,6 @@ class AppGenerateResponseConverter(ABC):
             if isinstance(response, AppBlockingResponse):
                 return cls.convert_blocking_full_response(response)
             else:
-
                 def _generate_full_response() -> Generator[str, Any, None]:
                     for chunk in cls.convert_stream_full_response(response):
                         if chunk == "ping":

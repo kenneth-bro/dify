@@ -520,6 +520,8 @@ class AdvancedChatAppGenerateTaskPipeline(BasedGenerateTaskPipeline, WorkflowCyc
         :return:
         """
         extras = {}
+        if self._workflow:
+            extras["retriever_resource_config"] = self._workflow.features_dict["retriever_resource"]
         if self._task_state.metadata:
             extras["metadata"] = self._task_state.metadata.copy()
 
