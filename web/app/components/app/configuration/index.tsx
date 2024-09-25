@@ -852,6 +852,7 @@ const Configuration: FC = () => {
                         })
                         setModelConfig(nextConfig)
                       }}
+                      onPublish={onPublish}
                     />
                   )}
                   {/* Model and Parameters */}
