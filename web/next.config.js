@@ -45,6 +45,18 @@ const nextConfig = {
     ]
   },
   output: 'standalone',
+  basePath: '/agents',
+  async rewrites() {
+    if (process.env.NODE_ENV === 'development') {
+      return [
+        {
+          source: '/llm-base2/:path*',
+          destination: 'https://aistock-retail.test.investoday.net/llm-base2/:path*',
+        },
+      ]
+    }
+    return []
+  },
 }
 
 module.exports = withMDX(nextConfig)
