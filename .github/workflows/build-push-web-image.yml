@@ -1,0 +1,75 @@
+name: Build Push Web Image
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'web/**'
+  workflow_dispatch:
+
+env:
+  # 阿里云
+  dockerhub_domain: "registry.cn-shenzhen.aliyuncs.com"
+  namespace: investoday_x
+  dockerhub_user: ${{ secrets.ALIYUN_DOCKER_USERNAME }}
+  dockerhub_token: ${{ secrets.ALIYUN_DOCKER_PASSWORD }}
+
+  # 腾讯云
+#  dockerhub_domain: "hkccr.ccs.tencentyun.com"
+#  namespace: investoday_x
+#  dockerhub_user: ${{ secrets.TENCENT_DOCKER_USERNAME }}
+#  dockerhub_token: ${{ secrets.TENCENT_DOCKER_PASSWORD }}
+
+  context: web
+  image_name: dify-web
+  image_tag: "1.0"
+  image_url: ${dockerhub_domain}/${namespace}/${image_name}
+  qywechat_webhook_token: ${{ vars.QYWECHAT_WEBHOOK_TOKEN}}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Print Current Path
+        run: pwd && ls
+
+      - name: Set IMAGE_TAG based on branch name
+        run: |
+          if [[ "${GITHUB_REF#refs/heads/}" =~ ^release/ ]]; then
+            # 假设你想要使用分支名称作为标签
+            image_tag="${GITHUB_REF#refs/heads/release/}"
+            echo "image_tag=${image_tag}" >> $GITHUB_ENV
+            echo "Current tag set to: $image_tag"
+          fi  
+
+      - name: Build Image
+        run: docker build -t ${{env.image_url}}:${{ env.image_tag }} ${{env.context}}/.
+
+      # 登录dockerhub
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.dockerhub_domain }}
+          username: ${{ env.dockerhub_user }}
+          password: ${{ env.dockerhub_token }}
+
+      - name: Docker push
+        run: docker push ${{ env.image_url }}:${{ env.image_tag }}
+
+      - name: Get pre step result output image_pull_url
+        run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
+
+      - name: Send Webhook
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${{ env.qywechat_webhook_token }}'
+          method: 'POST'
+          customHeaders: '{"Content-Type": "application/json"}'
+          data: '{ "msgtype": "text", "text": { "content": "[GitHub Actions] ${{env.image_name}}:${{env.image_tag}} 构建推送成功，可后续操作。如Jenkins构建等。"} }'
