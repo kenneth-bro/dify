@@ -1,7 +1,6 @@
 'use client'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import type { NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { useInterval, useThrottleFn } from 'ahooks'
 import type { ModelAndParameter } from '@/app/components/app/configuration/debug/types'
 
@@ -16,11 +15,11 @@ const useAutoSave = (onPublish: (modelAndParameter?: ModelAndParameter) => Promi
     wait: 100,
   })
 
-  const clear = useInterval(onPublish, 8000)c
+  const clear = useInterval(onPublish, 8000)
 
   useEffect(() => {
     router.push = new Proxy(router.push, {
-      apply: (target, thisArg, argArray: NavigateOptions) => {
+      apply: (target, thisArg, argArray: any) => {
         const [to] = argArray
         if (to !== pathname)
           clear()
