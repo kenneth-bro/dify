@@ -16,7 +16,7 @@ const useAutoSave = (onPublish: (modelAndParameter?: ModelAndParameter) => Promi
     wait: 100,
   })
 
-  const clear = useInterval(onPublish, 8000)c
+  const clear = useInterval(onPublish, 8000)
 
   useEffect(() => {
     router.push = new Proxy(router.push, {
