@@ -25,10 +25,10 @@ const CreateAppCard = forwardRef<HTMLAnchorElement>((_, ref) => {
         </div>
       </Link>
       <div className='p-4 pt-0 text-text-tertiary system-xs-regular'>{t('dataset.createDatasetIntro')}</div>
-      <a className='group flex p-4 items-center gap-1 border-t-[0.5px] border-divider-subtle rounded-b-xl cursor-pointer' href='/datasets/connect'>
+      <Link className='group flex p-4 items-center gap-1 border-t-[0.5px] border-divider-subtle rounded-b-xl cursor-pointer' href='/datasets/connect'>
         <div className='system-xs-medium text-text-tertiary group-hover:text-text-accent'>{t('dataset.connectDataset')}</div>
         <RiArrowRightLine className='w-3.5 h-3.5 text-text-tertiary group-hover:text-text-accent' />
-      </a>
+      </Link>
     </div>
   )
 })

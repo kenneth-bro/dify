@@ -5,6 +5,7 @@ import useSWR from 'swr'
 import { useSearchParams } from 'next/navigation'
 import cn from 'classnames'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
+import Link from 'next/link'
 import Input from '../components/base/input'
 import Button from '@/app/components/base/button'
 import { changePasswordWithToken, verifyForgotPasswordToken } from '@/service/common'
@@ -163,7 +164,7 @@ const ChangePasswordForm = () => {
           </div>
           <div className="w-full mx-auto mt-6">
             <Button variant='primary' className='w-full'>
-              <a href="/signin">{t('login.passwordChanged')}</a>
+              <Link href="/signin">{t('login.passwordChanged')}</Link>
             </Button>
           </div>
         </div>
