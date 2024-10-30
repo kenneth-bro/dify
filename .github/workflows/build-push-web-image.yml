@@ -43,8 +43,14 @@ jobs:
       - name: Set IMAGE_TAG based on branch name
         run: |
           if [[ "${GITHUB_REF#refs/heads/}" =~ ^release/ ]]; then
-            # 假设你想要使用分支名称作为标签
+            # release分支
             image_tag="${GITHUB_REF#refs/heads/release/}"
+            echo "image_tag=${image_tag}" >> $GITHUB_ENV
+            echo "Current tag set to: $image_tag"
+          fi
+          if [[ "${GITHUB_REF#refs/heads/}" =~ ^feat/ ]]; then
+            # feat分支
+            image_tag="${GITHUB_REF#refs/heads/feat/}"
             echo "image_tag=${image_tag}" >> $GITHUB_ENV
             echo "Current tag set to: $image_tag"
           fi  
