@@ -69,10 +69,14 @@ jobs:
       - name: Get pre step result output image_pull_url
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
 
+      - name: Get latest commit message
+        id: get_commit_message
+        run: echo "commit_message=$(git log --format=%B -n 1)" >> $GITHUB_OUTPUT
+
       - name: Send Webhook
         uses: fjogeleit/http-request-action@v1
         with:
           url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${{ env.qywechat_webhook_token }}'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
-          data: '{ "msgtype": "text", "text": { "content": "[GitHub Actions] ${{env.image_name}}:${{env.image_tag}} 构建推送成功，可后续操作。如Jenkins构建等。"} }'
+          data: '{ "msgtype": "text", "text": { "content": "[GitHub Actions] ${{env.image_name}}:${{env.image_tag}} 构建推送成功，可后续操作。如Jenkins构建等。 \n本次构建提交为: ${{ steps.get_commit_message.outputs.commit_message}}"} }'
