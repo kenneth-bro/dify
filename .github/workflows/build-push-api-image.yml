@@ -70,8 +70,10 @@ jobs:
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
 
       - name: Get latest commit message
-        id: get_commit_message
-        run: echo "commit_message=$(git log --format=%B -n 1)" >> $GITHUB_OUTPUT
+        id: get_commit_info
+        run: |
+          echo "commit_message=$(git log -1 --pretty=format:'%s')" >> $GITHUB_OUTPUT
+          echo "commit_time=$(git log -1 --pretty=format:'%ci')" >> $GITHUB_OUTPUT
 
       - name: Send Webhook
         uses: fjogeleit/http-request-action@v1
@@ -79,4 +81,10 @@ jobs:
           url: 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${{ env.qywechat_webhook_token }}'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
-          data: '{ "msgtype": "text", "text": { "content": "[GitHub Actions] ${{env.image_name}}:${{env.image_tag}} 构建推送成功，可后续操作。如Jenkins构建等。 \n本次构建提交为: ${{ steps.get_commit_message.outputs.commit_message}}"} }'
+          data: |
+            {
+              "msgtype": "markdown",
+              "markdown": {
+                "content": "【Github Action】**${{env.image_name}}:${{env.image_tag}} 构建推送成功**，请后续操作。 \n提交人: ${{ github.actor }} \n提交时间:${{ steps.get_commit_info.outputs.commit_time }} \n提交信息: ${{ steps.get_commit_info.outputs.commit_message}}"
+              }
+            }
