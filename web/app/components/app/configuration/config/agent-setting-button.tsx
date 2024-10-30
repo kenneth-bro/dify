@@ -7,7 +7,7 @@ import Button from '@/app/components/base/button'
 import { Settings01 } from '@/app/components/base/icons/src/vender/line/general'
 import type { AgentConfig } from '@/models/debug'
 import useAutoSave from '@/app/components/app/configuration/hooks/useAutoSave'
-import { ModelAndParameter } from "@/app/components/app/configuration/debug/types";
+import type { ModelAndParameter } from '@/app/components/app/configuration/debug/types'
 
 type Props = {
   isFunctionCall: boolean
@@ -22,7 +22,7 @@ const AgentSettingButton: FC<Props> = ({
   isFunctionCall,
   isChatModel,
   agentConfig,
-  onPublish
+  onPublish,
 }) => {
   const { t } = useTranslation()
   const [isShowAgentSetting, setIsShowAgentSetting] = useState(false)
