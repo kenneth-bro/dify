@@ -4,7 +4,6 @@ import Editor, { loader } from '@monaco-editor/react'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Base from '../base'
 import cn from '@/utils/classnames'
-import { useStore } from '@/app/components/app/store'
 import { CodeLanguage } from '@/app/components/workflow/nodes/code/types'
 import {
   getFilesInLogs,
@@ -13,7 +12,7 @@ import {
 import './style.css'
 
 // load file from local instead of cdn https://github.com/suren-atoyan/monaco-react/issues/482
-// loader.config({ paths: { vs: '/vs' } })
+loader.config({ paths: { vs: '/vs' } })
 
 const CODE_EDITOR_LINE_HEIGHT = 18
 
@@ -67,9 +66,6 @@ const CodeEditor: FC<Props> = ({
   showFileList,
   showCodeGenerator = false,
 }) => {
-  const appDetail = useStore(state => state.appDetail)
-  const baseUrl = appDetail ? appDetail.site.app_base_url : ''
-  loader.config({ paths: { vs: `${baseUrl}/vs` } })
   const [isFocus, setIsFocus] = React.useState(false)
   const [isMounted, setIsMounted] = React.useState(false)
   const minHeight = height || 200

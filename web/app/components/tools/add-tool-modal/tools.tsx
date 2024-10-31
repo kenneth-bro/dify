@@ -91,16 +91,13 @@ const Blocks = ({
                 </div>
               )}
             >
-              <div className='group/item flex items-center w-full pl-3 pr-1 h-14 rounded-lg hover:bg-gray-50 cursor-pointer'>
+              <div className='group/item flex items-center w-full pl-3 pr-1 h-8 rounded-lg hover:bg-gray-50 cursor-pointer'>
                 <BlockIcon
                   className={cn('mr-2 shrink-0', needAuth && 'opacity-30')}
                   type={BlockEnum.Tool}
                   toolIcon={toolWithProvider.icon}
                 />
-                <div className={cn('grow text-sm text-gray-900 truncate', needAuth && 'opacity-30')}>
-                  <p>{tool.label[language]}</p>
-                  <span className="text-xs text-gray-500">{tool.description[language]}</span>
-                </div>
+                <div className={cn('grow text-sm text-gray-900 truncate', needAuth && 'opacity-30')}>{tool.label[language]}</div>
                 {!needAuth && added && (
                   <div className='flex items-center gap-1 rounded-[6px] border border-gray-100 px-2 py-[3px] bg-white text-gray-300 text-xs font-medium leading-[18px]'>
                     <Check className='w-3 h-3' />

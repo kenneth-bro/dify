@@ -1,5 +1,4 @@
 import type { FC } from 'react'
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RiSearchLine } from '@remixicon/react'
 import cn from '@/utils/classnames'

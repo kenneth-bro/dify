@@ -49,9 +49,6 @@ import { Row, Col, Properties, Property, Heading, SubProperty } from '../md.tsx'
         如果变量是文件类型，请指定一个包含以下 `files` 中所述键的对象。
         默认 `{}`
       </Property>
-	  <Property name='inputs_reload' type='bool' key='inputs_reload'>
-        `定制化变量`  是否重载输入变量,默认 `false`
-      </Property>
       <Property name='response_mode' type='string' key='response_mode'>
         - `streaming` 流式模式（推荐）。基于 SSE（**[Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events)**）实现类似打字机输出方式的流式返回。
         - `blocking` 阻塞模式，等待执行完毕后返回结果。（请求若流程较长可能会被中断）。
@@ -693,6 +690,11 @@ import { Row, Col, Properties, Property, Heading, SubProperty } from '../md.tsx'
       </Property>
       <Property name='pinned' type='bool' key='pinned'>
         只返回置顶 true，只返回非置顶 false
+      </Property>
+      <Property name='sort_by' type='string' key='sort_by'>
+        排序字段（选题），默认 -updated_at(按更新时间倒序排列)
+        - 可选值：created_at, -created_at, updated_at, -updated_at
+        - 字段前面的符号代表顺序或倒序，-代表倒序
       </Property>
     </Properties>
 

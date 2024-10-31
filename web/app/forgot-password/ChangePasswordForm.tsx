@@ -10,7 +10,6 @@ import Button from '@/app/components/base/button'
 import { changePasswordWithToken, verifyForgotPasswordToken } from '@/service/common'
 import Toast from '@/app/components/base/toast'
 import Loading from '@/app/components/base/loading'
-import Link from 'next/link'
 
 const validPassword = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/
 
@@ -164,7 +163,7 @@ const ChangePasswordForm = () => {
           </div>
           <div className="w-full mx-auto mt-6">
             <Button variant='primary' className='w-full'>
-              <Link href="/signin">{t('login.passwordChanged')}</Link>
+              <a href="/signin">{t('login.passwordChanged')}</a>
             </Button>
           </div>
         </div>

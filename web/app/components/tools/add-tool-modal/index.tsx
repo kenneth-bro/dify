@@ -122,7 +122,6 @@ const AddToolModal: FC<Props> = ({
         provider_name: collection.name,
         tool_name: tool.name,
         tool_label: tool.label[locale] || tool.label[locale.replaceAll('-', '_')],
-        tool_description: tool.description[locale] || tool.description[locale.replaceAll('-', '_')],
         tool_parameters: parameters,
         enabled: true,
       })
