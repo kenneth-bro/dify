@@ -32,7 +32,6 @@ const FeatureBar = ({
       citation: { enabled: isChatMode ? features.citation?.enabled : false },
       file: showFileUpload ? features.file! : { enabled: false },
     }
-    console.log('data', data)
     return !Object.values(data).some(f => f.enabled)
   }, [features, isChatMode, showFileUpload])
 
