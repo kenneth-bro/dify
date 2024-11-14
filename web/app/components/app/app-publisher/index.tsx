@@ -25,6 +25,7 @@ import { FileText } from '@/app/components/base/icons/src/vender/line/files'
 import WorkflowToolConfigureButton from '@/app/components/tools/workflow-tool/configure-button'
 import type { InputVar } from '@/app/components/workflow/types'
 import { appDefaultIconBackground } from '@/config'
+import useAutoSave from "@/app/components/app/configuration/hooks/useAutoSave";
 
 export type AppPublisherProps = {
   disabled?: boolean
@@ -81,6 +82,7 @@ const AppPublisher = ({
       setPublished(false)
     }
   }
+  useAutoSave(appMode, handlePublish)
 
   const handleRestore = useCallback(async () => {
     try {

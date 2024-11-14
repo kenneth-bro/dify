@@ -5,7 +5,7 @@ import { useInterval, useThrottleFn } from 'ahooks'
 import type { ModelAndParameter } from '@/app/components/app/configuration/debug/types'
 
 let originRouterPush: any
-const useAutoSave = (onPublish: (modelAndParameter?: ModelAndParameter) => Promise<undefined | true>) => {
+const useAutoSave = (appMode: 'chat' | 'workflow' | 'completion', onPublish: (modelAndParameter?: ModelAndParameter) => void) => {
   const pathname = usePathname()
   const router = useRouter()
   if (!originRouterPush)
@@ -23,7 +23,9 @@ const useAutoSave = (onPublish: (modelAndParameter?: ModelAndParameter) => Promi
         const [to] = argArray
         if (to !== pathname)
           clear()
-        run()
+        if (appMode === 'chat') {
+          run()
+        }
 
         return target.apply(thisArg, argArray)
       },
