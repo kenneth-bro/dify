@@ -1,12 +1,12 @@
 from pydantic_settings import SettingsConfigDict
 
+from configs.agent import AgentConfig
 from configs.deploy import DeploymentConfig
 from configs.enterprise import EnterpriseFeatureConfig
 from configs.extra import ExtraServiceConfig
 from configs.feature import FeatureConfig
 from configs.middleware import MiddlewareConfig
 from configs.packaging import PackagingInfo
-from configs.agent import AgentConfig
 
 
 class DifyConfig(

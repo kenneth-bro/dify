@@ -14,6 +14,7 @@ import requests
 from docx import Document as DocxDocument
 
 from configs import dify_config
+from core.helper import ssrf_proxy
 from core.rag.extractor.extractor_base import BaseExtractor
 from core.rag.models.document import Document
 from extensions.ext_database import db
@@ -26,7 +27,6 @@ logger = logging.getLogger(__name__)
 
 class WordExtractor(BaseExtractor):
     """Load docx files.
-
 
     Args:
         file_path: Path to the file to load.
@@ -50,7 +50,7 @@ class WordExtractor(BaseExtractor):
 
             self.web_path = self.file_path
             # TODO: use a better way to handle the file
-            self.temp_file = tempfile.NamedTemporaryFile()  # noqa: SIM115
+            self.temp_file = tempfile.NamedTemporaryFile()
             self.temp_file.write(r.content)
             self.file_path = self.temp_file.name
         elif not os.path.isfile(self.file_path):
@@ -86,7 +86,7 @@ class WordExtractor(BaseExtractor):
                 image_count += 1
                 if rel.is_external:
                     url = rel.reltype
-                    response = requests.get(url, stream=True)
+                    response = ssrf_proxy.get(url, stream=True)
                     if response.status_code == 200:
                         image_ext = mimetypes.guess_extension(response.headers["Content-Type"])
                         file_uuid = str(uuid.uuid4())
@@ -229,7 +229,7 @@ class WordExtractor(BaseExtractor):
                                 for i in url_pattern.findall(x.text):
                                     hyperlinks_url = str(i)
                     except Exception as e:
-                        logger.error(e)
+                        logger.exception(e)
 
         def parse_paragraph(paragraph):
             paragraph_content = []

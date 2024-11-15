@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      - upgrade/*
     paths:
       - 'api/**'
   workflow_dispatch:
@@ -49,6 +50,12 @@ jobs:
             # feat分支
             image_tag="${GITHUB_REF#refs/heads/feat/}"
             echo "image_tag=${image_tag}" >> $GITHUB_ENV
+            echo "Current tag set to: $image_tag"
+          fi
+          if [[ "${GITHUB_REF#refs/heads/}" =~ ^upgrade/ ]]; then
+            # upgrade分支
+            image_tag="${GITHUB_REF#refs/heads/upgrade/}"
+            echo "image_tag=upgrade" >> $GITHUB_ENV
             echo "Current tag set to: $image_tag"
           fi
 
