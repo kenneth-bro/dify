@@ -190,4 +190,4 @@ ruff = "~0.8.1"
 [[tool.poetry.source]]
 name = "mirrors"
 url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
-priority = "default"
+priority = "primary"
