@@ -34,6 +34,7 @@ export type Props = {
   showFileList?: boolean
   onGenerated?: (value: string) => void
   showCodeGenerator?: boolean
+  className?: string
 }
 
 export const languageMap = {
@@ -68,6 +69,7 @@ const CodeEditor: FC<Props> = ({
   showFileList,
   onGenerated,
   showCodeGenerator = false,
+  className,
 }) => {
   const appDetail = useStore(state => state.appDetail)
   const baseUrl = appDetail ? appDetail.site.app_base_url : ''
@@ -191,7 +193,7 @@ const CodeEditor: FC<Props> = ({
   )
 
   return (
-    <div className={cn(isExpand && 'h-full')}>
+    <div className={cn(isExpand && 'h-full', className)}>
       {noWrapper
         ? <div className='relative no-wrapper' style={{
           height: isExpand ? '100%' : (editorContentHeight) / 2 + CODE_EDITOR_LINE_HEIGHT, // In IDE, the last line can always be in lop line. So there is some blank space in the bottom.
