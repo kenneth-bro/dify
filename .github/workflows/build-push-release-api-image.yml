@@ -9,9 +9,9 @@ on:
 env:
   # 阿里云
   dockerhub_domain: "registry.cn-shenzhen.aliyuncs.com"
-  namespace: investoday_x
-  dockerhub_user: ${{ secrets.ALIYUN_DOCKER_USERNAME }}
-  dockerhub_token: ${{ secrets.ALIYUN_DOCKER_PASSWORD }}
+  namespace: std
+  dockerhub_user: ${{ secrets.VOLC_DOCKER_USERNAME }}
+  dockerhub_token: ${{ secrets.VOLC_DOCKER_PASSWORD }}
 
   context: ./api
   image_name: dify-api

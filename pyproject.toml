@@ -1,0 +1,7 @@
+[tool.poetry.dependencies]
+python = "^3.8"
+# ... 其他依赖 ...
+
+[tool.poetry.dev-dependencies]
+pytest-mock = ">=3.10.0"
+# ... 其他开发依赖 ... 
