@@ -35,6 +35,7 @@ export type Props = {
   onGenerated?: (value: string) => void
   showCodeGenerator?: boolean
   className?: string
+  tip?: JSX.Element
 }
 
 export const languageMap = {
@@ -70,6 +71,7 @@ const CodeEditor: FC<Props> = ({
   onGenerated,
   showCodeGenerator = false,
   className,
+  tip,
 }) => {
   const appDetail = useStore(state => state.appDetail)
   const baseUrl = appDetail ? appDetail.site.app_base_url : ''
@@ -212,9 +214,10 @@ const CodeEditor: FC<Props> = ({
             isInNode={isInNode}
             onGenerated={onGenerated}
             codeLanguages={language}
-            fileList={fileList}
+            fileList={fileList as any}
             showFileList={showFileList}
             showCodeGenerator={showCodeGenerator}
+            tip={tip}
           >
             {main}
           </Base>
