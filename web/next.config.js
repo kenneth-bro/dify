@@ -45,7 +45,7 @@ const nextConfig = {
     ]
   },
   output: 'standalone',
-  basePath: '/agents',
+  basePath: '',
   async rewrites() {
     if (process.env.NODE_ENV === 'development') {
       return [
