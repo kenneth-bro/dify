@@ -4,6 +4,7 @@ from typing import Any
 from pydantic.fields import FieldInfo
 from pydantic_settings import BaseSettings, PydanticBaseSettingsSource, SettingsConfigDict
 
+from .agent import AgentConfig
 from .deploy import DeploymentConfig
 from .enterprise import EnterpriseFeatureConfig
 from .extra import ExtraServiceConfig
